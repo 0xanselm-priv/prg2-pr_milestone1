@@ -26,13 +26,10 @@ CONFIG += c++11
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp \
-    ../krypto/krypto_main.cpp \
-    ../krypto/NBild.cpp
+        mainwindow.cpp
 
 HEADERS += \
-        mainwindow.h \
-    ../krypto/NBild.h
+        mainwindow.h
 
 FORMS += \
         mainwindow.ui
