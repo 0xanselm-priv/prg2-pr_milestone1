@@ -7,6 +7,10 @@
 #include <vector>
 //#include "file_handler_class.h"
 #include "NBild.h"
+#include "CBild.h"
+#include <random>
+#include <iostream>
+
 
 using namespace std;
 
@@ -18,6 +22,7 @@ int main() {
     pic.import_file("/Users/nielsheissel/CLionProjects/untitled1/beispielbild_1.txt");
 
     pic.print_matrix();
+
 
     return 0;
 }
