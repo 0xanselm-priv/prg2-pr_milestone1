@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "../krypto/NBild.h"
+#include "../krypto_copy/NBild.h"
 
 namespace Ui {
 class MainWindow;
@@ -30,6 +30,10 @@ private slots:
     void print(QString i);
 
     void on_spinBox_valueChanged(const QString &arg1);
+
+    void on_pushButton_2_clicked();
+
+    void on_pushButton_3_clicked();
 
 private:
     Ui::MainWindow *ui;

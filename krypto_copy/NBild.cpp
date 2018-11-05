@@ -16,7 +16,6 @@ void NBild::import_file(){
 
     if(file.fail()){
         cerr << "Reading file failed!" << endl;
-        exit(1);
     }
 
     string line;
@@ -27,7 +26,6 @@ void NBild::import_file(){
         file >> line;
         if (length != line.length()){
             cerr << "Unvalid file format" << endl;
-            exit(1);
         }
 
         int l = 0;
@@ -57,7 +55,6 @@ void NBild::import_file(string path){
 
     if(file.fail()){
         cerr << "Reading file failed!" << endl;
-        exit(1);
     }
 
     string line;
@@ -68,7 +65,6 @@ void NBild::import_file(string path){
         file >> line;
         if (length != line.length()){
             cerr << "Invalid file format" << endl;
-            exit(1);
         }
 
         int l = 0;
@@ -88,7 +84,7 @@ void NBild::import_file(string path){
 };
 
 void NBild::export_file(string dest){
-
+    cout << "NBild Object export_file Function" << endl;
 };
 
 void NBild::change_pixel(int x, int y, string color){
