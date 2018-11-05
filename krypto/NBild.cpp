@@ -48,7 +48,7 @@ void NBild::import_file(){
 };
 
 void NBild::export_file(){
-
+    cout << "Test!" << endl;
 };
 
 void NBild::import_file(string path){
@@ -67,7 +67,7 @@ void NBild::import_file(string path){
         height ++;
         file >> line;
         if (length != line.length()){
-            cerr << "Unvalid file format" << endl;
+            cerr << "Invalid file format" << endl;
             exit(1);
         }
 
