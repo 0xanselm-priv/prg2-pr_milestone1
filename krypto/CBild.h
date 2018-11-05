@@ -2,8 +2,8 @@
 // Created by Niels Heissel on 05.11.18.
 //
 
-#ifndef UNTITLED_NBILD_H
-#define UNTITLED_NBILD_H
+#ifndef UNTITLED_CBILD_H
+#define UNTITLED_CBILD_H
 
 #include <iostream>
 #include <vector>
@@ -11,13 +11,14 @@
 using namespace std;
 
 
-class NBild {
+class CBild {
 private:
     string path;
     string destination;
     string new_file_name;
     vector< vector<int> > matrix;
-    vector<int> collum;
+    vector<int> collum1;
+    vector<int> collum2;
     int height{0};
     int length{0};
 
@@ -60,4 +61,4 @@ public:
 };
 
 
-#endif //UNTITLED_NBILD_H
+#endif //UNTITLED_CBILD_H
