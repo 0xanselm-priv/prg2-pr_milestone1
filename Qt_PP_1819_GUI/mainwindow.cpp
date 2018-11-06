@@ -1,6 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "../krypto/NBild.h"
 #include <QFileDialog>
 #include <QFile>
 #include <QTextStream>
@@ -15,7 +14,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->comboBox->addItem("Encrypt");
     ui->comboBox->addItem("Decrypt");
     ui->comboBox->addItem("Overlap");
-    qDebug("hiii");
 }
 
 MainWindow::~MainWindow()
@@ -54,8 +52,6 @@ void MainWindow::on_pushButton_crypto_clicked()
     QString s = file_name;
     ui->label_2->setText("File Path: " + s);
     print(file_name);
-    NBild test;
-    test.export_file();
 }
 
 void MainWindow::on_spinBox_valueChanged(const QString &arg1)
@@ -78,4 +74,11 @@ void MainWindow::on_pushButton_clicked()
     file.flush();
     file.close();
     print("Saved file");
+}
+
+void MainWindow::on_pushButton_2_clicked()
+{
+    NBild test;
+    qDebug("NBild Object generated");
+    test.export_file("void");
 }

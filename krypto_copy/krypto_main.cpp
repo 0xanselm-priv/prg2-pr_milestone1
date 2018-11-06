@@ -10,16 +10,16 @@
 
 using namespace std;
 
-int main() {
+//int main() {
 //    std::cout << "Hello, World!" << std::endl;
-
+    
 //    NBild pic;
 //    //pic.set_path("/Users/nielsheissel/CLionProjects/untitled1/beispielbild_1.txt");
 //    pic.import_file("/Users/nielsheissel/CLionProjects/untitled1/beispielbild_1.txt");
-
+    
 //    pic.print_matrix();
-
-    cout << "Here maybe?" << endl;
-
-    return 0;
-}
+    
+    
+    
+//    return 0;
+//}
