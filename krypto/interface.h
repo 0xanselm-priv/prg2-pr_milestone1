@@ -33,7 +33,7 @@ public:
         return this->default_path;
     };
 
-    int main_menu(); // return the int, of which porgram should be calles
+    void main_menu(); // return the int, of which porgram should be calles
     void prog_handler(int); // calls program ? Necessary ?
     int prog1(); // returns whether to exit the program or return to the menu
     int prog2(); // returns whether to exit the program or return to the menu

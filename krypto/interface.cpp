@@ -8,6 +8,8 @@
 #include <random>
 #include <vector>
 
+using namespace std;
+
 
 vector < vector<int> > interface::create_rand_picture(int height, int width){
     this->height = height;
@@ -39,13 +41,16 @@ void interface::print_matrix() {
     cout << endl;
 }
 
-int interface::main_menu(){
+void interface::main_menu(){
     running = true;
     while(running){
-        prog_number = 0;
-
+        cin.clear();
         cout << "Bitte geben Sie eine Zahl ein!" << endl;
         cin >> prog_number;
+
+        if(cin.fail()){
+            return exit_handler(2);
+        }
 
         if(prog_number != 1 && prog_number != 2){
             cout << "No valid program was chosen, try again!" << endl;
@@ -56,17 +61,49 @@ int interface::main_menu(){
         }
         else if(prog_number == 1) {
             cout << "Choosen 1" << endl;
+            exit_handler(prog1());
             running = false;
         }
     }
 }
 
-void interface::prog_handler(int){}
+
+//void interface::prog_handler(int){}
 
 int interface::prog1(){
     running = true;
- }
+    cout << "Please select the size of your random picture." << endl;
+    while(running){
+        cout << "What should your height be?" << endl;
+        cin >> this->height;
+        if(cin.fail()){
+            return 2;
+        }
+        cout << "What should your width be?" << endl;
+        cin >> this->width;
+        if(cin.fail()){
+            return 2;
+        }
+        running = false;
+    }
+    cout << "Building a randomised picture with size: " << this->height << " * " << this->width << endl;
 
-int interface::prog2(){}
+    create_rand_picture(this->height, this->width);
+    print_matrix();
 
-void interface::exit_handler(int){}*/
+    return 0;
+ };
+
+//int interface::prog2(){}
+
+void interface::exit_handler(int i){
+    if(i == 0){
+        cout << "Everything worked fine, quiting program." << endl;
+        exit(0);
+
+    }
+    else if(i == 2){
+        cout << "Some error occurred, redirecting to the main menu..." << endl;
+        main_menu();
+    }
+}
