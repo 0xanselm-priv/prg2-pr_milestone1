@@ -8,6 +8,7 @@
 //#include "file_handler_class.h"
 #include "NBild.h"
 #include "CBild.h"
+#include "interface.h"
 #include <random>
 #include <iostream>
 
@@ -23,6 +24,11 @@ int main() {
 
     pic.print_matrix();
 
+
+    interface interf;
+    interf.create_rand_picture(33,100);
+    interf.print_matrix();
+    interf.main_menu();
 
     return 0;
 }
