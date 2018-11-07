@@ -7,39 +7,11 @@
 #include <fstream>
 #include <random>
 #include <vector>
+#include "CBild.h"
+#include "NBild.h"
 
 using namespace std;
 
-
-vector < vector<int> > interface::create_rand_picture(int height, int width){
-    this->height = height;
-    this->width = width;
-    for(int x = 0; x < height; x++){
-        vector<int> collum;
-        collum.clear();
-        for(int y = 0; y < width; y++){
-
-            mt19937 rng;
-            rng.seed(random_device()());
-            uniform_int_distribution<mt19937::result_type> dist6(0, 1);
-            collum.push_back(dist6(rng));
-        }
-        matrix1.push_back(collum);
-    }
-    return matrix1;
-}
-
-void interface::print_matrix() {
-    cout << "Printing!" << endl << endl;
-    // See that matrix is loaded with all information.
-    for(int x = 0; x < height; x++){
-        for(int y = 0; y < width; y++){
-            cout << matrix1[x][y];
-        }
-        cout << endl;
-    }
-    cout << endl;
-}
 
 void interface::main_menu(){
     running = true;
@@ -66,44 +38,97 @@ void interface::main_menu(){
         }
     }
 }
-
-
-//void interface::prog_handler(int){}
-
-int interface::prog1(){
-    running = true;
-    cout << "Please select the size of your random picture." << endl;
-    while(running){
-        cout << "What should your height be?" << endl;
-        cin >> this->height;
-        if(cin.fail()){
-            return 2;
-        }
-        cout << "What should your width be?" << endl;
-        cin >> this->width;
-        if(cin.fail()){
-            return 2;
-        }
-        running = false;
-    }
-    cout << "Building a randomised picture with size: " << this->height << " * " << this->width << endl;
-
-    create_rand_picture(this->height, this->width);
-    print_matrix();
-
-    return 0;
- };
-
-//int interface::prog2(){}
-
 void interface::exit_handler(int i){
     if(i == 0){
         cout << "Everything worked fine, quiting program." << endl;
         exit(0);
 
     }
+    else if(i == 1){
+        //sub program done!;
+        return;
+    }
     else if(i == 2){
         cout << "Some error occurred, redirecting to the main menu..." << endl;
         main_menu();
     }
+}
+
+
+int interface::prog1(){
+    cout << "Enter '1' for a normal matrix, '2' for block matrix." << endl;
+    int sub_prog;
+    running = true;
+    while(running){
+        cin >> sub_prog;
+        if(sub_prog == 1){
+            exit_handler(prog1_sub1());
+            return 0;
+        }
+        else if(sub_prog == 2){
+            exit_handler(prog1_sub2());
+            return 0;
+        }
+    }
+
+
+ };
+
+//int interface::prog2(){}
+
+
+int interface::prog1_sub2(){
+    int height;
+    int width;
+
+    CBild img;
+
+    running = true;
+    cout << "Please select the size of your random picture." << endl;
+    while(running){
+        cout << "What should your height be?" << endl;
+        cin >> height;
+        if(cin.fail()){
+            return 2;
+        }
+        cout << "What should your width be?" << endl;
+        cin >> width;
+        if(cin.fail()){
+            return 2;
+        }
+        running = false;
+    }
+    cout << "Building a randomised picture with size: " << height << " * " << width << endl;
+
+    img.print_certain_matrix(img.create_rand_picture(height, width));
+
+    return 0;
+}
+
+int interface::prog1_sub1(){
+    int height;
+    int width;
+
+    NBild img;
+
+    running = true;
+    cout << "Please select the size of your random picture." << endl;
+    while(running){
+        cout << "What should your height be?" << endl;
+        cin >> height;
+        if(cin.fail()){
+            return 2;
+        }
+        cout << "What should your width be?" << endl;
+        cin >> width;
+        if(cin.fail()){
+            return 2;
+        }
+        running = false;
+    }
+    cout << "Building a randomised picture with size: " << height << " * " << width << endl;
+
+    img.print_certain_matrix(img.create_rand_picture(height, width));
+
+    return 0;
 }

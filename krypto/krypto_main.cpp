@@ -18,7 +18,7 @@ using namespace std;
 int main() {
     std::cout << "Hello, World!" << std::endl;
 
-    NBild pic;
+    CBild pic;
     //pic.set_path("/Users/nielsheissel/CLionProjects/untitled1/beispielbild_1.txt");
     pic.import_file("/Users/nielsheissel/CLionProjects/untitled1/beispielbild_1.txt");
 
@@ -26,9 +26,6 @@ int main() {
 
 
     interface interf;
-    interf.create_rand_picture(33,100);
-    interf.print_matrix();
     interf.main_menu();
-
     return 0;
 }

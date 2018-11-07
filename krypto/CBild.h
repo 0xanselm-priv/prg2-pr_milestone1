@@ -19,6 +19,8 @@ private:
     vector< vector<int> > matrix;
     vector<int> collum1;
     vector<int> collum2;
+    vector< vector<char> > matrix_char;
+    vector<char> collum_char;
     int height{0};
     int length{0};
 
@@ -27,6 +29,7 @@ public:
     void export_file();
     void import_file(string);
     void export_file(string);
+
 
     void set_path(string path){
         this->path = path;
@@ -57,8 +60,13 @@ public:
     void change_pixel(int x, int y, int);
     void invert_pixel(int x, int y);
 
+    vector < vector<char> > create_rand_picture(int, int);
+
     void print_matrix();
+    void print_certain_matrix(vector < vector<char> >);
+    void print_certain_matrix(vector < vector<int> >);
 };
+
 
 
 #endif //UNTITLED_CBILD_H

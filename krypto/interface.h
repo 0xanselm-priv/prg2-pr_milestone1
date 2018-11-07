@@ -17,9 +17,6 @@ using namespace std;
 class interface {
 private:
     string default_path;
-    vector< vector<int> > matrix1;
-    int height;
-    int width;
     bool running;
     int prog_number;
 
@@ -39,7 +36,8 @@ public:
     int prog2(); // returns whether to exit the program or return to the menu
     void exit_handler(int); // exits or returns back to menu
 
-    void print_matrix();
+    int prog1_sub1();
+    int prog1_sub2();
 
 };
 

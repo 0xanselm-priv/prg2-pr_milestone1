@@ -56,7 +56,10 @@ public:
     void change_pixel(int x, int y, int);
     void invert_pixel(int x, int y);
 
+    vector < vector<int> > create_rand_picture(int, int);
+
     void print_matrix();
+    void print_certain_matrix(vector < vector<int> >);
 };
 
 

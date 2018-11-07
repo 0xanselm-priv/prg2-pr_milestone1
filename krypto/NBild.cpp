@@ -7,6 +7,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <random>
 
 using namespace std;
 
@@ -143,6 +144,34 @@ void NBild::print_matrix() {
     for(int x = 0; x < height; x++){
         for(int y = 0; y < length; y++){
             cout << matrix[x][y];
+        }
+        cout << endl;
+    }
+    cout << endl;
+}
+
+vector < vector<int> > NBild::create_rand_picture(int height, int width){ // creates random key matrices with blocks
+    vector< vector<int> > matrix1;
+
+    for(int x = 0; x < height; x++){
+        vector<int> collum;
+        collum.clear();
+        for(int y = 0; y < width; y++){
+
+            mt19937 rng;
+            rng.seed(random_device()());
+            uniform_int_distribution<mt19937::result_type> dist6(0, 1);
+            collum.push_back(dist6(rng));
+        }
+        matrix1.push_back(collum);
+    }
+    return matrix1;
+}
+
+void NBild::print_certain_matrix(vector < vector<int> > mat){
+    for(int x = 0; x < mat.size(); x++){
+        for(int y = 0; y < mat[0].size(); y++){
+            cout << mat[x][y];
         }
         cout << endl;
     }
