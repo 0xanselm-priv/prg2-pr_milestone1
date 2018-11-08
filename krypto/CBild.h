@@ -61,7 +61,10 @@ public:
     void invert_pixel(int x, int y);
 
     vector < vector<char> > create_rand_picture(int, int);
+    vector < vector<char> > encrypt_picture(vector < vector<int> >, vector < vector<char> >);
+    vector < vector<char> > decrypt_picture(vector < vector<char> >, vector < vector<char> >);
 
+    vector < vector<int> > trans_block_int(vector < vector<char> >);
     void print_matrix();
     void print_certain_matrix(vector < vector<char> >);
     void print_certain_matrix(vector < vector<int> >);

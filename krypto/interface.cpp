@@ -74,7 +74,15 @@ int interface::prog1(){
 
  };
 
-//int interface::prog2(){}
+int interface::prog2(){
+    cout << "Program e started -- encryption can happen." << endl;
+    NBild int_canvas;
+    CBild char_canvas;
+
+    char_canvas.encrypt_picture(int_canvas.import_file(), char_canvas;
+
+
+}
 
 
 int interface::prog1_sub2(){

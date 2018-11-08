@@ -223,7 +223,6 @@ void CBild::print_certain_matrix(vector < vector<char> > mat){
     }
     cout << endl;
 }
-
 void CBild::print_certain_matrix(vector < vector<int> > mat){
     for(int x = 0; x < mat.size(); x++){
         for(int y = 0; y < mat[0].size(); y++){
@@ -232,4 +231,72 @@ void CBild::print_certain_matrix(vector < vector<int> > mat){
         cout << endl;
     }
     cout << endl;
+}
+
+vector < vector<char> > CBild::encrypt_picture(vector < vector<int> > pic, vector < vector<char> > key){
+    vector < vector<char> > enc_mat;
+    vector<char> enc_col;
+    for(int x = 0; x < pic.size(); x++){
+        enc_col.clear();
+        for(int y = 0; y < pic[0].size(); y++){
+            if(pic[x][y] == 1){
+                if(key[x][y] == 'A'){enc_col.push_back('B');}
+                else{enc_col.push_back('A');}
+            }
+            else{enc_col.push_back(key[x][y]);}
+        }
+        enc_mat.push_back(enc_col);
+    }
+    return enc_mat;
+}
+vector < vector<char> > CBild::decrypt_picture(vector < vector<char> > enc_pic, vector < vector<char> > key){
+    vector < vector<char> > dec_mat;
+    vector<char> dec_col;
+    for(int x = 0; x < key.size(); x++){
+        dec_col.clear();
+        for(int y = 0; y < key[0].size(); y++){
+            if(enc_pic[x][y] == key[x][y]){
+                dec_col.push_back(key[x][y]);
+            }
+            else{
+                dec_col.push_back('C');
+            }
+        }
+        dec_mat.push_back(dec_col);
+    }
+    return dec_mat;
+}
+
+vector < vector<int> > CBild::trans_block_int(vector < vector<char> > matrix){
+    vector < vector<int> > ret_mat;
+    vector<int> ret_col1;
+    vector<int> ret_col2;
+    for(int x = 0; x < matrix.size(); x++) {
+        ret_col1.clear();
+        ret_col2.clear();
+        for (int y = 0; y < matrix[0].size(); y++) {
+            if (matrix[x][y] == 'A') {
+                ret_col1.push_back(1);
+                ret_col1.push_back(0);
+                ret_col2.push_back(0);
+                ret_col2.push_back(1);
+            } else if (matrix[x][y] == 'B') {
+                ret_col1.push_back(0);
+                ret_col1.push_back(1);
+                ret_col2.push_back(1);
+                ret_col2.push_back(0);
+            } else if (matrix[x][y] == 'C') {
+                ret_col1.push_back(1);
+                ret_col1.push_back(1);
+                ret_col2.push_back(1);
+                ret_col2.push_back(1);
+            } else {
+                cerr << "ERROR ACCURED WRONG MATRIX Given" << endl;
+                exit(0);
+            }
+        }
+        ret_mat.push_back(ret_col1);
+        ret_mat.push_back(ret_col2);
+    }
+    return ret_mat;
 }

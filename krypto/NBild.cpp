@@ -11,7 +11,7 @@
 
 using namespace std;
 
-void NBild::import_file(){
+vector < vector<int> > NBild::import_file(){
     ifstream file;
     file.open(path);
 
@@ -46,8 +46,9 @@ void NBild::import_file(){
 
     file.close();
 
-};
+    return matrix;
 
+};
 void NBild::export_file(){
 
     ofstream ofile;
@@ -63,8 +64,7 @@ void NBild::export_file(){
         ofile << "\n";
     }
 };
-
-void NBild::import_file(string path){
+vector < vector<int> > NBild::import_file(string path){
     ifstream file;
     file.open(path);
 
@@ -98,8 +98,9 @@ void NBild::import_file(string path){
 
 
     file.close();
-};
 
+    return matrix;
+};
 void NBild::export_file(string dest){
     ofstream ofile;
     ofile.open(dest);
@@ -167,6 +168,7 @@ vector < vector<int> > NBild::create_rand_picture(int height, int width){ // cre
     }
     return matrix1;
 }
+
 
 void NBild::print_certain_matrix(vector < vector<int> > mat){
     for(int x = 0; x < mat.size(); x++){

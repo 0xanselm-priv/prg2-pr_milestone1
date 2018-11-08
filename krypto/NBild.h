@@ -22,9 +22,9 @@ private:
     int length{0};
 
 public:
-    void import_file();
+    vector < vector<int> > import_file();
     void export_file();
-    void import_file(string);
+    vector < vector<int> > import_file(string);
     void export_file(string);
 
     void set_path(string path){
@@ -57,6 +57,7 @@ public:
     void invert_pixel(int x, int y);
 
     vector < vector<int> > create_rand_picture(int, int);
+    vector < vector<int> > encrypt_picture(vector < vector<int> >, vector < vector<int> >);
 
     void print_matrix();
     void print_certain_matrix(vector < vector<int> >);
