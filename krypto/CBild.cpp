@@ -10,77 +10,12 @@
 
 using namespace std;
 
-void CBild::import_file(){
-    ifstream file;
-    file.open(path);
 
-    if(file.fail()){
-        cerr << "Reading file failed!" << endl;
-        exit(1);
-    }
+vector< vector<int> > CBild::import_file_int(string path){
+    vector< vector<int> > matrix;
+    vector<int> collum1;
+    vector<int> collum2;
 
-    string line;
-    getline(file, line);
-    length = line.length();
-
-    while(!file.eof()){
-        height ++;
-        file >> line;
-
-        if (length != line.length()){
-            cerr << "Unvalid file format" << endl;
-            exit(1);
-        }
-
-        int l = 0;
-        collum1.clear();
-        collum2.clear();
-        collum_char.clear();
-        while(l < length){
-            int m = stoi(line.substr(l,1));
-            if(m == 1) {
-                collum1.push_back(1);
-                collum1.push_back(0);
-                collum2.push_back(0);
-                collum2.push_back(1);
-                collum_char.push_back('A');
-            }
-            else {
-                collum1.push_back(0);
-                collum1.push_back(1);
-                collum2.push_back(1);
-                collum2.push_back(0);
-                collum_char.push_back('B');
-            }
-
-            ++l;
-        }
-        matrix.push_back(collum1);
-        matrix.push_back(collum2);
-        matrix_char.push_back(collum_char);
-    }
-
-    cout << length << "  " << height << endl;
-
-
-    file.close();
-
-};
-void CBild::export_file(){
-    ofstream ofile;
-    ofile.open(destination);
-    if(ofile.fail()){
-        cerr << "Writing file failed!" << endl;
-        exit(1);
-    }
-    for(int x = 0; x < 2*height; x++){
-        for(int y = 0; y < 2*length; y++){
-            ofile << matrix[x][y];
-        }
-        ofile << "\n";
-    }
-};
-void CBild::import_file(string path){
     ifstream file;
     file.open(path);
 
@@ -100,55 +35,118 @@ void CBild::import_file(string path){
             exit(1);
         }
 
-        int l = 0;
         collum1.clear();
         collum2.clear();
-        collum_char.clear();
-        while(l < length){
+        for(int l = 0; l < length; l++){
             int m = stoi(line.substr(l,1));
             if(m == 1) {
                 collum1.push_back(1);
                 collum1.push_back(0);
                 collum2.push_back(0);
                 collum2.push_back(1);
-                collum_char.push_back('A');
             }
             else {
                 collum1.push_back(0);
                 collum1.push_back(1);
                 collum2.push_back(1);
                 collum2.push_back(0);
-                collum_char.push_back('B');
             }
 
             ++l;
         }
         matrix.push_back(collum1);
         matrix.push_back(collum2);
+    }
+
+    cout << length << "  " << height << endl;
+
+    file.close();
+    return matrix;
+};
+vector< vector<char> > CBild::import_file_char(string path){
+    vector< vector<char> > matrix_char;
+    vector<char> collum_char;
+
+    ifstream file;
+    file.open(path);
+
+    if(file.fail()){
+        cerr << "Reading file failed!" << endl;
+        exit(1);
+    }
+
+    string line;
+    getline(file, line);
+    length = line.length();
+    while(!file.eof()){
+        height ++;
+        file >> line;
+        if (length != line.length()){
+            cerr << "Unvalid file format" << endl;
+            exit(1);
+        }
+
+        collum_char.clear();
+       for(int l = 0; l < length; l++){
+            int m = stoi(line.substr(l,1));
+            if(m == 1) {
+                collum_char.push_back('A');
+            }
+            else {
+                collum_char.push_back('B');
+            }
+
+            ++l;
+        }
         matrix_char.push_back(collum_char);
     }
 
     cout << length << "  " << height << endl;
 
-
     file.close();
+    return matrix_char;
 };
-void CBild::export_file(string dest){
+void CBild::export_file(string dest, vector< vector<int> > mat){
     ofstream ofile;
     ofile.open(dest);
     if(ofile.fail()){
         cerr << "Writing file failed!" << endl;
         exit(1);
     }
-    for(int x = 0; x < 2*height; x++){
-        for(int y = 0; y < 2*length; y++){
-            ofile << matrix[x][y];
+    for(int x = 0; x < mat.size(); x++){
+        for(int y = 0; y < mat[0].size(); y++){
+            ofile << mat[x][y];
+        }
+        ofile << "\n";
+    }
+};
+void CBild::export_file(string dest, vector< vector<char> > mat){
+    ofstream ofile;
+    ofile.open(dest);
+    if(ofile.fail()){
+        cerr << "Writing file failed!" << endl;
+        exit(1);
+    }
+    for(int x = 0; x < mat.size(); x++){
+        for(int y = 0; y < mat[0].size(); y++){
+            ofile << mat[x][y];
         }
         ofile << "\n";
     }
 };
 
-void CBild::change_pixel(int x, int y, string color){
+vector< vector<char> > CBild::change_block(vector< vector<char> > mat, int x, int y, char color){
+    if(color == 'A'){
+        mat[x][y] = 'A';
+    }
+    else if(color == 'B'){
+        mat[x][y] = 'B';
+    }
+    else{cerr << "Wrong Block was given --> either A or B are accepted." << endl;}
+
+    return mat;
+};
+vector< vector<int> > CBild::change_pixel(vector< vector<int> > mat, int x, int y, string color){
     int c;
     if (color == "black" || color == "b" || color == "Black"){
         c = 0;
@@ -159,17 +157,23 @@ void CBild::change_pixel(int x, int y, string color){
     else {
         cout << "No valid color was given." << endl;
     };
-    matrix[x][y] = c;
+    mat[x][y] = c;
+    return mat;
 };
-void CBild::change_pixel(int x, int y, int color){
-    matrix[x][y] = color;
+vector< vector<int> > CBild::change_pixel(vector< vector<int> > mat, int x, int y, int color){
+    if(color == 1 || color == 0){
+        mat[x][y] = color;
+    }
+    else{cerr << "Wrong color was given only 0 or 1 is accepted." << endl; }
+    return mat;
 };
-void CBild::invert_pixel(int x, int y){
-    int &value = matrix[x][y];
+vector< vector<int> > CBild::invert_pixel(vector< vector<int> > mat, int x, int y){
+    int &value = mat[x][y];
     if(value == 1){
         value = 0;
     }
     else{value = 1;}
+    return mat;
 };
 
 vector < vector<char> > CBild::create_rand_picture(int height, int width){ // creates random key matrices with blocks
@@ -192,27 +196,6 @@ vector < vector<char> > CBild::create_rand_picture(int height, int width){ // cr
     return matrix1;
 }
 
-void CBild::print_matrix() {
-    // See that matrix is loaded with all information.
-
-
-    for(int x = 0; x < 2*height; x++){
-        for(int y = 0; y < 2*length; y++){
-            cout << matrix[x][y];
-        }
-        cout << endl;
-    }
-    cout << endl;
-
-    cout << "print matrix" << endl << matrix_char[0][0] << matrix_char.size() << matrix_char[0].size();
-    for(int x = 0; x < height; x++){
-        for(int y = 0; y < length; y++){
-            cout << matrix_char[x][y];
-        }
-        cout << endl;
-    }
-    cout << endl;
-}
 
 void CBild::print_certain_matrix(vector < vector<char> > mat){
     for(int x = 0; x < mat.size(); x++){
@@ -239,7 +222,7 @@ vector < vector<char> > CBild::encrypt_picture(vector < vector<int> > pic, vecto
     for(int x = 0; x < pic.size(); x++){
         enc_col.clear();
         for(int y = 0; y < pic[0].size(); y++){
-            if(pic[x][y] == 1){
+            if(pic[x][y] == 0){
                 if(key[x][y] == 'A'){enc_col.push_back('B');}
                 else{enc_col.push_back('A');}
             }
@@ -249,7 +232,24 @@ vector < vector<char> > CBild::encrypt_picture(vector < vector<int> > pic, vecto
     }
     return enc_mat;
 }
-vector < vector<char> > CBild::decrypt_picture(vector < vector<char> > enc_pic, vector < vector<char> > key){
+vector < vector<int> > CBild::decrypt_picture(vector < vector<char> > enc_pic, vector < vector<char> > key){
+    vector < vector<int> > dec_mat;
+    vector<int> dec_col;
+    for(int x = 0; x < key.size(); x++){
+        dec_col.clear();
+        for(int y = 0; y < key[0].size(); y++){
+            if(enc_pic[x][y] == key[x][y]){
+                dec_col.push_back(1);
+            }
+            else{
+                dec_col.push_back(0);
+            }
+        }
+        dec_mat.push_back(dec_col);
+    }
+    return dec_mat;
+}
+vector < vector<char> > CBild::overlay_pictures(vector < vector<char> > enc_pic, vector < vector<char> > key){
     vector < vector<char> > dec_mat;
     vector<char> dec_col;
     for(int x = 0; x < key.size(); x++){
@@ -266,6 +266,7 @@ vector < vector<char> > CBild::decrypt_picture(vector < vector<char> > enc_pic, 
     }
     return dec_mat;
 }
+
 
 vector < vector<int> > CBild::trans_block_int(vector < vector<char> > matrix){
     vector < vector<int> > ret_mat;

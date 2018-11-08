@@ -70,8 +70,10 @@ int interface::prog1(){
             exit_handler(prog1_sub2());
             return 0;
         }
+        else{return 2;}
     }
 
+    return 2;
 
  };
 
@@ -84,8 +86,11 @@ int interface::prog2(){
     vector < vector<char> > key = char_canvas.create_rand_picture(matrix.size(), matrix[0].size());
     vector < vector<char> > encrypted = char_canvas.encrypt_picture(matrix, key);
     char_canvas.print_certain_matrix(char_canvas.trans_block_int(encrypted));
-    vector < vector<char> > decrypt = char_canvas.decrypt_picture(encrypted, key);
-    char_canvas.print_certain_matrix(char_canvas.trans_block_int(decrypt));
+    char_canvas.print_certain_matrix(matrix);
+    char_canvas.print_certain_matrix(encrypted);
+    char_canvas.print_certain_matrix(key);
+    vector < vector<int > > decrypt = char_canvas.decrypt_picture(encrypted, key);
+    char_canvas.print_certain_matrix(decrypt);
 
 
 }

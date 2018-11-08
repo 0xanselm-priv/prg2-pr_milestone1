@@ -12,6 +12,8 @@
 using namespace std;
 
 vector < vector<int> > NBild::import_file(string path){
+    vector < vector<int> > matrix;
+    vector <int> collum;
     ifstream file;
     file.open(path);
 
@@ -78,7 +80,8 @@ vector < vector<int> > NBild::change_pixel(vector < vector<int> > mat, int x, in
     return mat;
 };
 vector < vector<int> > NBild::change_pixel(vector < vector<int> > mat, int x, int y, int color){
-    matrix[x][y] = color;
+    mat[x][y] = color;
+    return mat;
 };
 vector < vector<int> > NBild::invert_pixel(vector < vector<int> > mat, int x, int y){
     int &value = mat[x][y];
@@ -86,18 +89,9 @@ vector < vector<int> > NBild::invert_pixel(vector < vector<int> > mat, int x, in
         value = 0;
     }
     else{value = 1;}
+    return mat;
 };
 
-void NBild::print_matrix() {
-    // See that matrix is loaded with all information.
-    for(int x = 0; x < height; x++){
-        for(int y = 0; y < length; y++){
-            cout << matrix[x][y];
-        }
-        cout << endl;
-    }
-    cout << endl;
-}
 
 vector < vector<int> > NBild::create_rand_picture(int height, int width){ // creates random key matrices with blocks
     vector< vector<int> > matrix1;

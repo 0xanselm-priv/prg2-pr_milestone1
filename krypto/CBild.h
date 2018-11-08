@@ -16,19 +16,14 @@ private:
     string path;
     string destination;
     string new_file_name;
-    vector< vector<int> > matrix;
-    vector<int> collum1;
-    vector<int> collum2;
-    vector< vector<char> > matrix_char;
-    vector<char> collum_char;
     int height{0};
     int length{0};
 
 public:
-    void import_file();
-    void export_file();
-    void import_file(string);
-    void export_file(string);
+    vector< vector<int> > import_file_int(string);
+    vector< vector<char> > import_file_char(string);
+    void export_file(string, vector< vector<int> >);
+    void export_file(string, vector< vector<char> >);
 
 
     void set_path(string path){
@@ -56,13 +51,16 @@ public:
         return this->height;
     };
 
-    void change_pixel(int x, int y, string);
-    void change_pixel(int x, int y, int);
-    void invert_pixel(int x, int y);
+
+    vector< vector<char> > change_block(vector< vector<char> > mat, int x, int y, char color);
+    vector< vector<int> > change_pixel(vector< vector<int> >, int x, int y, string);
+    vector< vector<int> > change_pixel(vector< vector<int> >, int x, int y, int);
+    vector< vector<int> > invert_pixel(vector< vector<int> >, int x, int y);
 
     vector < vector<char> > create_rand_picture(int, int);
     vector < vector<char> > encrypt_picture(vector < vector<int> >, vector < vector<char> >);
-    vector < vector<char> > decrypt_picture(vector < vector<char> >, vector < vector<char> >);
+    vector < vector<int> > decrypt_picture(vector < vector<char> >, vector < vector<char> >);
+    vector < vector<char> > overlay_pictures(vector < vector<char> >, vector < vector<char> >);
 
     vector < vector<int> > trans_block_int(vector < vector<char> >);
     void print_matrix();

@@ -16,8 +16,6 @@ private:
     string path;
     string destination;
     string new_file_name;
-    vector< vector<int> > matrix;
-    vector<int> collum;
     int height{0};
     int length{0};
 
@@ -57,7 +55,6 @@ public:
     vector < vector<int> > create_rand_picture(int, int);
     vector < vector<int> > encrypt_picture(vector < vector<int> >, vector < vector<int> >);
 
-    void print_matrix();
     void print_certain_matrix(vector < vector<int> >);
 };
 
