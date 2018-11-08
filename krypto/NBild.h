@@ -22,10 +22,8 @@ private:
     int length{0};
 
 public:
-    vector < vector<int> > import_file();
-    void export_file();
     vector < vector<int> > import_file(string);
-    void export_file(string);
+    void export_file(string, vector < vector<int> >);
 
     void set_path(string path){
         this->path = path;
@@ -52,9 +50,9 @@ public:
         return this->height;
     };
 
-    void change_pixel(int x, int y, string);
-    void change_pixel(int x, int y, int);
-    void invert_pixel(int x, int y);
+    vector < vector<int> > change_pixel(vector < vector<int> >, int x, int y, string);
+    vector < vector<int> > change_pixel(vector < vector<int> >, int x, int y, int);
+    vector < vector<int> > invert_pixel(vector < vector<int> >, int x, int y);
 
     vector < vector<int> > create_rand_picture(int, int);
     vector < vector<int> > encrypt_picture(vector < vector<int> >, vector < vector<int> >);

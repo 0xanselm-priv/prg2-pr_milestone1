@@ -29,6 +29,7 @@ void interface::main_menu(){
         }
         else if(prog_number == 2){
             cout << "Choosen 2" << endl;
+            prog2();
             running = false;
         }
         else if(prog_number == 1) {
@@ -79,7 +80,12 @@ int interface::prog2(){
     NBild int_canvas;
     CBild char_canvas;
 
-    char_canvas.encrypt_picture(int_canvas.import_file(), char_canvas;
+    vector < vector<int> > matrix = int_canvas.import_file("/Users/nielsheissel/CLionProjects/prg2-pr/krypto/beispielbild_1.txt");
+    vector < vector<char> > key = char_canvas.create_rand_picture(matrix.size(), matrix[0].size());
+    vector < vector<char> > encrypted = char_canvas.encrypt_picture(matrix, key);
+    char_canvas.print_certain_matrix(char_canvas.trans_block_int(encrypted));
+    vector < vector<char> > decrypt = char_canvas.decrypt_picture(encrypted, key);
+    char_canvas.print_certain_matrix(char_canvas.trans_block_int(decrypt));
 
 
 }

@@ -18,12 +18,6 @@ using namespace std;
 int main() {
     std::cout << "Hello, World!" << std::endl;
 
-    CBild pic;
-    //pic.set_path("/Users/nielsheissel/CLionProjects/untitled1/beispielbild_1.txt");
-    pic.import_file("/Users/nielsheissel/CLionProjects/untitled1/beispielbild_1.txt");
-
-    pic.print_matrix();
-
 
     interface interf;
     interf.main_menu();
