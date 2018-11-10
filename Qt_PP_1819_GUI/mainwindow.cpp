@@ -5,6 +5,7 @@
 #include <QPainter>
 #include <QTextStream>
 #include <QDate>
+#include <QDebug>
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -15,6 +16,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->comboBox->addItem("Encrypt");
     ui->comboBox->addItem("Decrypt");
     ui->comboBox->addItem("Overlap");
+    ui->pushButton_2->setEnabled(false);
+    ui->pushButton_3->setEnabled(false);
 }
 
 MainWindow::~MainWindow()
@@ -36,13 +39,17 @@ void MainWindow::on_comboBox_activated(const QString &arg1)
     print(ui->comboBox->currentText());
 }
 
-void MainWindow::print(int i) {
+void MainWindow::print_int(int i) {
     QString j = QString::number(i);
     qDebug(j.toLatin1());
 }
 
 void MainWindow::print(QString j) {
     qDebug(j.toLatin1());
+}
+
+void MainWindow::print_str(string j) {
+    print(QString::fromStdString(j));
 }
 
 void MainWindow::print_bool(bool j) {
@@ -59,13 +66,15 @@ void MainWindow::on_pushButton_crypto_clicked()
     QString filter = "Text File (*.txt)";
     QString file_name = QFileDialog::getOpenFileName(this, "Open file", "C:/Users/R/Desktop", filter);
     QString s = file_name;
-    ui->label_2->setText("File Path: " + s);
-    print(file_name);
+    ui->label_2->setText("File Path: " + file_name);
+    global_filepath = file_name.toUtf8().constData();
+    print_str(global_filepath);
+    ui->pushButton_3->setEnabled(true);
 }
 
 void MainWindow::on_spinBox_valueChanged(const QString &arg1)
 {
-    print(ui->spinBox->value());
+    print_int(ui->spinBox->value());
 }
 
 void MainWindow::on_pushButton_clicked()
@@ -88,17 +97,14 @@ void MainWindow::on_pushButton_clicked()
 
 void MainWindow::on_pushButton_2_clicked()
 {
-    NBild test;
-    qDebug("NBild Object generated");
-    test.export_file("void");
+//    NBild test;
+//    qDebug("NBild Object generated");
+//    test.export_file("void");
+//    int height = ui->label->height();
+//    int width = ui->label->width();
 
-
-
-
-    int height = ui->label->height();
-    int width = ui->label->width();
-    print(height);
-    print(width);
+    int height = int_canvas.get_height();
+    int width = int_canvas.get_length();
 
     QPixmap pixmap(width, height);
     pixmap.fill(QColor("transparent"));
@@ -116,4 +122,18 @@ void MainWindow::on_pushButton_2_clicked()
         }
     }
     //ui->label->setPixmap(pixmap);
+    ui->pushButton_3->setEnabled(true);
+
+}
+
+void MainWindow::on_pushButton_3_clicked()
+{
+    // Start Button
+    //interface interface_n;
+    //interface_n.prog2();
+    //int_canvas.get_height();
+
+    int_canvas.import_file(global_filepath);
+    print_int(int_canvas.get_height());
+    print_int(int_canvas.get_length());
 }

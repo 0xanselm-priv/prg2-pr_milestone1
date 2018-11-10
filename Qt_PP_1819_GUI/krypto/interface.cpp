@@ -81,8 +81,9 @@ int interface::prog2(){
     cout << "Program e started -- encryption can happen." << endl;
     NBild int_canvas;
     CBild char_canvas;
+    string example_txtfile = "../ProgPrak1819/Qt_PP_1819_GUI/beispielbild_1.txt";
 
-    vector < vector<int> > matrix = int_canvas.import_file("/Users/nielsheissel/CLionProjects/prg2-pr/krypto/beispielbild_1.txt");
+    vector < vector<int> > matrix = int_canvas.import_file(example_txtfile);
     vector < vector<char> > key = char_canvas.create_rand_picture(matrix.size(), matrix[0].size());
     vector < vector<char> > encrypted = char_canvas.encrypt_picture(matrix, key);
     char_canvas.print_certain_matrix(char_canvas.trans_block_int(encrypted));

@@ -59,7 +59,7 @@
        <rect>
         <x>9</x>
         <y>9</y>
-        <width>45</width>
+        <width>301</width>
         <height>16</height>
        </rect>
       </property>
@@ -83,8 +83,8 @@
      <widget class="QPushButton" name="pushButton_crypto">
       <property name="geometry">
        <rect>
-        <x>40</x>
-        <y>60</y>
+        <x>190</x>
+        <y>30</y>
         <width>80</width>
         <height>21</height>
        </rect>
@@ -96,8 +96,8 @@
      <widget class="QPushButton" name="pushButton">
       <property name="geometry">
        <rect>
-        <x>120</x>
-        <y>40</y>
+        <x>110</x>
+        <y>30</y>
         <width>80</width>
         <height>21</height>
        </rect>
@@ -109,9 +109,9 @@
      <widget class="QPushButton" name="pushButton_2">
       <property name="geometry">
        <rect>
-        <x>30</x>
-        <y>90</y>
-        <width>114</width>
+        <x>110</x>
+        <y>50</y>
+        <width>161</width>
         <height>21</height>
        </rect>
       </property>
@@ -141,6 +141,24 @@
        <string>TextLabel</string>
       </property>
      </widget>
+     <widget class="QPushButton" name="pushButton_3">
+      <property name="geometry">
+       <rect>
+        <x>290</x>
+        <y>30</y>
+        <width>80</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Start</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab">
+     <attribute name="title">
+      <string>Test</string>
+     </attribute>
     </widget>
    </widget>
   </widget>
