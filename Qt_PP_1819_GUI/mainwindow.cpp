@@ -45,7 +45,7 @@ void MainWindow::print(QString j) {
     qDebug(j.toLatin1());
 }
 
-void MainWindow::print(bool j) {
+void MainWindow::print_bool(bool j) {
     if (j == 0) {
         qDebug("False");
     } else {
@@ -73,16 +73,17 @@ void MainWindow::on_pushButton_clicked()
     // i am just changing things to work out git.
     // :)
     // i am wondering y git wont recognize my file changes
-    QFile file("C:/Users/R/Documents/ProgPrak1819/txt_file_R.txt");
+    QFile file("../ProgPrak1819/Qt_PP_1819_GUI/test.txt");
     if (!file.open(QFile::WriteOnly | QFile::Text |QFile::Append)) {
         print("Error. Not possible to write");
+    } else {
+        QTextStream out(&file);
+        QString text = "this is a stupid test.";
+        out << text;
+        file.flush();
+        file.close();
+        print("Saved file");
     }
-    QTextStream out(&file);
-    QString text = "this is a stupid test.";
-    out << text;
-    file.flush();
-    file.close();
-    print("Saved file");
 }
 
 void MainWindow::on_pushButton_2_clicked()
@@ -90,6 +91,9 @@ void MainWindow::on_pushButton_2_clicked()
     NBild test;
     qDebug("NBild Object generated");
     test.export_file("void");
+
+
+
 
     int height = ui->label->height();
     int width = ui->label->width();
@@ -106,10 +110,10 @@ void MainWindow::on_pushButton_2_clicked()
         for (int j = 0; j < width; j++) {
             if (counter % 2 == 0) {
                 painter.drawPoint(j,i);
+                ui->label->setPixmap(pixmap);
             }
             counter++;
         }
     }
-    ui->label->setPixmap(pixmap);
-
+    //ui->label->setPixmap(pixmap);
 }
