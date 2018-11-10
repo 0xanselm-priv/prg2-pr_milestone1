@@ -28,11 +28,20 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     ../krypto_copy/krypto_main.cpp \
-    ../krypto_copy/NBild.cpp
+    ../krypto_copy/NBild.cpp \
+    krypto/CBild.cpp \
+    krypto/interface.cpp \
+    krypto/krypto_main.cpp \
+    krypto/NBild.cpp \
+    main.cpp \
+    mainwindow.cpp
 
 HEADERS += \
         mainwindow.h \
-    ../krypto_copy/NBild.h
+    krypto/CBild.h \
+    krypto/interface.h \
+    krypto/NBild.h \
+    mainwindow.h
 
 FORMS += \
         mainwindow.ui
@@ -45,4 +54,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 RESOURCES += \
     res.qrc
 
-DISTFILES +=
+DISTFILES += \
+    krypto/beispielbild_1.txt
