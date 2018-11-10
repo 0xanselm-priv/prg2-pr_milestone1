@@ -6,6 +6,13 @@
 #include <QTextStream>
 #include <QDate>
 #include <QDebug>
+#include <QInputDialog>
+#include <exception>
+#include <QMessageBox>
+
+NBild int_canvas;
+vector < vector<int> > mat;
+vector < vector<int> > rand_mat;
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -16,9 +23,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->comboBox->addItem("Encrypt");
     ui->comboBox->addItem("Decrypt");
     ui->comboBox->addItem("Overlap");
-    ui->pushButton_2->setEnabled(false);
     ui->pushButton_3->setEnabled(false);
     ui->matrix_label->setScaledContents(true);
+
+
 }
 
 MainWindow::~MainWindow()
@@ -65,7 +73,7 @@ void MainWindow::print_bool(bool j) {
 void MainWindow::on_pushButton_crypto_clicked()
 {
     QString filter = "Text File (*.txt)";
-    QString file_name = QFileDialog::getOpenFileName(this, "Open file", "C:/Users/R/Desktop", filter);
+    QString file_name = QFileDialog::getOpenFileName(this, "Open file", "../ProgPrak1819/Qt_PP_1819_GUI", filter);
     QString s = file_name;
     ui->label_2->setText("File Path: " + file_name);
     ui->label_2->adjustSize();
@@ -73,9 +81,8 @@ void MainWindow::on_pushButton_crypto_clicked()
     print_str(global_filepath);
     ui->pushButton_3->setEnabled(true);
 
-    NBild int_canvas;
     vector < vector<int> > matrix = int_canvas.import_file(global_filepath);
-
+    mat = matrix; // for saving
     const int height = int_canvas.get_height();
     const int length = int_canvas.get_length();
 
@@ -165,10 +172,52 @@ void MainWindow::on_pushButton_2_clicked()
 
 }
 
-void MainWindow::on_pushButton_3_clicked()
+void MainWindow::on_save_button_clicked()
 {
-    // Start Button
-    //interface interface_n;
-    //interface_n.prog2();
-    //int_canvas.get_height();
+    QString filter = "Text File (*.txt)";
+    QString save_path = QFileDialog::getSaveFileName(this, "Save file", "../ProgPrak1819/Qt_PP_1819_GUI", filter);
+    QFile file(save_path);
+    int_canvas.export_file(save_path.toUtf8().constData(), mat);
+}
+
+void MainWindow::on_rand_mat_button_clicked()
+{
+    //        QMessageBox msgBox;
+    //        msgBox.setWindowTitle("title");
+    //        msgBox.setText("Question");
+    //        msgBox.setStandardButtons(QMessageBox::Yes);
+    //        msgBox.addButton(QMessageBox::No);
+    //        msgBox.addButton(QMessageBox::No);
+    //        msgBox.setDefaultButton(QMessageBox::No);
+    //        if(msgBox.exec() == QMessageBox::Yes){
+    //          // do something
+    //        }else {
+    //          // do something else
+    //        }
+
+
+
+
+    QString text = QInputDialog::getText(this,"Random Matrix","Please Enter Random Matrix Size \n separated by ; eg(13;37) \n (m dimension ;n dimension)");
+
+    QRegExp input_rex("[0-9]*;[0-9]*");
+    input_rex.setPatternSyntax(QRegExp::RegExp);
+    QRegExpValidator regValidator(input_rex, 0);
+    bool c = input_rex.exactMatch(text);
+    print_bool(c);
+    if (c) {
+        QStringList a = text.split(";");
+        string height_str = a[0].toUtf8().constData();
+        string length_str = a[1].toUtf8().constData();
+        int height = atoi(height_str.c_str());
+        int length = atoi(height_str.c_str());
+        print_int(height);
+        print_int(length);
+        rand_mat = int_canvas.create_rand_picture(height, length);
+        this->matrix_display(rand_mat, height, length);
+    } else {
+        QMessageBox::warning(this,"Idiot Alert","Idiot.\nRepeat");
+    }
+
+
 }

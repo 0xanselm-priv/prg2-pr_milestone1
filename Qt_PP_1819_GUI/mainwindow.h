@@ -41,9 +41,11 @@ private slots:
 
     void on_pushButton_2_clicked();
 
-    void on_pushButton_3_clicked();
-
     void matrix_display(vector < vector<int> >matrix, int height, int length);
+
+    void on_save_button_clicked();
+
+    void on_rand_mat_button_clicked();
 
 private:
     Ui::MainWindow *ui;

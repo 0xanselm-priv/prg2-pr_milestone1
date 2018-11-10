@@ -67,8 +67,8 @@
         </property>
         <property name="geometry">
          <rect>
-          <x>300</x>
-          <y>30</y>
+          <x>100</x>
+          <y>70</y>
           <width>72</width>
           <height>22</height>
          </rect>
@@ -87,11 +87,11 @@
          <string>Load</string>
         </property>
        </widget>
-       <widget class="QPushButton" name="pushButton">
+       <widget class="QPushButton" name="save_button">
         <property name="geometry">
          <rect>
-          <x>280</x>
-          <y>20</y>
+          <x>350</x>
+          <y>280</y>
           <width>80</width>
           <height>21</height>
          </rect>
@@ -100,17 +100,17 @@
          <string>Save</string>
         </property>
        </widget>
-       <widget class="QPushButton" name="pushButton_2">
+       <widget class="QPushButton" name="rand_mat_button">
         <property name="geometry">
          <rect>
-          <x>310</x>
-          <y>70</y>
-          <width>114</width>
+          <x>123</x>
+          <y>280</y>
+          <width>131</width>
           <height>21</height>
          </rect>
         </property>
         <property name="text">
-         <string>Generate NBild Object</string>
+         <string>Generate Random Matrix</string>
         </property>
        </widget>
        <widget class="QLabel" name="matrix_length">
@@ -129,8 +129,8 @@
        <widget class="QPushButton" name="pushButton_3">
         <property name="geometry">
          <rect>
-          <x>320</x>
-          <y>50</y>
+          <x>260</x>
+          <y>280</y>
           <width>80</width>
           <height>21</height>
          </rect>
@@ -158,7 +158,7 @@
          </size>
         </property>
         <property name="text">
-         <string>TextLabel</string>
+         <string/>
         </property>
        </widget>
        <widget class="QLabel" name="matrix_height">
@@ -174,6 +174,15 @@
          <string>Matrix Height:</string>
         </property>
        </widget>
+       <zorder>label_2</zorder>
+       <zorder>comboBox</zorder>
+       <zorder>pushButton_crypto</zorder>
+       <zorder>matrix_length</zorder>
+       <zorder>matrix_label</zorder>
+       <zorder>matrix_height</zorder>
+       <zorder>rand_mat_button</zorder>
+       <zorder>pushButton_3</zorder>
+       <zorder>save_button</zorder>
       </widget>
       <widget class="QWidget" name="tab">
        <attribute name="title">
