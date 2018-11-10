@@ -18,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->comboBox->addItem("Overlap");
     ui->pushButton_2->setEnabled(false);
     ui->pushButton_3->setEnabled(false);
+    ui->matrix_label->setScaledContents(true);
 }
 
 MainWindow::~MainWindow()
@@ -67,8 +68,46 @@ void MainWindow::on_pushButton_crypto_clicked()
     QString file_name = QFileDialog::getOpenFileName(this, "Open file", "C:/Users/R/Desktop", filter);
     QString s = file_name;
     ui->label_2->setText("File Path: " + file_name);
+    ui->label_2->adjustSize();
     global_filepath = file_name.toUtf8().constData();
     print_str(global_filepath);
+    ui->pushButton_3->setEnabled(true);
+
+    NBild int_canvas;
+    vector < vector<int> > matrix = int_canvas.import_file(global_filepath);
+
+    const int height = int_canvas.get_height();
+    const int length = int_canvas.get_length();
+
+    ui->matrix_length->setText("Matrix Length: " + QString::number(length));
+    ui->matrix_height->setText("Matrix Height: " + QString::number(height));
+
+
+    this->matrix_display(matrix, height, length);
+}
+
+void MainWindow::matrix_display(vector < vector<int> > matrix, int height, int length) {
+
+    QPixmap pixmap(height*4, length*4);
+    pixmap.fill(QColor("transparent"));
+
+    print_int(matrix[0][0]);
+
+    QPainter painter (&pixmap);
+    painter.setBrush(Qt::red);
+
+    int counter = 0;
+    for (int i = 0; i < height; i++) {
+        for (int j = 0; j < length; j++) {
+            if (matrix[i][j] == 1) {
+                painter.drawPoint(j,i);
+                //ui->matrix_label->setPixmap(pixmap);
+            }
+            counter++;
+        }
+    }
+    ui->matrix_label->setPixmap(pixmap);
+    ui->matrix_label->adjustSize();
     ui->pushButton_3->setEnabled(true);
 }
 
@@ -97,32 +136,32 @@ void MainWindow::on_pushButton_clicked()
 
 void MainWindow::on_pushButton_2_clicked()
 {
-//    NBild test;
-//    qDebug("NBild Object generated");
-//    test.export_file("void");
-//    int height = ui->label->height();
-//    int width = ui->label->width();
+    //    NBild test;
+    //    qDebug("NBild Object generated");
+    //    test.export_file("void");
+    //    int height = ui->label->height();
+    //    int width = ui->label->width();
 
-    int height = int_canvas.get_height();
-    int width = int_canvas.get_length();
+    //    int height = int_canvas.get_height();
+    //    int width = int_canvas.get_length();
 
-    QPixmap pixmap(width, height);
-    pixmap.fill(QColor("transparent"));
+    //    QPixmap pixmap(width, height);
+    //    pixmap.fill(QColor("transparent"));
 
-    QPainter painter (&pixmap);
-    painter.setBrush(Qt::red);
-    int counter = 0;
-    for (int i = 0; i < height; i++) {
-        for (int j = 0; j < width; j++) {
-            if (counter % 2 == 0) {
-                painter.drawPoint(j,i);
-                ui->label->setPixmap(pixmap);
-            }
-            counter++;
-        }
-    }
-    //ui->label->setPixmap(pixmap);
-    ui->pushButton_3->setEnabled(true);
+    //    QPainter painter (&pixmap);
+    //    painter.setBrush(Qt::red);
+    //    int counter = 0;
+    //    for (int i = 0; i < height; i++) {
+    //        for (int j = 0; j < width; j++) {
+    //            if (counter % 2 == 0) {
+    //                painter.drawPoint(j,i);
+    //                ui->matrix_label->setPixmap(pixmap);
+    //            }
+    //            counter++;
+    //        }
+    //    }
+    //    //ui->label->setPixmap(pixmap);
+    //    ui->pushButton_3->setEnabled(true);
 
 }
 
@@ -132,8 +171,4 @@ void MainWindow::on_pushButton_3_clicked()
     //interface interface_n;
     //interface_n.prog2();
     //int_canvas.get_height();
-
-    int_canvas.import_file(global_filepath);
-    print_int(int_canvas.get_height());
-    print_int(int_canvas.get_length());
 }

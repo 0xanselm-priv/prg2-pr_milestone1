@@ -43,10 +43,12 @@ private slots:
 
     void on_pushButton_3_clicked();
 
+    void matrix_display(vector < vector<int> >matrix, int height, int length);
+
 private:
     Ui::MainWindow *ui;
     // int a = 0;
-    NBild int_canvas;
+    //NBild int_canvas;
     string global_filepath;
 };
 

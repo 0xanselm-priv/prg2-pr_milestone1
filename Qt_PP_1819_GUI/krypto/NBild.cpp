@@ -42,7 +42,6 @@ vector < vector<int> > NBild::import_file(string path){
         }
         matrix.push_back(collum);
     }
-
     cout << length << "  " << height << endl;
 
 
