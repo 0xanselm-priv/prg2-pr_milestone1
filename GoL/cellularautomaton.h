@@ -5,39 +5,34 @@
 #include <iostream>
 #include <vector>
 
+// Implements Conway's Game of Life
+// Example:
+// 	  CellularAutomaton automaton("input_file.txt");
+// 	  automaton.resize(5,5);
+// 	  automaton.update;
+// 	  std::cout << automaton;
 class CellularAutomaton{
-public:
-	using MatrixType = std::vector< std::vector<bool> >;
-
-	CellularAutomaton(std::size_t num_rows, std::size_t num_cols);
-    CellularAutomaton(std::string filename);
-    CellularAutomaton();
-
-    void SetoldState(MatrixType oldState);
-    void SetnewState(MatrixType newState);
-    void SetnumRows(std::size_t num_rows);
-    void SetnumCols(std::size_t num_cols);
-    void SetCell(std::size_t, std::size_t, bool);
-    void ChangeState(std::size_t, std::size_t);
-
-    MatrixType oldState() const;
-    MatrixType newState() const;
-    std::size_t num_rows() const;
-	std::size_t num_cols() const;
-	void exportState(std::string filename) const;
-	bool GetState(std::size_t row, std::size_t col) const;
-
-	void resize(std::size_t, std::size_t);
-	void load(std::string filename);
-	void update();
-
+ public:
+  // Sets all cells to dead.
+  explicit CellularAutomaton(std::size_t num_rows, std::size_t num_cols);
+  explicit CellularAutomaton(std::string filename);
+  void set_cell_state(std::size_t row, 
+  	std::size_t col, bool cell_state) { new_state_[row][col] = cell_state; }
+  std::size_t num_rows() const { return num_rows_; }
+	std::size_t num_cols() const { return num_cols_; }
+  bool cell_state(std::size_t row, 
+  	std::size_t col) const { return old_state_[row][col]; }
+  void ChangeCellState(std::size_t, std::size_t);
+	void ResizeWindow(std::size_t, std::size_t);
+	// Advance Cellular Automaton by one round.
+	void Update();
 	friend std::ostream& operator<<(std::ostream& os, const CellularAutomaton& automaton);
-private:
+ private:
 	void CopyToOld();
-	unsigned int _neighbor_num(std::size_t i, std::size_t j) const;
-	CellularAutomaton::MatrixType _oldState;
-	CellularAutomaton::MatrixType _newState;
-	std::size_t _num_rows;
-	std::size_t _num_cols;
+	int neighbor_num(std::size_t i, std::size_t j) const;
+	std::vector< std::vector<bool> > old_state_;
+	std::vector< std::vector<bool> > new_state_;
+	std::size_t num_rows_;
+	std::size_t num_cols_;
 };
 #endif

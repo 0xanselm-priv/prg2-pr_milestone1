@@ -8,9 +8,8 @@ using namespace std;
 
 int main(int argc, char** argv){
 	char option = '0';
-	CellularAutomaton automaton;
-	while(option!='q')
-	{
+	std::unique_ptr<CellularAutomaton> automaton;
+	while (option!='q') {
 		std::cout << "Bitte geben Sie eine der folgenden Optionen ein." << std::endl
 				  << "q\tProgramm verlassen" << std::endl
 				  << "o\tEine Datei öffnen" << std::endl
@@ -20,16 +19,13 @@ int main(int argc, char** argv){
 		switch (option){
 			case 'q': 
 				return 0;
-				break;
 			case 'n':
-				automaton.resize(30, 30);
-				std::cout << automaton;
+				automaton = std::unique_ptr<CellularAutomaton>(new CellularAutomaton(30, 30));
 				break;
 			case 'o':
 				std::cout << "Bitte geben Sie den Dateinamen mit Endung ein." << std::endl;
 				std::cin >> filename;
-				automaton.load(filename);
-				std::cout << automaton;
+				automaton = std::unique_ptr<CellularAutomaton>(new CellularAutomaton(filename));
 				break;
 			default: 
 				cout << "Ungültige Eingabe";
@@ -47,71 +43,76 @@ int main(int argc, char** argv){
 			 << "u\tDas Spielfeld um einen Schritt updaten" << std::endl
 			 << "e\tDie Änderungen in einer Datei speichern." << std::endl;
 		cin >> option;
-		std::size_t row, col;
-		char state;
-		std::size_t num_rows, num_cols;
-		switch (option)
-		{
-			
-			case 'q': 
+		switch (option) {
+			case 'q': {
 				return 0;
 				break;
-			case 'r':
+			}
+			case 'r': {
+				std::size_t num_rows, num_cols;
 				std::cout << "Neue Anzahl Zeilen eingeben.";
 				std::cin >> num_rows;
 				std::cout << "Neue Anzahl Spalten eingeben.";
 				std::cin >> num_cols;
-				automaton.resize(num_rows, num_cols);
+				automaton->ResizeWindow(num_rows, num_cols);
 				break;
-			case 's':
+			}
+			case 's': {
+				std::size_t row, col;
+				char state;
 				std::cout << "Zeile der Zelle eingeben.";
 				std::cin >> row;
 				std::cout << "Spalte der Zelle eingeben.";
 				std::cin >> col;
 				std::cout << "d für tot eingeben, a für lebendig, sonstige Eingabe ändert nichts.";
 				std::cin >> state;
-				switch(state)
-				{
-					case 'd':
-					automaton.SetCell(row, col, false);
-					break;
-					case 'a':
-					automaton.SetCell(row, col, true);
-					break;
-					default:
-					break;
+				switch (state) {
+					case 'd': {
+						automaton->set_cell_state(row, col, false);
+						break;
+					}
+					case 'a': {
+						automaton->set_cell_state(row, col, true);
+						break;
+					}
+					default: {
+						break;
+					}
 				}		
 				break;
-			case 'c':
+			}
+			case 'c': {
+				std::size_t row;
+				std::size_t col;
 				std::cout << "Zeile der Zelle eingeben.";
 				std::cin >> row;
 				std::cout << "Spalte der Zelle eingeben.";
 				std::cin >> col;
-				automaton.ChangeState(row, col);			
+				automaton->ChangeCellState(row, col);
 				break;
-			case 'u':
-				automaton.update();		
+			}			
+			case 'u': {
+				automaton->Update();		
 				break;
-			case 'e':
-			{
+			}
+			case 'e': {
 				std::cout << "Enter filename." << std::endl;
 				std::string filename;
 				std::cin >> filename;
 				std::cout << "Eingabe.";
 				std::ofstream file(filename);
-				if (not file) 
-				{
+				if (not file) {
 					throw std::runtime_error("Unable to open file.");
 				}
-				std::cout << automaton;
-				file << automaton;	
+				file << *automaton;	
 				file.close();	
 				break;
 			}
-			default: 
+			default: {
 				cout << "Ungültige Eingabe";
 				continue;
+			}
 		}
-		std::cout << automaton;
+		std::cout << *automaton;
 	}
 }
