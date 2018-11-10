@@ -29,11 +29,11 @@ private slots:
 
     void print(QString i);
 
+    void print(bool j);
+
     void on_spinBox_valueChanged(const QString &arg1);
 
     void on_pushButton_2_clicked();
-
-    void on_pushButton_3_clicked();
 
 private:
     Ui::MainWindow *ui;

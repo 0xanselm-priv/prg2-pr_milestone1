@@ -44,6 +44,14 @@ void MainWindow::print(QString j) {
     qDebug(j.toLatin1());
 }
 
+void MainWindow::print(bool j) {
+    if (j == 0) {
+        print("False");
+    } else {
+        print("True");
+    }
+}
+
 
 void MainWindow::on_pushButton_crypto_clicked()
 {
@@ -83,9 +91,9 @@ void MainWindow::on_pushButton_2_clicked()
     test.export_file("void");
 
     QImage img;
-    img.load("test.png");
-
-    QLabel label;
-    labe1.setPixmap(QPixmap::fromImage(img));
-    label.show();
+    bool a;
+    a = img.load("C:/Users/R/Documents/ProgPrak1819/Qt_PP_1819_GU/test.png");
+    print(a);
+    print("Test");
+    ui->label->setPixmap(QPixmap::fromImage(img));
 }
