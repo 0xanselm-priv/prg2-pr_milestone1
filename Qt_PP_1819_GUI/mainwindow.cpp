@@ -81,4 +81,11 @@ void MainWindow::on_pushButton_2_clicked()
     NBild test;
     qDebug("NBild Object generated");
     test.export_file("void");
+
+    QImage img;
+    img.load("test.png");
+
+    QLabel label;
+    label.setPixmap(QPixmap::fromImage(img));
+    label.show();
 }
