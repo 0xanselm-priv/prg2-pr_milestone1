@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include <QFileDialog>
 #include <QFile>
+#include <QPainter>
 #include <QTextStream>
 #include <QDate>
 
@@ -46,9 +47,9 @@ void MainWindow::print(QString j) {
 
 void MainWindow::print(bool j) {
     if (j == 0) {
-        print("False");
+        qDebug("False");
     } else {
-        print("True");
+        qDebug("True");
     }
 }
 
@@ -90,10 +91,25 @@ void MainWindow::on_pushButton_2_clicked()
     qDebug("NBild Object generated");
     test.export_file("void");
 
-    QImage img;
-    bool a;
-    a = img.load("C:/Users/R/Documents/ProgPrak1819/Qt_PP_1819_GU/test.png");
-    print(a);
-    print("Test");
-    ui->label->setPixmap(QPixmap::fromImage(img));
+    int height = ui->label->height();
+    int width = ui->label->width();
+    print(height);
+    print(width);
+
+    QPixmap pixmap(width, height);
+    pixmap.fill(QColor("transparent"));
+
+    QPainter painter (&pixmap);
+    painter.setBrush(Qt::red);
+    int counter = 0;
+    for (int i = 0; i < height; i++) {
+        for (int j = 0; j < width; j++) {
+            if (counter % 2 == 0) {
+                painter.drawPoint(j,i);
+            }
+            counter++;
+        }
+    }
+    ui->label->setPixmap(pixmap);
+
 }
