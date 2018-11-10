@@ -86,6 +86,6 @@ void MainWindow::on_pushButton_2_clicked()
     img.load("test.png");
 
     QLabel label;
-    label.setPixmap(QPixmap::fromImage(img));
+    labe1.setPixmap(QPixmap::fromImage(img));
     label.show();
 }
