@@ -29,14 +29,6 @@ private slots:
 
     void on_comboBox_activated(const QString &arg1);
 
-    void print_int(int i);
-
-    void print(QString i);
-
-    void print_str(string i);
-
-    void print_bool(bool j);
-
     void on_spinBox_valueChanged(const QString &arg1);
 
     void on_pushButton_2_clicked();
@@ -51,9 +43,19 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    // int a = 0;
-    //NBild int_canvas;
+
     string global_filepath;
+
+    void update_mat(vector < vector<int> >& matrix);
+
+    void print_int(int i);
+
+    void print(QString i);
+
+    void print_str(string i);
+
+    void print_bool(bool j);
+
 };
 
 #endif // MAINWINDOW_H
