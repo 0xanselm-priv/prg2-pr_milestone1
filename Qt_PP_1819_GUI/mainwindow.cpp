@@ -23,10 +23,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->comboBox->addItem("Encrypt");
     ui->comboBox->addItem("Decrypt");
     ui->comboBox->addItem("Overlap");
-    ui->pushButton_3->setEnabled(false);
     ui->matrix_label->setScaledContents(true);
-
-
+    ui->change_pixel_button->setEnabled(false);
 }
 
 MainWindow::~MainWindow()
@@ -79,18 +77,25 @@ void MainWindow::on_pushButton_crypto_clicked()
     ui->label_2->adjustSize();
     global_filepath = file_name.toUtf8().constData();
     print_str(global_filepath);
-    ui->pushButton_3->setEnabled(true);
 
     vector < vector<int> > matrix = int_canvas.import_file(global_filepath);
-    mat = matrix; // for saving
-    const int height = int_canvas.get_height();
-    const int length = int_canvas.get_length();
 
-    ui->matrix_length->setText("Matrix Length: " + QString::number(length));
-    ui->matrix_height->setText("Matrix Height: " + QString::number(height));
+    if (matrix.empty()) {
+        ui->matrix_length->setText("Matrix Length: NaN");
+        ui->matrix_height->setText("Matrix Height: NaN");
 
+        QMessageBox::warning(this,"Input","Wrong Matrix Format");
+    } else {
+        mat = matrix; // for saving
+        const int height = int_canvas.get_height();
+        const int length = int_canvas.get_length();
 
-    this->matrix_display(matrix, height, length);
+        ui->matrix_length->setText("Matrix Length: " + QString::number(length));
+        ui->matrix_height->setText("Matrix Height: " + QString::number(height));
+
+        this->matrix_display(matrix, height, length);
+        ui->change_pixel_button->setEnabled(true);
+    }
 }
 
 void MainWindow::matrix_display(vector < vector<int> > matrix, int height, int length) {
@@ -103,19 +108,21 @@ void MainWindow::matrix_display(vector < vector<int> > matrix, int height, int l
     QPainter painter (&pixmap);
     painter.setBrush(Qt::red);
 
-    int counter = 0;
     for (int i = 0; i < height; i++) {
         for (int j = 0; j < length; j++) {
             if (matrix[i][j] == 1) {
                 painter.drawPoint(j,i);
                 //ui->matrix_label->setPixmap(pixmap);
+            } else if (matrix[i][j] == 0){
+                //pass
+            }else {
+                QMessageBox::warning(this,"Input","Wrong Input Format");
+                break;
             }
-            counter++;
         }
     }
     ui->matrix_label->setPixmap(pixmap);
     ui->matrix_label->adjustSize();
-    ui->pushButton_3->setEnabled(true);
 }
 
 void MainWindow::on_spinBox_valueChanged(const QString &arg1)
@@ -174,10 +181,14 @@ void MainWindow::on_pushButton_2_clicked()
 
 void MainWindow::on_save_button_clicked()
 {
-    QString filter = "Text File (*.txt)";
-    QString save_path = QFileDialog::getSaveFileName(this, "Save file", "../ProgPrak1819/Qt_PP_1819_GUI", filter);
-    QFile file(save_path);
-    int_canvas.export_file(save_path.toUtf8().constData(), mat);
+    if (mat.empty()) {
+        QMessageBox::warning(this,"Save","Matrix to save is empty. Please create Matrix befor saving");
+    } else {
+        QString filter = "Text File (*.txt)";
+        QString save_path = QFileDialog::getSaveFileName(this, "Save file", "../ProgPrak1819/Qt_PP_1819_GUI", filter);
+        QFile file(save_path);
+        int_canvas.export_file(save_path.toUtf8().constData(), mat);
+    }
 }
 
 void MainWindow::on_rand_mat_button_clicked()
@@ -203,9 +214,8 @@ void MainWindow::on_rand_mat_button_clicked()
     QRegExp input_rex("[0-9]*;[0-9]*");
     input_rex.setPatternSyntax(QRegExp::RegExp);
     QRegExpValidator regValidator(input_rex, 0);
-    bool c = input_rex.exactMatch(text);
-    print_bool(c);
-    if (c) {
+    bool rex_bool = input_rex.exactMatch(text);
+    if (rex_bool) {
         QStringList a = text.split(";");
         string height_str = a[0].toUtf8().constData();
         string length_str = a[1].toUtf8().constData();
@@ -216,8 +226,18 @@ void MainWindow::on_rand_mat_button_clicked()
         rand_mat = int_canvas.create_rand_picture(height, length);
         this->matrix_display(rand_mat, height, length);
     } else {
-        QMessageBox::warning(this,"Idiot Alert","Idiot.\nRepeat");
+        QMessageBox::warning(this,"Wrong Input","Please repeat the input.");
     }
 
 
+}
+
+void MainWindow::on_change_pixel_button_clicked()
+{
+    int x_coord = ui->x_spinBox->value();
+    int y_coord = ui->y_spinBox->value();
+    QString color_qstr = ui->color_comboBox->currentText();
+    string color = color_qstr.toUtf8().constData();
+    mat = int_canvas.change_pixel(mat,x_coord, y_coord, color);
+    this->matrix_display(mat, int_canvas.get_height(), int_canvas.get_length());
 }

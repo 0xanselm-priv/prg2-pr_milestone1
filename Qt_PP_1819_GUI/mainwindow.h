@@ -47,6 +47,8 @@ private slots:
 
     void on_rand_mat_button_clicked();
 
+    void on_change_pixel_button_clicked();
+
 private:
     Ui::MainWindow *ui;
     // int a = 0;
