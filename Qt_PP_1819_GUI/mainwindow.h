@@ -4,6 +4,7 @@
 #include "krypto/CBild.h"
 #include "krypto/NBild.h"
 #include "krypto/interface.h"
+#include "GoL/cellularautomaton.h"
 
 #include <QMainWindow>
 #include <QTimer>
@@ -56,6 +57,9 @@ private:
 
     void print_bool(bool j);
 
-};
+    void gol_painter(CellularAutomaton* automaton);
+
+}
+    ;
 
 #endif // MAINWINDOW_H

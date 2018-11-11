@@ -27,6 +27,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->comboBox->addItem("Overlap");
     ui->matrix_label->setScaledContents(true);
     ui->change_pixel_button->setEnabled(false);
+
 }
 
 MainWindow::~MainWindow()
@@ -37,10 +38,42 @@ MainWindow::~MainWindow()
 void MainWindow::on_pushButton_got_clicked()
 {
     QString filter = "Text File (*.txt)";
-    QString file_name = QFileDialog::getOpenFileName(this, "Open file", "C:/Users/R/Desktop", filter);
+    QString file_name = QFileDialog::getOpenFileName(this, "Open file", "../ProgPrak1819/Qt_PP_1819_GUI/GoL", filter);
     QString s = file_name;
-    ui->label_3->setText("File Path: " + s);
+    ui->label_3->setText("File Path: " + file_name);
+    ui->label_3->adjustSize();
+    string file_name_str = file_name.toUtf8().constData();
     print(file_name);
+
+    if (file_name.size() == 0) {
+        //warning
+    } else {
+        CellularAutomaton automaton(file_name_str);
+        print_int(automaton.num_rows());
+        this->gol_painter(&automaton);
+    }
+
+}
+
+void MainWindow::gol_painter(CellularAutomaton* automaton) {
+    int cols = automaton->num_cols();
+    int rows = automaton->num_rows();
+    int factor = 10;
+    QPixmap pixmap(rows*factor, cols*factor);
+    pixmap.fill(QColor("transparent"));
+
+    QPainter painter (&pixmap);
+    painter.setBrush(Qt::red);
+
+    for (int i = 0; i < cols; i++) {
+        for (int j = 0; j < rows; j++) {
+            //            gol_label
+            //            painter.drawPoint(j*4,i*4);
+            painter.drawRect(i*factor,j*factor,factor,factor);
+        }
+    }
+    ui->gol_label->setPixmap(pixmap);
+    ui->gol_label->adjustSize();
 }
 
 void MainWindow::on_comboBox_activated(const QString &arg1)
