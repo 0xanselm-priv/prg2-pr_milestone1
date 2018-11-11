@@ -62,6 +62,9 @@ public:
     void print_matrix();
     void print_certain_matrix(vector < vector<char> >);
     void print_certain_matrix(vector < vector<int> >);
+
+    bool test_matrices(vector < vector<int> >, vector < vector<char> >);
+    bool test_matrices(vector < vector<int> >, vector < vector<int> >);
 };
 
 

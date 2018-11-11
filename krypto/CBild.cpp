@@ -383,3 +383,10 @@ vector < vector<char> > CBild::trans_int_block(vector < vector<int> > matrix){
     }
     return ret_mat;
 }
+
+bool CBild::test_matrices(vector < vector<int> > mat_a, vector < vector<int> > mat_b){
+    return (mat_a.size() == mat_b.size() && mat_a[0].size() == mat_b[0].size());
+}
+bool CBild::test_matrices(vector < vector<int> > mat_a, vector < vector<char> > mat_b){
+    return (mat_a.size() == 2*mat_b.size() && mat_a[0].size() == 2*mat_b[0].size());
+}
