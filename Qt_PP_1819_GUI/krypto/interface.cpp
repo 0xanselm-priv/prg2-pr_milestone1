@@ -92,8 +92,6 @@ int interface::prog2(){
     char_canvas.print_certain_matrix(key);
     vector < vector<int > > decrypt = char_canvas.decrypt_picture(encrypted, key);
     char_canvas.print_certain_matrix(decrypt);
-
-
 }
 
 

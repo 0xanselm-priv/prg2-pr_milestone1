@@ -43,6 +43,7 @@ CellularAutomaton::CellularAutomaton(std::string filename) {
 	file.close();
 }
 
+
 void CellularAutomaton::ChangeCellState(std::size_t row, std::size_t col) {
 		set_cell_state(row, col, not cell_state(row,col));
 }

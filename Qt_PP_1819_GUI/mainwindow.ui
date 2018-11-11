@@ -18,7 +18,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab_1">
        <attribute name="title">
@@ -50,8 +50,8 @@
        <widget class="QPushButton" name="pushButton_got">
         <property name="geometry">
          <rect>
-          <x>9</x>
-          <y>281</y>
+          <x>10</x>
+          <y>290</y>
           <width>80</width>
           <height>21</height>
          </rect>
@@ -63,8 +63,8 @@
        <widget class="QPushButton" name="pushButton">
         <property name="geometry">
          <rect>
-          <x>90</x>
-          <y>280</y>
+          <x>100</x>
+          <y>290</y>
           <width>80</width>
           <height>21</height>
          </rect>
@@ -89,14 +89,27 @@
        <widget class="QLabel" name="gol_label">
         <property name="geometry">
          <rect>
-          <x>30</x>
-          <y>80</y>
+          <x>10</x>
+          <y>70</y>
           <width>47</width>
           <height>13</height>
          </rect>
         </property>
         <property name="text">
          <string>TextLabel</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="dimensions_label">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>50</y>
+          <width>61</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Dimensions:</string>
         </property>
        </widget>
       </widget>
@@ -123,8 +136,8 @@
         </property>
         <property name="geometry">
          <rect>
-          <x>100</x>
-          <y>70</y>
+          <x>460</x>
+          <y>170</y>
           <width>72</width>
           <height>22</height>
          </rect>
@@ -133,8 +146,8 @@
        <widget class="QPushButton" name="pushButton_crypto">
         <property name="geometry">
          <rect>
-          <x>10</x>
-          <y>70</y>
+          <x>390</x>
+          <y>150</y>
           <width>80</width>
           <height>21</height>
          </rect>
@@ -322,6 +335,45 @@
          <string>Color:</string>
         </property>
        </widget>
+       <widget class="QLabel" name="filepath2_label">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>70</y>
+          <width>47</width>
+          <height>13</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>File Path second Marix:</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="matrix2_height_label">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>90</y>
+          <width>47</width>
+          <height>13</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Height second Matrix:</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="matrix2_length_label">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>110</y>
+          <width>47</width>
+          <height>13</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Length second Matrix:</string>
+        </property>
+       </widget>
        <zorder>label_2</zorder>
        <zorder>comboBox</zorder>
        <zorder>pushButton_crypto</zorder>
@@ -338,6 +390,9 @@
        <zorder>y_spinBox</zorder>
        <zorder>color_comboBox</zorder>
        <zorder>label_6</zorder>
+       <zorder>filepath2_label</zorder>
+       <zorder>matrix2_height_label</zorder>
+       <zorder>matrix2_length_label</zorder>
       </widget>
       <widget class="QWidget" name="tab">
        <attribute name="title">

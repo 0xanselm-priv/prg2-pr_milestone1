@@ -31,6 +31,7 @@ public:
     void Update();
     friend std::ostream& operator<<(std::ostream& os, const CellularAutomaton& automaton);
 
+
 private:
     void CopyToOld();
     int neighbor_num(std::size_t i, std::size_t j) const;

@@ -35,7 +35,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_pushButton_got_clicked()
+void MainWindow::on_pushButton_got_clicked()  //gol load btn
 {
     QString filter = "Text File (*.txt)";
     QString file_name = QFileDialog::getOpenFileName(this, "Open file", "../ProgPrak1819/Qt_PP_1819_GUI/GoL", filter);
@@ -48,9 +48,12 @@ void MainWindow::on_pushButton_got_clicked()
     if (file_name.size() == 0) {
         //warning
     } else {
-        CellularAutomaton automaton(file_name_str);
+        CellularAutomaton automaton = CellularAutomaton(file_name_str);
+
         print_int(automaton.num_rows());
         this->gol_painter(&automaton);
+        ui->dimensions_label->setText("Dimensions: " + QString::number(automaton.num_rows()) + " x " + QString::number(automaton.num_cols()));
+        ui->dimensions_label->adjustSize();
     }
 
 }
@@ -59,17 +62,33 @@ void MainWindow::gol_painter(CellularAutomaton* automaton) {
     int cols = automaton->num_cols();
     int rows = automaton->num_rows();
     int factor = 10;
-    QPixmap pixmap(rows*factor, cols*factor);
+
+
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            print_bool(automaton->cell_state(i,j));
+        }
+    }
+
+    QPixmap pixmap(rows*factor+1, cols*factor+1); //lol that plus 1 tho
     pixmap.fill(QColor("transparent"));
 
-    QPainter painter (&pixmap);
-    painter.setBrush(Qt::red);
 
-    for (int i = 0; i < cols; i++) {
-        for (int j = 0; j < rows; j++) {
-            //            gol_label
-            //            painter.drawPoint(j*4,i*4);
-            painter.drawRect(i*factor,j*factor,factor,factor);
+    QPainter painter (&pixmap);
+
+
+    int counter = 0;
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+
+            if (automaton->cell_state(j,i)) {
+                painter.setBrush(Qt::green);
+                painter.drawRect(i*factor,j*factor,factor,factor);
+            } else {
+                painter.setBrush(Qt::red);
+                painter.drawRect(i*factor,j*factor,factor,factor);
+            }
+            counter++;
         }
     }
     ui->gol_label->setPixmap(pixmap);
@@ -78,7 +97,29 @@ void MainWindow::gol_painter(CellularAutomaton* automaton) {
 
 void MainWindow::on_comboBox_activated(const QString &arg1)
 {
+    //file path and maybe mode in label
+
     print(ui->comboBox->currentText());
+    QString cur_str = ui->comboBox->currentText();
+    if (cur_str == "Encrypt") {
+        print("yaaaaaaaaaaaaaaaaaaaaay");
+        QMessageBox::about(this,"Encryption Key File","Please choose an encryption file");
+        QString filter = "Text File (*.txt)";
+        QString file_name = QFileDialog::getOpenFileName(this, "Open file", "../ProgPrak1819/Qt_PP_1819_GUI", filter);
+        CBild cBild;
+        NBild encryption;
+        vector < vector<int> > encryption_mat = encryption.import_file(file_name.toUtf8().constData());
+        vector < vector<int> > result_mat = cBild.encrypt_picture();
+        int height = result_mat.size();
+        int length = result_mat[0].size();
+        this->matrix_display(result_mat, height, length);
+    } else if (cur_str == "Decrypt") {
+        QMessageBox::about(this,"Decrpytion Key File","Ooopsie doodles");
+    } else if (cur_str == "Overlay") {
+        QMessageBox::about(this,"Overlay Matrix","Ooopsie doodles");
+    } else {
+        QMessageBox::about(this,"Mishap","Ooopsie doodles. Mishap, Senpai");
+    }
 }
 
 void MainWindow::print_int(int i) {
@@ -297,3 +338,4 @@ void MainWindow::on_change_pixel_button_clicked()
     int height = mat.size();
     this->matrix_display(mat, height, length);
 }
+
