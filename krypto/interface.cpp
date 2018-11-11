@@ -81,7 +81,7 @@ int interface::prog1(){
 
  }
 
-int interface::prog2(string source, string key, string result){
+vector < vector<int> > interface::prog2(string source, string key, string result, bool gui){
     cout << "Program e started -- encryption can happen." << endl;
     CBild char_canvas;
     NBild int_canvas;
@@ -91,12 +91,15 @@ int interface::prog2(string source, string key, string result){
     vector< vector<int> > source_mat = int_canvas.import_file(source);
     vector< vector<char> > key_mat = char_canvas.load_key(key);
     vector< vector<char> > encrypted = char_canvas.encrypt_picture(source_mat, key_mat);
-    char_canvas.export_file(result, char_canvas.trans_block_int(encrypted));
-    return 0;
+
+    if(!gui) {
+        char_canvas.export_file(result, char_canvas.trans_block_int(encrypted));
+    }
+    return char_canvas.trans_block_int(encrypted);
 
 }
 
-int interface::prog3(string source, string key, string result){
+vector < vector<int> > interface::prog3(string source, string key, string result, bool gui){
     cout << "Third Program is warming up DECODE PICTURE" << endl;
 
     CBild char_canvas;
@@ -105,13 +108,14 @@ int interface::prog3(string source, string key, string result){
     vector < vector<char> > encrypted = char_canvas.import_file_char(source);
 
     vector < vector<int> > decrypted = char_canvas.decrypt_picture(encrypted, key_mat);
-    char_canvas.export_file(result, decrypted);
-
-    return 0;
+    if(!gui) {
+        char_canvas.export_file(result, decrypted);
+    }
+    return decrypted;
 
 }
 
-int interface::prog4(string img_a, string img_b, string result){
+vector < vector<int> > interface::prog4(string img_a, string img_b, string result, bool gui){
     cout << "Third Program is warming up DECODE PICTURE" << endl;
 
     CBild char_canvas;
@@ -121,9 +125,11 @@ int interface::prog4(string img_a, string img_b, string result){
     vector < vector<int> > mat_b = char_canvas.import_file(img_b);
 
     vector < vector<int> > overlayed = char_canvas.overlay_pictures(mat_a, mat_b);
-    char_canvas.export_file(result, overlayed);
 
-    return 0;
+    if(!gui) {
+        char_canvas.export_file(result, overlayed);
+    }
+    return overlayed;
 
 }
 

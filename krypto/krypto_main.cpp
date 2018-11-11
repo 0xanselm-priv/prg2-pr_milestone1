@@ -29,15 +29,15 @@ int main(int argc, char *argv[]) {
     }
     if(program == "encode"){
         cout << "Encoding your source." << endl;
-        interf.prog2(arg1, arg2, arg3);
+        interf.prog2(arg1, arg2, arg3, false);
     }
     else if(program == "decode"){
         cout << "Decoding your source." << endl;
-        interf.prog2(arg1, arg2, arg3);
+        interf.prog2(arg1, arg2, arg3, false);
     }
     else if(program == "overlay"){
         cout << "Overlaying your sources." << endl;
-        interf.prog4(arg1, arg2, arg3);
+        interf.prog4(arg1, arg2, arg3, false);
     }
 
 
