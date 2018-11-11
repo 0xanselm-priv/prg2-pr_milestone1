@@ -16,8 +16,6 @@ private:
     string path;
     string destination;
     string new_file_name;
-    int height{0};
-    int length{0};
 
 public:
     vector < vector<int> > import_file(string);
@@ -40,12 +38,6 @@ public:
     };
     string get_new_file_name(){
         return this->new_file_name;
-    };
-    int get_length(){
-        return this->length;
-    };
-    int get_height(){
-        return this->height;
     };
 
     vector < vector<int> > change_pixel(vector < vector<int> >, int x, int y, string);

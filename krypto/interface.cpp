@@ -14,7 +14,6 @@ using namespace std;
 
 
 void interface::main_menu(){
-    running = true;
     while(running){
         cin.clear();
         cout << "Bitte geben Sie eine Zahl ein!" << endl;
@@ -29,12 +28,17 @@ void interface::main_menu(){
         }
         else if(prog_number == 2){
             cout << "Choosen 2" << endl;
-            prog2();
+            //prog2();
             running = false;
         }
         else if(prog_number == 1) {
             cout << "Choosen 1" << endl;
-            exit_handler(prog1());
+            //exit_handler(prog1());
+            running = false;
+        }
+        else if(prog_number == 1) {
+            cout << "Choosen 1" << endl;
+            //exit_handler(prog3());
             running = false;
         }
     }
@@ -75,23 +79,51 @@ int interface::prog1(){
 
     return 2;
 
- };
+ }
 
-int interface::prog2(){
+int interface::prog2(string source, string key, string result){
     cout << "Program e started -- encryption can happen." << endl;
+    CBild char_canvas;
     NBild int_canvas;
+
+    //char_canvas.export_file("/Users/nielsheissel/CLionProjects/prg2-pr/krypto/key.txt", char_canvas.trans_block_int(char_canvas.create_rand_picture(89, 303)));
+
+    vector< vector<int> > source_mat = int_canvas.import_file(source);
+    vector< vector<char> > key_mat = char_canvas.load_key(key);
+    vector< vector<char> > encrypted = char_canvas.encrypt_picture(source_mat, key_mat);
+    char_canvas.export_file(result, char_canvas.trans_block_int(encrypted));
+    return 0;
+
+}
+
+int interface::prog3(string source, string key, string result){
+    cout << "Third Program is warming up DECODE PICTURE" << endl;
+
     CBild char_canvas;
 
-    vector < vector<int> > matrix = int_canvas.import_file("/Users/nielsheissel/CLionProjects/prg2-pr/krypto/beispielbild_1.txt");
-    vector < vector<char> > key = char_canvas.create_rand_picture(matrix.size(), matrix[0].size());
-    vector < vector<char> > encrypted = char_canvas.encrypt_picture(matrix, key);
-    char_canvas.print_certain_matrix(char_canvas.trans_block_int(encrypted));
-    char_canvas.print_certain_matrix(matrix);
-    char_canvas.print_certain_matrix(encrypted);
-    char_canvas.print_certain_matrix(key);
-    vector < vector<int > > decrypt = char_canvas.decrypt_picture(encrypted, key);
-    char_canvas.print_certain_matrix(decrypt);
+    vector < vector<char> > key_mat = char_canvas.import_file_char(key);
+    vector < vector<char> > encrypted = char_canvas.import_file_char(source);
 
+    vector < vector<int> > decrypted = char_canvas.decrypt_picture(encrypted, key_mat);
+    char_canvas.export_file(result, decrypted);
+
+    return 0;
+
+}
+
+int interface::prog4(string img_a, string img_b, string result){
+    cout << "Third Program is warming up DECODE PICTURE" << endl;
+
+    CBild char_canvas;
+    NBild int_canvas;
+
+    vector < vector<int> > mat_a = char_canvas.import_file(img_a);
+    vector < vector<int> > mat_b = char_canvas.import_file(img_b);
+
+    vector < vector<int> > overlayed = char_canvas.overlay_pictures(mat_a, mat_b);
+    char_canvas.export_file(result, overlayed);
+
+    return 0;
 
 }
 
