@@ -1,8 +1,12 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "krypto/CBild.h"
+#include "krypto/NBild.h"
+#include "krypto/interface.h"
+
 #include <QMainWindow>
-#include "../krypto_copy/NBild.h"
+#include <QTimer>
 
 namespace Ui {
 class MainWindow;
@@ -25,18 +29,33 @@ private slots:
 
     void on_comboBox_activated(const QString &arg1);
 
-    void print(int i);
-
-    void print(QString i);
-
     void on_spinBox_valueChanged(const QString &arg1);
 
     void on_pushButton_2_clicked();
 
-    void on_pushButton_3_clicked();
+    void matrix_display(vector < vector<int> >matrix, int height, int length);
+
+    void on_save_button_clicked();
+
+    void on_rand_mat_button_clicked();
+
+    void on_change_pixel_button_clicked();
 
 private:
     Ui::MainWindow *ui;
+
+    string global_filepath;
+
+    void update_mat(vector < vector<int> >& matrix);
+
+    void print_int(int i);
+
+    void print(QString i);
+
+    void print_str(string i);
+
+    void print_bool(bool j);
+
 };
 
 #endif // MAINWINDOW_H
