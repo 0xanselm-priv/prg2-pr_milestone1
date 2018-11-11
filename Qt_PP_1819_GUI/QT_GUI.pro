@@ -30,14 +30,21 @@ SOURCES += \
     krypto/CBild.cpp \
     krypto/interface.cpp \
     krypto/NBild.cpp \
-    GoL/cellularautomaton.cpp
+    GoL/cellularautomaton.cpp \
+    krypto/CBild.cpp \
+    krypto/interface.cpp \
+    krypto/krypto_main.cpp \
+    krypto/NBild.cpp
 
 HEADERS += \
         mainwindow.h \
     krypto/CBild.h \
     krypto/interface.h \
     krypto/NBild.h \
-    GoL/cellularautomaton.h
+    GoL/cellularautomaton.h \
+    krypto/CBild.h \
+    krypto/interface.h \
+    krypto/NBild.h
 
 FORMS += \
         mainwindow.ui

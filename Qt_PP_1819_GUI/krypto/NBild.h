@@ -16,11 +16,8 @@ private:
     string path;
     string destination;
     string new_file_name;
-//    int height{0};
-//    int length{0};
-
-    int height = 0;
-    int length = 0;
+    int height{0};
+    int length{0};
 
 public:
     vector < vector<int> > import_file(string);

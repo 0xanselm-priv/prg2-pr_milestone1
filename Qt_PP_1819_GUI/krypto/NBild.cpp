@@ -42,6 +42,7 @@ vector < vector<int> > NBild::import_file(string path){
         }
         matrix.push_back(collum);
     }
+
     cout << length << "  " << height << endl;
 
 
@@ -86,9 +87,8 @@ vector < vector<int> > NBild::invert_pixel(vector < vector<int> > mat, int x, in
     int &value = mat[x][y];
     if(value == 1){
         value = 0;
-    } else {
-        value = 1;
     }
+    else{value = 1;}
     return mat;
 };
 
