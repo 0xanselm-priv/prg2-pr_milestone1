@@ -6,10 +6,9 @@
 #define UNTITLED_INTERFACE_H
 
 #include <iostream>
-#include <fstream>
+//#include <fstream> IMPORTANT to disable. QT doensnt bahave when on
 #include <random>
 #include <vector>
-#include <tuple>
 
 using namespace std;
 
@@ -34,9 +33,9 @@ public:
     void main_menu(); // return the int, of which porgram should be calles
     void prog_handler(int); // calls program ? Necessary ?
     int prog1(); // returns whether to exit the program or return to the menu
-    tuple < bool, vector < vector<int> > > prog2(string, string, string, bool); // returns whether to exit the program or return to the menu
-    tuple < bool, vector < vector<int> > > prog3(string, string, string, bool);
-    tuple < bool, vector < vector<int> > > prog4(string, string, string, bool);
+    pair < bool, vector < vector<int> > > prog2(string, string, string, bool); // returns whether to exit the program or return to the menu
+    pair < bool, vector < vector<int> > > prog3(string, string, string, bool);
+    pair < bool, vector < vector<int> > > prog4(string, string, string, bool);
     void exit_handler(int); // exits or returns back to menu
 
     int prog1_sub1();

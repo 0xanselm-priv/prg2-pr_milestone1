@@ -113,7 +113,7 @@
          </property>
         </widget>
        </widget>
-       <widget class="QGroupBox" name="groupBox_2">
+       <widget class="QGroupBox" name="mat2_groupBox">
         <property name="geometry">
          <rect>
           <x>10</x>
@@ -125,6 +125,45 @@
         <property name="title">
          <string>Matrix 2:</string>
         </property>
+        <widget class="QLabel" name="filepath2_label">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>20</y>
+           <width>45</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>File Path:</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="matrix2_height">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>40</y>
+           <width>101</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Matrix Height:</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="matrix2_length">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>60</y>
+           <width>101</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Matrix Length:</string>
+         </property>
+        </widget>
        </widget>
        <widget class="QGroupBox" name="groupBox_3">
         <property name="geometry">
@@ -337,7 +376,7 @@
        <zorder>frame</zorder>
        <zorder>save_button</zorder>
        <zorder>mat1_groupBox</zorder>
-       <zorder>groupBox_2</zorder>
+       <zorder>mat2_groupBox</zorder>
        <zorder>groupBox_3</zorder>
        <zorder>result_groupBox</zorder>
       </widget>

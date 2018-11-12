@@ -31,8 +31,6 @@ private slots:
 
     void on_spinBox_valueChanged(const QString &arg1);
 
-    void on_pushButton_2_clicked();
-
     void matrix_display(vector < vector<int> >matrix, int height, int length);
 
     void on_save_button_clicked();
@@ -41,10 +39,13 @@ private slots:
 
     void on_change_pixel_button_clicked();
 
+
 private:
     Ui::MainWindow *ui;
 
     string global_filepath;
+
+    string global_filepath2;
 
     void update_mat(vector < vector<int> >& matrix);
 
@@ -55,6 +56,14 @@ private:
     void print_str(string i);
 
     void print_bool(bool j);
+
+    vector < vector<int> >& gen_rand_mat();
+
+    vector < vector<int> >& load_second_matrix();
+
+    int core_func();
+
+    void core_func_fitting();
 
 };
 
