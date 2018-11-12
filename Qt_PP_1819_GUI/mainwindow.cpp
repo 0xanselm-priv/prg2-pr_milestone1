@@ -45,7 +45,16 @@ void MainWindow::on_pushButton_got_clicked()
 
 void MainWindow::on_comboBox_activated(const QString &arg1)
 {
-    print(ui->comboBox->currentText());
+    QString cur_str = ui->comboBox->currentText();
+    if (cur_str == "Encrypt") {
+        //here
+    } else if (cur_str == "Decrypt") {
+
+    } else if (cur_str == "Overlay") {
+
+    } else {
+      //unexpected
+    }
 }
 
 void MainWindow::print_int(int i) {
