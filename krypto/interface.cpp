@@ -7,7 +7,6 @@
 #include <fstream>
 #include <random>
 #include <vector>
-#include <tuple>
 #include "CBild.h"
 #include "NBild.h"
 
@@ -82,7 +81,7 @@ int interface::prog1(){
 
  }
 
-tuple < bool, vector < vector<int> > > interface::prog2(string source, string key, string result, bool gui){
+vector < bool, vector < vector<int> > > interface::prog2(string source, string key, string result, bool gui){
     cout << "Program e started -- encryption can happen." << endl;
     CBild char_canvas;
     NBild int_canvas;
@@ -97,15 +96,15 @@ tuple < bool, vector < vector<int> > > interface::prog2(string source, string ke
         if (!gui) {
             char_canvas.export_file(result, char_canvas.trans_block_int(encrypted));
         }
-        return {true ,char_canvas.trans_block_int(encrypted)};
+        return vector < bool, vector < vector<int> > > {true ,char_canvas.trans_block_int(encrypted)};
     }
     else{
         cerr << "Key and source are not compatible (not the same size)!" << endl;
-        return {false, source_mat};
+        return vector < bool, vector < vector<int> > > {false, source_mat};
     }
 }
 
-tuple < bool, vector < vector<int> > > interface::prog3(string source, string key, string result, bool gui){
+vector < bool, vector < vector<int> > > interface::prog3(string source, string key, string result, bool gui){
     cout << "Third Program is warming up DECODE PICTURE" << endl;
 
     CBild char_canvas;
@@ -118,16 +117,16 @@ tuple < bool, vector < vector<int> > > interface::prog3(string source, string ke
         if (!gui) {
             char_canvas.export_file(result, decrypted);
         }
-        return {true, decrypted};
+        return vector < bool, vector < vector<int> > > (true, decrypted);
     }
     else{
         cerr << "Key and source are not compatible (not the same size)!" << endl;
-        return {false, char_canvas.trans_block_int(encrypted)};
+        return vector < bool, vector < vector<int> > > (false, char_canvas.trans_block_int(encrypted));
     }
 
 }
 
-tuple < bool, vector < vector<int> > > interface::prog4(string img_a, string img_b, string result, bool gui){
+vector < bool, vector < vector<int> > > interface::prog4(string img_a, string img_b, string result, bool gui){
     cout << "Third Program is warming up DECODE PICTURE" << endl;
 
     CBild char_canvas;
@@ -142,11 +141,11 @@ tuple < bool, vector < vector<int> > > interface::prog4(string img_a, string img
         if (!gui) {
             char_canvas.export_file(result, overlayed);
         }
-        return {true, overlayed};
+        return vector < bool, vector < vector<int> > > {true, overlayed};
     }
     else{
         cerr << "Key and source are not compatible (not the same size)!" << endl;
-        return {false, mat_a};
+        return vector < bool, vector < vector<int> > > {false, mat_a};
     }
 }
 

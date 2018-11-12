@@ -5,6 +5,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <tuple>
 //#include "file_handler_class.h"
 #include "NBild.h"
 #include "CBild.h"
