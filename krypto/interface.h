@@ -33,9 +33,9 @@ public:
     void main_menu(); // return the int, of which porgram should be calles
     void prog_handler(int); // calls program ? Necessary ?
     int prog1(); // returns whether to exit the program or return to the menu
-    vector < bool, vector < vector<int> > > prog2(string, string, string, bool); // returns whether to exit the program or return to the menu
-    vector < bool, vector < vector<int> > > prog3(string, string, string, bool);
-    vector < bool, vector < vector<int> > > prog4(string, string, string, bool);
+    pair < bool, vector < vector<int> > > prog2(string, string, string, bool); // returns whether to exit the program or return to the menu
+    pair < bool, vector < vector<int> > > prog3(string, string, string, bool);
+    pair < bool, vector < vector<int> > > prog4(string, string, string, bool);
     void exit_handler(int); // exits or returns back to menu
 
     int prog1_sub1();
