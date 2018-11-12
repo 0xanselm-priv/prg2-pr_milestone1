@@ -385,8 +385,34 @@ vector < vector<char> > CBild::trans_int_block(vector < vector<int> > matrix){
 }
 
 bool CBild::test_matrices(vector < vector<int> > mat_a, vector < vector<int> > mat_b){
-    return (mat_a.size() == mat_b.size() && mat_a[0].size() == mat_b[0].size());
+    if(mat_a.size() == mat_b.size() && mat_a[0].size() == mat_b[0].size()){
+        for(int x; x < mat_a.size(); x++){
+            for(int y; y < mat_a[0].size(); y++){
+                if(mat_a[x][y]!=0 && mat_a[x][y]!= 1){
+                    return false;
+                }
+                if(mat_b[x][y]!=0 && mat_b[x][y]!= 1){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    else{return false;}
 }
 bool CBild::test_matrices(vector < vector<int> > mat_a, vector < vector<char> > mat_b){
-    return (mat_a.size() == 2*mat_b.size() && mat_a[0].size() == 2*mat_b[0].size());
+    if(mat_a.size() == mat_b.size() && mat_a[0].size() == mat_b[0].size()){
+        for(int x; x < mat_a.size(); x++){
+            for(int y; y < mat_a[0].size(); y++){
+                if(mat_a[x][y]!=0 && mat_a[x][y]!= 1){
+                    return false;
+                }
+                if(mat_b[x][y]!= 'A' && mat_b[x][y]!= 'B' && mat_b[x][y] != 'C'){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    else{return false;}
 }
