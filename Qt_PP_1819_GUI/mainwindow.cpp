@@ -27,6 +27,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->comboBox->addItem("Overlap");
     ui->matrix_label->setScaledContents(true);
     ui->change_pixel_button->setEnabled(false);
+    ui->mat1_groupBox->adjustSize();
 }
 
 MainWindow::~MainWindow()
@@ -45,6 +46,7 @@ void MainWindow::on_pushButton_got_clicked()
 
 void MainWindow::on_comboBox_activated(const QString &arg1)
 {
+    //TO DO: adjust mat 2 group box
     QString cur_str = ui->comboBox->currentText();
     if (cur_str == "Encrypt") {
         //here
@@ -53,7 +55,7 @@ void MainWindow::on_comboBox_activated(const QString &arg1)
     } else if (cur_str == "Overlay") {
 
     } else {
-      //unexpected
+        //unexpected
     }
 }
 
@@ -99,8 +101,8 @@ void MainWindow::on_pushButton_crypto_clicked()
         QMessageBox::warning(this,"Input","Wrong Matrix Format");
     } else {
         mat = matrix; // for saving
-        const int height = int_canvas.get_height();
-        const int length = int_canvas.get_length();
+        const int height = matrix.size();
+        const int length = matrix[0].size();
 
         ui->matrix_length->setText("Matrix Length: " + QString::number(length));
         ui->matrix_height->setText("Matrix Height: " + QString::number(height));
@@ -110,12 +112,16 @@ void MainWindow::on_pushButton_crypto_clicked()
 
         this->matrix_display(matrix, height, length);
         ui->change_pixel_button->setEnabled(true);
+
+        ui->mat1_groupBox->adjustSize();
+        ui->result_groupBox->adjustSize();
     }
+
 }
 
 void MainWindow::matrix_display(vector < vector<int> > matrix, int height, int length) {
 
-    QPixmap pixmap(height*4, length*4);
+    QPixmap pixmap(length+2, height+2);
     pixmap.fill(QColor("transparent"));
 
     QPainter painter (&pixmap);
@@ -235,7 +241,7 @@ void MainWindow::on_rand_mat_button_clicked()
 
     vector < vector<int> > rand_mat;
 
-    QString text = QInputDialog::getText(this,"Random Matrix","Please Enter Random Matrix Size \n separated by ; eg(13;37) \n (m dimension ; n dimension)");
+    QString text = QInputDialog::getText(this,"Random Matrix","Please Enter Random Matrix Size \n separated by ; eg(13;37) \n (m dimension (length) ; n dimension (height))");
 
     QRegExp input_rex("[0-9]*;[0-9]*");
     input_rex.setPatternSyntax(QRegExp::RegExp);
@@ -247,7 +253,7 @@ void MainWindow::on_rand_mat_button_clicked()
         string height_str = a[0].toUtf8().constData();
         string length_str = a[1].toUtf8().constData();
         int height = atoi(height_str.c_str());
-        int length = atoi(height_str.c_str());
+        int length = atoi(length_str.c_str());
         rand_mat = int_canvas.create_rand_picture(height, length);
         this->update_mat(rand_mat);
         this->matrix_display(rand_mat, height, length);
