@@ -23,11 +23,10 @@ vector < vector<int> > NBild::import_file(string path){
     }
 
     string line;
-    getline(file, line);
-    length = line.length();
-    while(!file.eof()){
+    int height = 0;
+    for(string line; getline(file, line); ){
         height ++;
-        file >> line;
+        int length = line.length();
         if (length != line.length()){
             cerr << "Unvalid file format" << endl;
             exit(1);
@@ -42,8 +41,6 @@ vector < vector<int> > NBild::import_file(string path){
         }
         matrix.push_back(collum);
     }
-    cout << length << "  " << height << endl;
-
 
     file.close();
 
@@ -86,9 +83,8 @@ vector < vector<int> > NBild::invert_pixel(vector < vector<int> > mat, int x, in
     int &value = mat[x][y];
     if(value == 1){
         value = 0;
-    } else {
-        value = 1;
     }
+    else{value = 1;}
     return mat;
 };
 
@@ -100,7 +96,6 @@ vector < vector<int> > NBild::create_rand_picture(int height, int width){ // cre
         vector<int> collum;
         collum.clear();
         for(int y = 0; y < width; y++){
-
             mt19937 rng;
             rng.seed(random_device()());
             uniform_int_distribution<mt19937::result_type> dist6(0, 1);
