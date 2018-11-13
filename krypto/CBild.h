@@ -1,6 +1,12 @@
 //
+// CBild.h ~ header-file of the class CBild
 // Created by Niels Heissel on 05.11.18.
+// Purpose: handles more complex n*m matrices with values of ones and zeros or of blocks (A, B and C).
+// Able to import and export matrices, test two matrices if they are compatible
+// and print those and change certain pixel.
+// Functions are individually commented in the cpp file.
 //
+
 
 #ifndef UNTITLED_CBILD_H
 #define UNTITLED_CBILD_H
@@ -12,38 +18,13 @@ using namespace std;
 
 
 class CBild {
-private:
-    string path;
-    string destination;
-    string new_file_name;
 
 public:
     vector < vector<int> > import_file(string path);
-    vector< vector<int> > import_file_int(string);
     vector< vector<char> > import_file_char(string);
     vector< vector<char> > load_key(string);
     void export_file(string, vector< vector<int> >);
     void export_file(string, vector< vector<char> >);
-
-
-    void set_path(string path){
-        this->path = path;
-    };
-    void set_destination(string dest){
-        this->destination = dest;
-    };
-    void set_new_file_name(string name){
-        this->new_file_name = name;
-    };
-    string get_path(){
-        return this->path;
-    };
-    string get_destination(){
-        return this->destination;
-    };
-    string get_new_file_name(){
-        return this->new_file_name;
-    };
 
 
     vector< vector<char> > change_block(vector< vector<char> > mat, int x, int y, char color);
@@ -59,7 +40,7 @@ public:
 
     vector < vector<int> > trans_block_int(vector < vector<char> >);
     vector < vector<char> > trans_int_block(vector < vector<int> > matrix);
-    void print_matrix();
+
     void print_certain_matrix(vector < vector<char> >);
     void print_certain_matrix(vector < vector<int> >);
 
