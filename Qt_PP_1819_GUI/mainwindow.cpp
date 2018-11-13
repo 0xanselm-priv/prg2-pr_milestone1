@@ -13,6 +13,7 @@
 NBild int_canvas;
 vector < vector<int> > mat;
 vector < vector<int> > rand_mat;
+vector < vector<int> > sec_mat;
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -44,12 +45,91 @@ void MainWindow::on_pushButton_got_clicked()
     print(file_name);
 }
 
+vector < vector<int> >& MainWindow::load_second_matrix() {
+    NBild int_canvas_sec;
+    QString filter = "Text File (*.txt)";
+    QString file_name = QFileDialog::getOpenFileName(this, "Open file", "../ProgPrak1819/Qt_PP_1819_GUI", filter);
+    QString s = file_name;
+    ui->filepath2_label->setText("File Path: " + file_name);
+    ui->filepath2_label->adjustSize();
+    global_filepath2 = file_name.toUtf8().constData();
+    print_str(global_filepath2);
+
+    vector < vector<int> > matrix = int_canvas.import_file(file_name.toUtf8().constData());
+    sec_mat = matrix;
+
+    if (matrix.empty()) {
+        ui->matrix2_length->setText("Matrix Length: NaN");
+        ui->matrix2_height->setText("Matrix Height: NaN");
+
+        QMessageBox::warning(this,"Input","Wrong Matrix Format");
+    } else {
+        mat = matrix; // for saving
+        const int height = matrix.size();
+        const int length = matrix[0].size();
+
+        ui->matrix2_length->setText("Matrix Length: " + QString::number(length));
+        ui->matrix2_height->setText("Matrix Height: " + QString::number(height));
+
+        //ui->x_spinBox->setMaximum(length);
+        //ui->y_spinBox->setMaximum(height);
+
+        this->matrix_display(matrix, height, length);
+        ui->change_pixel_button->setEnabled(true);
+        qDebug("Second Matrix loading failure");
+
+    }
+}
+
+void MainWindow::core_func_fitting() {
+    //fitting for gui
+    int length = rand_mat.size();
+    int height = rand_mat[0].size();
+    ui->matrix2_length->setText("Matrix Length: " + QString::number(length));
+    ui->matrix2_height->setText("Matrix Height: " + QString::number(height));
+
+    ui->filepath2_label->setText("Filepath: Not saved locally");
+    ui->filepath2_label->adjustSize();
+}
+
+int MainWindow::core_func() {
+    QMessageBox msgBox;
+    msgBox.setWindowTitle("User Interaction");
+    msgBox.setText("Do you want to load or generate a Matrix.");
+    msgBox.addButton(tr("Load"), QMessageBox::YesRole);
+    msgBox.addButton(tr("Generate"), QMessageBox::NoRole);
+    msgBox.setDefaultButton(QMessageBox::Yes);
+    int temp = msgBox.exec();
+    if(temp == 0){
+        //Load
+        qDebug("Load");
+        this->load_second_matrix();
+        qDebug("Failure in Core Func");
+    } else if  (temp == 1){
+        qDebug("Generate");
+        emit ui->rand_mat_button->click();
+        this->core_func_fitting();
+    } else {
+        QMessageBox::warning(this,"Error","No sufficient Action");
+    }
+    return 0;
+}
+
 void MainWindow::on_comboBox_activated(const QString &arg1)
 {
     //TO DO: adjust mat 2 group box
     QString cur_str = ui->comboBox->currentText();
+    interface inter;
+
     if (cur_str == "Encrypt") {
         //here
+        this->core_func();
+
+        vector < vector<int> > encrypt_matrix = inter.prog2(global_filepath,global_filepath,"",true).second;
+        int height = encrypt_matrix.size();
+        int width = encrypt_matrix[0].size();
+        //this->matrix_display(encrypt_matrix, height, width);
+
     } else if (cur_str == "Decrypt") {
 
     } else if (cur_str == "Overlay") {
@@ -79,6 +159,34 @@ void MainWindow::print_bool(bool j) {
         qDebug("True");
     }
 }
+
+vector<vector<int> > &MainWindow::gen_rand_mat()
+{
+    ui->change_pixel_button->setEnabled(false);
+
+    vector < vector<int> > rand_mat;
+
+    QString text = QInputDialog::getText(this,"Random Matrix","Please Enter Random Matrix Size \n separated by ; eg(13;37) \n (m dimension (length) ; n dimension (height))");
+
+    QRegExp input_rex("[0-9]*;[0-9]*");
+    input_rex.setPatternSyntax(QRegExp::RegExp);
+    QRegExpValidator regValidator(input_rex, 0);
+    bool rex_bool = input_rex.exactMatch(text);
+    if (rex_bool) {
+        vector < vector<int> > rand_mat;
+        QStringList a = text.split(";");
+        string height_str = a[0].toUtf8().constData();
+        string length_str = a[1].toUtf8().constData();
+        int height = atoi(height_str.c_str());
+        int length = atoi(length_str.c_str());
+        rand_mat = int_canvas.create_rand_picture(height, length);
+        this->update_mat(rand_mat);
+        this->matrix_display(rand_mat, height, length);
+    } else {
+        QMessageBox::warning(this,"Wrong Input","Please repeat the input.");
+    }
+}
+
 
 
 void MainWindow::on_pushButton_crypto_clicked()
@@ -165,37 +273,6 @@ void MainWindow::on_pushButton_clicked()
         file.close();
         print("Saved file");
     }
-}
-
-void MainWindow::on_pushButton_2_clicked()
-{
-    //    NBild test;
-    //    qDebug("NBild Object generated");
-    //    test.export_file("void");
-    //    int height = ui->label->height();
-    //    int width = ui->label->width();
-
-    //    int height = int_canvas.get_height();
-    //    int width = int_canvas.get_length();
-
-    //    QPixmap pixmap(width, height);
-    //    pixmap.fill(QColor("transparent"));
-
-    //    QPainter painter (&pixmap);
-    //    painter.setBrush(Qt::red);
-    //    int counter = 0;
-    //    for (int i = 0; i < height; i++) {
-    //        for (int j = 0; j < width; j++) {
-    //            if (counter % 2 == 0) {
-    //                painter.drawPoint(j,i);
-    //                ui->matrix_label->setPixmap(pixmap);
-    //            }
-    //            counter++;
-    //        }
-    //    }
-    //    //ui->label->setPixmap(pixmap);
-    //    ui->pushButton_3->setEnabled(true);
-
 }
 
 void MainWindow::on_save_button_clicked()

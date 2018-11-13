@@ -29,13 +29,13 @@ SOURCES += \
         mainwindow.cpp \
     krypto/CBild.cpp \
     krypto/interface.cpp \
-    krypto/NBild.cpp \
+    krypto/NBild.cpp
 
 HEADERS += \
         mainwindow.h \
     krypto/CBild.h \
     krypto/interface.h \
-    krypto/NBild.h \
+    krypto/NBild.h
 
 FORMS += \
         mainwindow.ui
@@ -45,8 +45,6 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-RESOURCES += \
-    res.qrc
+RESOURCES +=
 
-DISTFILES += \
-    krypto/beispielbild_1.txt
+DISTFILES +=
