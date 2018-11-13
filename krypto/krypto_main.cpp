@@ -16,31 +16,58 @@
 
 using namespace std;
 
+void aufgabe_f(){
+    interface inter;
+    CBild canvas_char;
+    NBild canvas_int;
+
+    // Save a second picture and a random key
+    canvas_char.export_file("/Users/nielsheissel/CLionProjects/prg2-pr/krypto/beispiel_f_pic2.txt", canvas_int.create_rand_picture(89,303));
+    canvas_char.export_file("/Users/nielsheissel/CLionProjects/prg2-pr/krypto/beispiel_f_key.txt", canvas_char.create_rand_picture(89, 303));
+
+    // Encrypt the first picture : "beispielbild_1.txt"
+    inter.prog2("/Users/nielsheissel/CLionProjects/prg2-pr/krypto/beispielbild_1.txt",
+                "/Users/nielsheissel/CLionProjects/prg2-pr/krypto/beispiel_f_key.txt",
+                "/Users/nielsheissel/CLionProjects/prg2-pr/krypto/beispielbild_1_enc.txt", false);
+
+    // Encrypt the first picture : "beispiel_f_pic2.txt"
+    inter.prog2("/Users/nielsheissel/CLionProjects/prg2-pr/krypto/beispiel_f_pic2.txt",
+                "/Users/nielsheissel/CLionProjects/prg2-pr/krypto/beispiel_f_key.txt",
+                "/Users/nielsheissel/CLionProjects/prg2-pr/krypto/beispielbild_2_enc.txt", false);
+
+    // Overlay both pictures and save result as "result_f.txt"
+    inter.prog4("/Users/nielsheissel/CLionProjects/prg2-pr/krypto/beispielbild_2_enc.txt", "/Users/nielsheissel/CLionProjects/prg2-pr/krypto/beispielbild_1_enc.txt",
+                "/Users/nielsheissel/CLionProjects/prg2-pr/krypto/result_f.txt", false);
+}
+
 int main(int argc, char *argv[]) {
-    string program = argv[1];
-    string arg1 = argv[2];
-    string arg2 = argv[3];
-    string arg3 = argv[4];
+    if(argc == 5) {
+        string program = argv[1];
+        string arg1 = argv[2];
+        string arg2 = argv[3];
+        string arg3 = argv[4];
 
-    interface interf;
-    cout << "You passed " << argc << " arguments: " << argv[1] << endl;
+        interface interf;
+        cout << "You passed " << argc << " arguments: " << argv[1] << endl;
 
-    if(argc != 5){
+        if (program == "encode") {
+            cout << "Encoding your source." << endl;
+            interf.prog2(arg1, arg2, arg3, false);
+        } else if (program == "decode") {
+            cout << "Decoding your source." << endl;
+            interf.prog2(arg1, arg2, arg3, false);
+        } else if (program == "overlay") {
+            cout << "Overlaying your sources." << endl;
+            interf.prog4(arg1, arg2, arg3, false);
+        }
+    }
+
+    else{
         cerr << "You need to pass four arguments: ... you passed " << argc << endl;
     }
-    if(program == "encode"){
-        cout << "Encoding your source." << endl;
-        interf.prog2(arg1, arg2, arg3, false);
-    }
-    else if(program == "decode"){
-        cout << "Decoding your source." << endl;
-        interf.prog2(arg1, arg2, arg3, false);
-    }
-    else if(program == "overlay"){
-        cout << "Overlaying your sources." << endl;
-        interf.prog4(arg1, arg2, arg3, false);
-    }
 
+    aufgabe_f();
 
     return 0;
 }
+

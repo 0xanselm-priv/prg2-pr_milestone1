@@ -29,7 +29,7 @@ vector < vector<int> > CBild::import_file(string path){
     file.open(path);
 
     if(file.fail()){
-        cerr << "Reading file failed!" << endl;
+        cerr << "Reading file failed! Filename: " << path << endl;
         exit(1);
     }
 
@@ -74,7 +74,7 @@ vector< vector<char> > CBild::import_file_char(string path){
     file.open(path);
 
     if(file.fail()){
-        cerr << "Reading file failed!" << endl;
+        cerr << "Reading file failed! Filename: " << path << endl;
         exit(1);
     }
 
@@ -523,14 +523,18 @@ bool CBild::test_matrices(vector < vector<int> > mat_a, vector < vector<char> > 
         for(int x; x < mat_a.size(); x++){
             for(int y; y < mat_a[0].size(); y++){
                 if(mat_a[x][y]!=0 && mat_a[x][y]!= 1){
+                    cerr << "Wrong values." << endl;
                     return false;
                 }
                 if(mat_b[x][y]!= 'A' && mat_b[x][y]!= 'B' && mat_b[x][y] != 'C'){
+                    cerr << "Wrong values for mat_b." << endl;
                     return false;
                 }
             }
         }
         return true;
     }
-    else{return false;}
+    else{cerr << "Wrong sizes. Mat_A has size: " << mat_a.size() << " * " << mat_a[0].size()
+    << " And Mat_B has size: " << mat_b.size() << " * " << mat_b[0].size() << endl;
+        return false;}
 }

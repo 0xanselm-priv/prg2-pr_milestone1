@@ -29,7 +29,7 @@ vector < vector<int> > NBild::import_file(string path){
     file.open(path);
 
     if(file.fail()){
-        cerr << "Reading file failed!" << endl;
+        cerr << "Reading file failed! Filename: " << path << endl;
         exit(1);
     }
 
