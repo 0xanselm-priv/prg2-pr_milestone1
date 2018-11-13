@@ -28,7 +28,7 @@ pair < bool, vector < vector<int> > > interface::encrypt(string source, string k
         * went correctly and the matrix is the result of the operation
      */
 
-    cout << "Program e started -- encryption can happen." << endl;
+    cout << "Program started -- encrypting source." << endl;
     CBild char_canvas;
     NBild int_canvas;
 
@@ -62,7 +62,7 @@ pair < bool, vector < vector<int> > > interface::decrypt(string source, string k
     * went correctly and the matrix is the result of the operation
  */
 
-    cout << "Third Program is warming up DECODE PICTURE" << endl;
+    cout << "Decoding picture... please wait." << endl;
 
     CBild char_canvas;
 
@@ -96,7 +96,7 @@ pair < bool, vector < vector<int> > > interface::overlay(string img_a, string im
     * went correctly and the matrix is the result of the operation
  */
 
-    cout << "Third Program is warming up DECODE PICTURE" << endl;
+    cout << "Pictures are now going to be overlayed... please wait." << endl;
 
     CBild char_canvas;
     NBild int_canvas;
