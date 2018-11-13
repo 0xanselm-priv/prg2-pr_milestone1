@@ -21,15 +21,11 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_pushButton_got_clicked();
-
     void on_pushButton_load_first_btn();
 
     void on_pushButton_clicked();
 
     void on_comboBox_activated(const QString &arg1);
-
-    void on_spinBox_valueChanged(const QString &arg1);
 
     void matrix1_display(vector < vector<int> >matrix, int height, int length);
 
@@ -39,15 +35,11 @@ private slots:
 
     void on_save_button_clicked();
 
-    void on_rand_mat_btn_clicked();
-
     void on_change_pixel_button_clicked(); 
 
     void on_load_first_btn_clicked();
 
     void on_rand_mat_button_clicked();
-
-
 
 private:
     Ui::MainWindow *ui;
@@ -76,7 +68,7 @@ private:
 
     int core_func_overlay();
 
-    void MainWindow::save_rand_mat()
+    void save_rand_mat();
 
 };
 

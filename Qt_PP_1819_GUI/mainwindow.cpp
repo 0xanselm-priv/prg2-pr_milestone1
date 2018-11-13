@@ -10,7 +10,6 @@
 #include <exception>
 #include <QMessageBox>
 
-NBild int_canvas;
 vector < vector<int> > first_mat;
 vector < vector<int> > result_mat;
 vector < vector<int> > second_mat;
@@ -35,16 +34,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+    //Destructor
     delete ui;
-}
-
-void MainWindow::on_pushButton_got_clicked()
-{
-    QString filter = "Text File (*.txt)";
-    QString file_name = QFileDialog::getOpenFileName(this, "Open file", "C:/Users/R/Desktop", filter);
-    QString s = file_name;
-    ui->label_3->setText("File Path: " + s);
-    print(file_name);
 }
 
 vector < vector<int> >& MainWindow::load_second_matrix() {
@@ -122,9 +113,6 @@ int MainWindow::core_func_encrypt() {
     } else {
         QMessageBox::warning(this,"Error","Matrix Error");
     }
-
-
-
     return 0;
 }
 
@@ -166,9 +154,6 @@ int MainWindow::core_func_decrypt() {
     } else {
         QMessageBox::warning(this,"Error","Matrix Error");
     }
-
-
-
     return 0;
 }
 
@@ -216,7 +201,7 @@ int MainWindow::core_func_overlay() {
 
 void MainWindow::on_comboBox_activated(const QString &arg1)
 {
-    //TO DO: adjust mat 2 group box
+    //Done
     QString cur_str = ui->comboBox->currentText();
     Interface inter;
 
@@ -229,20 +214,28 @@ void MainWindow::on_comboBox_activated(const QString &arg1)
     }
 }
 
-void MainWindow::print_int(int i) {
+void MainWindow::print_int(int i)
+{
+    //Helper for printing int
     QString j = QString::number(i);
     qDebug(j.toLatin1());
 }
 
-void MainWindow::print(QString j) {
+void MainWindow::print(QString j)
+{
+    //Helper for printing QString on console
     qDebug(j.toLatin1());
 }
 
-void MainWindow::print_str(string j) {
+void MainWindow::print_str(string j)
+{
+    //Helper for printing string
     print(QString::fromStdString(j));
 }
 
-void MainWindow::print_bool(bool j) {
+void MainWindow::print_bool(bool j)
+{
+    //Helper for printing bool
     if (j == 0) {
         qDebug("False");
     } else {
@@ -293,13 +286,11 @@ void MainWindow::on_load_first_btn_clicked()
         ui->matrix_length->setText("Matrix Length: NaN");
         ui->matrix_height->setText("Matrix Height: NaN");
     }
-
-
-
 }
 
-void MainWindow::matrix1_display(vector < vector<int> > matrix, int height, int length) {
-
+void MainWindow::matrix1_display(vector < vector<int> > matrix, int height, int length)
+{
+    //Done
     QPixmap pixmap(length+2, height+2);
     pixmap.fill(QColor("transparent"));
 
@@ -322,8 +313,9 @@ void MainWindow::matrix1_display(vector < vector<int> > matrix, int height, int 
     ui->matrix_label->adjustSize();
 }
 
-void MainWindow::matrix2_display(vector < vector<int> > matrix, int height, int length, string origin) {
-
+void MainWindow::matrix2_display(vector < vector<int> > matrix, int height, int length, string origin)
+{
+    //Done
     QPixmap pixmap(length+2, height+2);
     pixmap.fill(QColor("transparent"));
 
@@ -366,6 +358,7 @@ void MainWindow::matrix2_display(vector < vector<int> > matrix, int height, int 
 
 void MainWindow::matrix3_display(vector<vector<int> > matrix, int height, int length)
 {
+    //Done
     QPixmap pixmap(length+2, height+2);
     pixmap.fill(QColor("transparent"));
 
@@ -389,13 +382,9 @@ void MainWindow::matrix3_display(vector<vector<int> > matrix, int height, int le
     ui->mat3_display_groupBox->adjustSize();
 }
 
-void MainWindow::on_spinBox_valueChanged(const QString &arg1)
-{
-    print_int(ui->spinBox->value());
-}
-
 void MainWindow::on_save_button_clicked()
 {  
+    //
     QString filter = "Text File (*.txt)";
     QString save_path = QFileDialog::getSaveFileName(this, "Save file", "../ProgPrak1819/Qt_PP_1819_GUI", filter);
     QFile file(save_path);
@@ -412,6 +401,7 @@ void MainWindow::on_save_button_clicked()
 
 void MainWindow::save_rand_mat()
 {
+    //
     QString filter = "Text File (*.txt)";
     QString save_path = QFileDialog::getSaveFileName(this, "Save file", "../ProgPrak1819/Qt_PP_1819_GUI", filter);
     QFile file(save_path);
@@ -424,11 +414,6 @@ void MainWindow::save_rand_mat()
         interface.save_matrix(save_path.toUtf8().constData(), result_mat);
         QMessageBox::information(this,"Saved","File Saved");
     }
-}
-
-void MainWindow::on_rand_mat_btn_clicked()
-{
-
 }
 
 void MainWindow::on_change_pixel_button_clicked()
