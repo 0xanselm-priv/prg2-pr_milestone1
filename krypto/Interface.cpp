@@ -121,7 +121,7 @@ pair < bool, vector < vector<int> > > Interface::overlay(string img_a, string im
 
 
 // Extras for GUI
-vector < vector<char> > Interface::create_rand_key(int heigth, int width){
+vector < vector<char> > Interface::create_rand_key(int height, int width){
     /*
      * This function creates a random key matrix.
      * parameter:
@@ -131,7 +131,7 @@ vector < vector<char> > Interface::create_rand_key(int heigth, int width){
      */
 
     CBild canvas;
-    vector < vector<char> > key = canvas.create_rand_picture(heigth, width);
+    vector < vector<char> > key = canvas.create_rand_picture(height, width);
 
     return key;
 }
@@ -178,7 +178,13 @@ void Interface::save_key(string path, vector <vector <char> > mat){
     canvas.export_file(path, canvas.trans_block_int(mat));
 }
 
-pair < bool, vector < vector<int> > > Interface::load_matrix(string path) {
+pair < bool, vector < vector<int> > > Interface::load_matrix(string path){
+    /*
+     * This function loads a matrix and checks whether it is valid or not.
+     * parameter: string ~ the path of the matrix which shall be loaded
+     * return: pair < bool, vector < vector<int> > > ~ pair of (valid? and matrix)
+     */
+
     NBild canvas;
 
     vector<vector<int> > mat = canvas.import_file(path);
