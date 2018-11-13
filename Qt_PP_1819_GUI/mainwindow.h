@@ -1,9 +1,9 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "krypto/CBild.h"
-#include "krypto/NBild.h"
-#include "krypto/interface.h"
+#include "../krypto/CBild.h"
+#include "../krypto/NBild.h"
+#include "../krypto/interface.h"
 
 #include <QMainWindow>
 #include <QTimer>
