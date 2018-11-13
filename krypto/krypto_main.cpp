@@ -26,17 +26,17 @@ void aufgabe_f(){
     canvas_char.export_file("/Users/nielsheissel/CLionProjects/prg2-pr/krypto/beispiel_f_key.txt", canvas_char.create_rand_picture(89, 303));
 
     // Encrypt the first picture : "beispielbild_1.txt"
-    inter.prog2("/Users/nielsheissel/CLionProjects/prg2-pr/krypto/beispielbild_1.txt",
+    inter.encrypt("/Users/nielsheissel/CLionProjects/prg2-pr/krypto/beispielbild_1.txt",
                 "/Users/nielsheissel/CLionProjects/prg2-pr/krypto/beispiel_f_key.txt",
                 "/Users/nielsheissel/CLionProjects/prg2-pr/krypto/beispielbild_1_enc.txt", false);
 
     // Encrypt the first picture : "beispiel_f_pic2.txt"
-    inter.prog2("/Users/nielsheissel/CLionProjects/prg2-pr/krypto/beispiel_f_pic2.txt",
+    inter.encrypt("/Users/nielsheissel/CLionProjects/prg2-pr/krypto/beispiel_f_pic2.txt",
                 "/Users/nielsheissel/CLionProjects/prg2-pr/krypto/beispiel_f_key.txt",
                 "/Users/nielsheissel/CLionProjects/prg2-pr/krypto/beispielbild_2_enc.txt", false);
 
     // Overlay both pictures and save result as "result_f.txt"
-    inter.prog4("/Users/nielsheissel/CLionProjects/prg2-pr/krypto/beispielbild_2_enc.txt", "/Users/nielsheissel/CLionProjects/prg2-pr/krypto/beispielbild_1_enc.txt",
+    inter.overlay("/Users/nielsheissel/CLionProjects/prg2-pr/krypto/beispielbild_2_enc.txt", "/Users/nielsheissel/CLionProjects/prg2-pr/krypto/beispielbild_1_enc.txt",
                 "/Users/nielsheissel/CLionProjects/prg2-pr/krypto/result_f.txt", false);
 }
 
@@ -52,13 +52,13 @@ int main(int argc, char *argv[]) {
 
         if (program == "encode") {
             cout << "Encoding your source." << endl;
-            interf.prog2(arg1, arg2, arg3, false);
+            interf.encrypt(arg1, arg2, arg3, false);
         } else if (program == "decode") {
             cout << "Decoding your source." << endl;
-            interf.prog2(arg1, arg2, arg3, false);
+            interf.decrypt(arg1, arg2, arg3, false);
         } else if (program == "overlay") {
             cout << "Overlaying your sources." << endl;
-            interf.prog4(arg1, arg2, arg3, false);
+            interf.overlay(arg1, arg2, arg3, false);
         }
     }
 

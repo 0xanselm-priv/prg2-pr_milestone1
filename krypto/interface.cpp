@@ -15,7 +15,7 @@
 using namespace std;
 
 
-pair < bool, vector < vector<int> > > interface::prog2(string source, string key, string result, bool gui){
+pair < bool, vector < vector<int> > > interface::encrypt(string source, string key, string result, bool gui){
     /*
      * This functions encrypts a certain picture with a certain key and saves it on a file path, if gui is false.
      * gui is the variable which is set true when the graphical user interface calls it and false otherwise.
@@ -49,7 +49,7 @@ pair < bool, vector < vector<int> > > interface::prog2(string source, string key
     }
 }
 
-pair < bool, vector < vector<int> > > interface::prog3(string source, string key, string result, bool gui){
+pair < bool, vector < vector<int> > > interface::decrypt(string source, string key, string result, bool gui){
     /*
  * This functions decrypts a certain picture with a certain key and saves it on a file path, if gui is false.
  * gui is the variable which is set true when the graphical user interface calls it and false otherwise.
@@ -83,7 +83,7 @@ pair < bool, vector < vector<int> > > interface::prog3(string source, string key
 
 }
 
-pair < bool, vector < vector<int> > > interface::prog4(string img_a, string img_b, string result, bool gui){
+pair < bool, vector < vector<int> > > interface::overlay(string img_a, string img_b, string result, bool gui){
     /*
  * This functions overlays two pictures and saves the result on a file path, if gui is false.
  * gui is the variable which is set true when the graphical user interface calls it and false otherwise.

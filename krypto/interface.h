@@ -20,10 +20,9 @@ class interface {
 
 public:
 
-    pair < bool, vector < vector<int> > > prog2(string, string, string, bool);
-    pair < bool, vector < vector<int> > > prog3(string, string, string, bool);
-    pair < bool, vector < vector<int> > > prog4(string, string, string, bool);
-
+    pair < bool, vector < vector<int> > > encrypt(string, string, string, bool);
+    pair < bool, vector < vector<int> > > decrypt(string, string, string, bool);
+    pair < bool, vector < vector<int> > > overlay(string, string, string, bool);
 
 };
 
