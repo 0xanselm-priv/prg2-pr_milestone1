@@ -51,10 +51,12 @@ vector < vector<int> >& MainWindow::load_second_matrix() {
 
     if (interface.load_matrix(global_filepath2).first) {
 
-        second_mat = interface.load_matrix(global_filepath).second;
+        second_mat = interface.load_matrix(global_filepath2).second;
 
         int height = second_mat.size();
         int length = second_mat[0].size();
+
+        print_int(height);
 
         ui->matrix2_length->setText("Matrix Length: " + QString::number(length));
         ui->matrix2_length->adjustSize();
@@ -93,6 +95,7 @@ int MainWindow::core_func_encrypt() {
         //loaded matrix
         this->load_second_matrix();
         height = second_mat.size();
+        print_int(height);
         length = second_mat[0].size();
         this->matrix2_display(second_mat, height, length, "loaded");
     } else if  (temp == 1){
@@ -100,7 +103,7 @@ int MainWindow::core_func_encrypt() {
         height = first_mat.size();
         length = first_mat[0].size();
         second_mat = interface.create_rand_key(height, length);
-        this->matrix2_display(second_mat, height, length, "random");
+        this->matrix2_display(second_mat, second_mat.size(), second_mat[0].size(), "random");
     } else {
         QMessageBox::warning(this,"Error","No sufficient Action");
         return 0;
@@ -399,7 +402,7 @@ void MainWindow::save_rand_mat()
 
     Interface interface;
 
-    if (save_path.size()==0) {
+    if (save_path.size() == 0) {
          QMessageBox::warning(this,"Error","Filepath Error.");
     } else {
         interface.save_matrix(save_path.toUtf8().constData(), second_mat);

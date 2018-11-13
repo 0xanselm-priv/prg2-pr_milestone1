@@ -475,9 +475,10 @@ vector < vector<char> > CBild::trans_int_block(vector < vector<int> > matrix){
             } else if (matrix[x][y] == 1 && matrix[x+1][y] == 1 && matrix[x][y+1] == 1 && matrix[x+1][y+1] == 1) {
                 ret_col.push_back('C');
             } else {
-                cout << matrix[0][0] << matrix[0][1] << endl;
-                cout << matrix[1][0] << matrix[1][1] <<endl;
-                cerr << "ERROR ACCURED WRONG MATRIX Given" << x << y <<  matrix[x][y] << " " <<  matrix[x][y+1] << " " <<  matrix[x+1][y] << " " <<  matrix[x+1][y+1] << " " << endl;
+                cout << matrix[x][y] << matrix[x][y+1] << endl;
+                cout << matrix[x+1][y] << matrix[x+1][y+1] <<endl;
+                cerr << "ERROR OCCURED WRONG MATRIX GIVEN" <<  matrix[x][y] << " " <<  matrix[x][y+1] << " " <<  matrix[x+1][y] << " " <<  matrix[x+1][y+1] << " " << endl;
+                cout << "X:" << x << "Y:" << y << endl;
                 exit(0);
             }
         }
