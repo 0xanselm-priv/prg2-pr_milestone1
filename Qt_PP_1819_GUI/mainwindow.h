@@ -33,7 +33,9 @@ private slots:
 
     void matrix1_display(vector < vector<int> >matrix, int height, int length);
 
-    void matrix2_display(vector < vector<int> > matrix, int height, int length);
+    void matrix2_display(vector < vector<int> > matrix, int height, int length, string origin);
+
+    void matrix3_display(vector < vector<int> > matrix, int height, int length);
 
     void on_save_button_clicked();
 
@@ -66,9 +68,7 @@ private:
 
     vector < vector<int> >& load_second_matrix();
 
-    int core_func();
-
-    void core_func_fitting();
+    int core_func_encrypt();
 
 };
 

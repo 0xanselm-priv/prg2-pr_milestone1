@@ -12,7 +12,7 @@
 
 NBild int_canvas;
 vector < vector<int> > first_mat;
-vector < vector<int> > rand_mat;
+vector < vector<int> > result_mat;
 vector < vector<int> > second_mat;
 
 
@@ -30,6 +30,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->change_pixel_button->setEnabled(false);
     ui->mat1_groupBox->adjustSize();
     ui->rand_mat_button->setEnabled(false);
+    ui->comboBox->setEnabled(false);
 }
 
 MainWindow::~MainWindow()
@@ -47,6 +48,7 @@ void MainWindow::on_pushButton_got_clicked()
 }
 
 vector < vector<int> >& MainWindow::load_second_matrix() {
+    //Done
     Interface interface;
     QString filter = "Text File (*.txt)";
     QString file_name = QFileDialog::getOpenFileName(this, "Open file", "../ProgPrak1819/Qt_PP_1819_GUI", filter);
@@ -83,18 +85,13 @@ vector < vector<int> >& MainWindow::load_second_matrix() {
     }
 }
 
-void MainWindow::core_func_fitting() {
-    //fitting for gui
-    int length = rand_mat.size();
-    int height = rand_mat[0].size();
-    ui->matrix2_length->setText("Matrix Length: " + QString::number(length));
-    ui->matrix2_height->setText("Matrix Height: " + QString::number(height));
+int MainWindow::core_func_encrypt() {
 
-    ui->filepath2_label->setText("Filepath: Not saved locally");
-    ui->filepath2_label->adjustSize();
-}
+    Interface interface;
 
-int MainWindow::core_func() {
+    int height = 0;
+    int length = 0;
+
     QMessageBox msgBox;
     msgBox.setWindowTitle("User Interaction");
     msgBox.setText("Do you want to load or generate a Matrix.");
@@ -103,19 +100,36 @@ int MainWindow::core_func() {
     msgBox.setDefaultButton(QMessageBox::Yes);
     int temp = msgBox.exec();
     if(temp == 0){
-        //Load
-        qDebug("Load");
+        //loaded matrix
         this->load_second_matrix();
-        qDebug("Failure in Core Func");
+        height = second_mat.size();
+        length = second_mat[0].size();
+        this->matrix2_display(second_mat, height, length, "loaded");
     } else if  (temp == 1){
-        qDebug("Generate");
-        emit ui->rand_mat_button->click();
-        this->core_func_fitting();
+        //random matrix
+        height = first_mat.size();
+        length = first_mat[0].size();
+        second_mat = interface.create_rand_key(height, length);
+        this->matrix2_display(second_mat, height, length, "random");
     } else {
         QMessageBox::warning(this,"Error","No sufficient Action");
+        return 0;
     }
+
+
+    if (interface.encrypt(global_filepath, second_mat, "", true).first) { //<- Error here
+        result_mat = interface.encrypt(global_filepath, second_mat, "", true).second;
+        this->matrix3_display(result_mat, height, length);
+    } else {
+        QMessageBox::warning(this,"Error","Matrix Error");
+    }
+
+
+
     return 0;
 }
+
+
 
 void MainWindow::on_comboBox_activated(const QString &arg1)
 {
@@ -124,7 +138,7 @@ void MainWindow::on_comboBox_activated(const QString &arg1)
     Interface inter;
 
     if (cur_str == "Encrypt") {
-
+        this->core_func_encrypt();
 
 
     } else if (cur_str == "Decrypt") {
@@ -156,6 +170,7 @@ void MainWindow::print_bool(bool j) {
         qDebug("True");
     }
 }
+
 
 
 void MainWindow::on_load_first_btn_clicked()
@@ -192,6 +207,7 @@ void MainWindow::on_load_first_btn_clicked()
         ui->y_spinBox->setMaximum(height);
         ui->change_pixel_button->setEnabled(true);
         ui->rand_mat_button->setEnabled(true);
+        ui->comboBox->setEnabled(true);
 
     } else {
         QMessageBox::warning(this,"Wrong Input","No valid Matrix");
@@ -227,7 +243,7 @@ void MainWindow::matrix1_display(vector < vector<int> > matrix, int height, int 
     ui->matrix_label->adjustSize();
 }
 
-void MainWindow::matrix2_display(vector < vector<int> > matrix, int height, int length) {
+void MainWindow::matrix2_display(vector < vector<int> > matrix, int height, int length, string origin) {
 
     QPixmap pixmap(length+2, height+2);
     pixmap.fill(QColor("transparent"));
@@ -248,10 +264,50 @@ void MainWindow::matrix2_display(vector < vector<int> > matrix, int height, int 
         }
     }
 
+    if (origin == "random") {
+        ui->filepath2_label->setText("Filepath: Not saved yet");
+        ui->filepath2_label->adjustSize();
+    } else if (origin == "load") {
+        ui->filepath2_label->setText("Filepath: " + QString::fromStdString(global_filepath2));
+        ui->filepath2_label->adjustSize();
+    }
+
     ui->mat2_groupBox->adjustSize();
+
+    ui->matrix2_height->setText("Matrix Height: " + QString::number(height));
+    ui->matrix2_height->adjustSize();
+    ui->matrix2_length->setText("Matrix Length: " +QString::number(length));
+    ui->matrix2_length->adjustSize();
 
     ui->matrix2_label->setPixmap(pixmap);
     ui->matrix2_label->adjustSize();
+
+    ui->mat2_display_groupBox->adjustSize();
+}
+
+void MainWindow::matrix3_display(vector<vector<int> > matrix, int height, int length)
+{
+    QPixmap pixmap(length+2, height+2);
+    pixmap.fill(QColor("transparent"));
+
+    QPainter painter (&pixmap);
+    painter.setBrush(Qt::red);
+
+    for (int i = 0; i < height; i++) {
+        for (int j = 0; j < length; j++) {
+            if (matrix[i][j] == 1) {
+                painter.drawPoint(j,i);
+            } else if (matrix[i][j] == 0){
+                //pass
+            }else {
+                QMessageBox::warning(this,"Input","Wrong Input Format");
+            }
+        }
+    }
+    ui->matrix3_label->setPixmap(pixmap);
+    ui->matrix3_label->adjustSize();
+
+    ui->mat3_display_groupBox->adjustSize();
 }
 
 void MainWindow::on_spinBox_valueChanged(const QString &arg1)
@@ -279,67 +335,36 @@ void MainWindow::on_pushButton_clicked()
 
 void MainWindow::on_save_button_clicked()
 {
-    QMessageBox msgBox;
-    msgBox.setWindowTitle("Matrix Save");
-    msgBox.setText("Which Matrix to save.");
-    msgBox.addButton(tr("Random User generated"), QMessageBox::NoRole);
-    msgBox.addButton(tr("Loaded Matrix"), QMessageBox::YesRole);
-    msgBox.setDefaultButton(QMessageBox::Yes);
-    if(msgBox.exec() == QMessageBox::YesRole){
-        if (first_mat.empty()) {
-            QMessageBox::warning(this,"Save","Matrix to save is empty. Please create Matrix befor saving");
-        } else {
-            QString filter = "Text File (*.txt)";
-            QString save_path = QFileDialog::getSaveFileName(this, "Save file", "../ProgPrak1819/Qt_PP_1819_GUI", filter);
-            QFile file(save_path);
-            int_canvas.export_file(save_path.toUtf8().constData(), first_mat);
-        }
-    }else {
-        if (rand_mat.empty()) {
-            QMessageBox::warning(this,"Save","Random Matrix to save is empty. Please create random Matrix befor saving");
-        } else {
-            QString filter = "Text File (*.txt)";
-            QString save_path = QFileDialog::getSaveFileName(this, "Save file", "../ProgPrak1819/Qt_PP_1819_GUI", filter);
-            QFile file(save_path);
-            int_canvas.export_file(save_path.toUtf8().constData(), rand_mat);
-        }
-    }
+    //    QMessageBox msgBox;
+    //    msgBox.setWindowTitle("Matrix Save");
+    //    msgBox.setText("Which Matrix to save.");
+    //    msgBox.addButton(tr("Random User generated"), QMessageBox::NoRole);
+    //    msgBox.addButton(tr("Loaded Matrix"), QMessageBox::YesRole);
+    //    msgBox.setDefaultButton(QMessageBox::Yes);
+    //    if(msgBox.exec() == QMessageBox::YesRole){
+    //        if (first_mat.empty()) {
+    //            QMessageBox::warning(this,"Save","Matrix to save is empty. Please create Matrix befor saving");
+    //        } else {
+    //            QString filter = "Text File (*.txt)";
+    //            QString save_path = QFileDialog::getSaveFileName(this, "Save file", "../ProgPrak1819/Qt_PP_1819_GUI", filter);
+    //            QFile file(save_path);
+    //            int_canvas.export_file(save_path.toUtf8().constData(), first_mat);
+    //        }
+    //    }else {
+    //        if (rand_mat.empty()) {
+    //            QMessageBox::warning(this,"Save","Random Matrix to save is empty. Please create random Matrix befor saving");
+    //        } else {
+    //            QString filter = "Text File (*.txt)";
+    //            QString save_path = QFileDialog::getSaveFileName(this, "Save file", "../ProgPrak1819/Qt_PP_1819_GUI", filter);
+    //            QFile file(save_path);
+    //            int_canvas.export_file(save_path.toUtf8().constData(), rand_mat);
+    //        }
+    //    }
 }
 
 void MainWindow::on_rand_mat_btn_clicked()
 {
-    // Do you wish to save the random key.
-    // set to fixed size
-    // only enable when first matrix is loaded
-    ui->change_pixel_button->setEnabled(false);
 
-    vector < vector<int> > rand_mat;
-
-    QString text = QInputDialog::getText(this,"Random Matrix","Please Enter Random Matrix Size \n separated by ; eg(13;37) \n (m dimension (length) ; n dimension (height))");
-
-    QRegExp input_rex("[0-9]*;[0-9]*");
-    input_rex.setPatternSyntax(QRegExp::RegExp);
-    QRegExpValidator regValidator(input_rex, 0);
-    bool rex_bool = input_rex.exactMatch(text);
-    if (rex_bool) {
-        vector < vector<int> > rand_mat;
-        QStringList a = text.split(";");
-        string height_str = a[0].toUtf8().constData();
-        string length_str = a[1].toUtf8().constData();
-        int height = atoi(height_str.c_str());
-        int length = atoi(length_str.c_str());
-        rand_mat = int_canvas.create_rand_picture(height, length);
-        this->update_mat(rand_mat);
-        this->matrix1_display(rand_mat, height, length);
-    } else {
-        QMessageBox::warning(this,"Wrong Input","Please repeat the input.");
-    }
-
-
-}
-
-void MainWindow::update_mat(vector < vector<int> >& matrix){
-    rand_mat = matrix;
 }
 
 void MainWindow::on_change_pixel_button_clicked()
@@ -361,12 +386,13 @@ void MainWindow::on_change_pixel_button_clicked()
 
 void MainWindow::on_rand_mat_button_clicked()
 {
+    //Done
     int height = first_mat.size();
     int length = first_mat[0].size();
 
     Interface interface;
     second_mat = interface.create_rand_key(height, length);
 
-    this->matrix2_display(second_mat, height, length);
+    this->matrix2_display(second_mat, height, length, "random");
 
 }
