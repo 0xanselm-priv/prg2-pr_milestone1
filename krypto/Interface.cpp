@@ -177,3 +177,16 @@ void Interface::save_key(string path, vector <vector <char> > mat){
     CBild canvas;
     canvas.export_file(path, canvas.trans_block_int(mat));
 }
+
+pair < bool, vector < vector<int> > > Interface::load_matrix(string path) {
+    NBild canvas;
+
+    vector<vector<int> > mat = canvas.import_file(path);
+    if (canvas.test_matrix(mat)) {
+        return pair<bool, vector<vector<int> > >(true, mat);
+    } else {
+        vector<vector<int> > zero;
+        return pair<bool, vector<vector<int> > >(false, zero);
+
+    }
+}

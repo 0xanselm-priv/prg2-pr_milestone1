@@ -23,6 +23,7 @@ public:
     pair < bool, vector < vector<int> > > encrypt(string, string, string, bool);
     pair < bool, vector < vector<int> > > decrypt(string, string, string, bool);
     pair < bool, vector < vector<int> > > overlay(string, string, string, bool);
+    pair < bool, vector < vector<int> > > load_matrix(string);
     vector < vector<char> > create_rand_key(int, int);
     vector < vector<int> > change_pixel(vector <vector <int> >, int, int, int);
     void save_matrix(string, vector <vector <int> >);
