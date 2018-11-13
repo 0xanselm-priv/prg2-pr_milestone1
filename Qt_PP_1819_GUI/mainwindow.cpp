@@ -24,7 +24,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->y_spinBox->setMaximum(0);
     ui->comboBox->addItem("Encrypt");
     ui->comboBox->addItem("Decrypt");
-    ui->comboBox->addItem("Overlap");
+    ui->comboBox->addItem("Overlay");
     ui->matrix_label->setScaledContents(true);
     ui->change_pixel_button->setEnabled(false);
     ui->mat1_groupBox->adjustSize();
@@ -123,33 +123,41 @@ int MainWindow::core_func_decrypt() {
     int height = 0;
     int length = 0;
 
-    QMessageBox msgBox;
-    msgBox.setWindowTitle("User Interaction");
-    msgBox.setText("Do you want to load or generate a Matrix.");
-    msgBox.addButton(tr("Load"), QMessageBox::YesRole);
-    msgBox.addButton(tr("Generate"), QMessageBox::NoRole);
-    msgBox.setDefaultButton(QMessageBox::Yes);
-    int temp = msgBox.exec();
-    if(temp == 0){
-        //loaded matrix
-        this->load_second_matrix();
-        height = second_mat.size();
-        length = second_mat[0].size();
-        this->matrix2_display(second_mat, height, length, "loaded");
-    } else if  (temp == 1){
-        //random matrix
-        height = first_mat.size();
-        length = first_mat[0].size();
-        second_mat = interface.create_rand_key(height, length);
-        this->matrix2_display(second_mat, height, length, "random");
-    } else {
-        QMessageBox::warning(this,"Error","No sufficient Action");
-        return 0;
-    }
+//    QMessageBox msgBox;
+//    msgBox.setWindowTitle("User Interaction");
+//    msgBox.setText("Do you want to load or generate a Matrix.");
+//    msgBox.addButton(tr("Load"), QMessageBox::YesRole);
+//    msgBox.addButton(tr("Generate"), QMessageBox::NoRole);
+//    msgBox.setDefaultButton(QMessageBox::Yes);
+//    int temp = msgBox.exec();
+//    if(temp == 0){
+//        //loaded matrix
+//        this->load_second_matrix();
+//        height = second_mat.size();
+//        length = second_mat[0].size();
+//        this->matrix2_display(second_mat, height, length, "loaded");
+//    } else if  (temp == 1){
+//        //random matrix
+//        height = first_mat.size();
+//        length = first_mat[0].size();
+//        second_mat = interface.create_rand_key(height, length);
+//        this->matrix2_display(second_mat, height, length, "random");
+//    } else {
+//        QMessageBox::warning(this,"Error","No sufficient Action");
+//        return 0;
+//    }
 
 
-    if (interface.decrypt(global_filepath, second_mat, "", true).first) { //<- Error here
-        result_mat = interface.encrypt(global_filepath, second_mat, "", true).second;
+    QString filter = "Text File (*.txt)";
+    QString file_name = QFileDialog::getOpenFileName(this, "Open file", "../ProgPrak1819/Qt_PP_1819_GUI", filter);
+
+    ui->filepath2_label->setText("File Path: " + file_name);
+    ui->filepath2_label->adjustSize();
+
+    global_filepath2 = file_name.toUtf8().constData();
+
+    if (interface.decrypt(global_filepath, global_filepath2, "", true).first) { //<- Error here
+        result_mat = interface.decrypt(global_filepath, global_filepath2, "", true).second;
         this->matrix3_display(result_mat, height, length);
     } else {
         QMessageBox::warning(this,"Error","Matrix Error");
@@ -164,33 +172,16 @@ int MainWindow::core_func_overlay() {
     int height = 0;
     int length = 0;
 
-    QMessageBox msgBox;
-    msgBox.setWindowTitle("User Interaction");
-    msgBox.setText("Do you want to load or generate a Matrix.");
-    msgBox.addButton(tr("Load"), QMessageBox::YesRole);
-    msgBox.addButton(tr("Generate"), QMessageBox::NoRole);
-    msgBox.setDefaultButton(QMessageBox::Yes);
-    int temp = msgBox.exec();
-    if(temp == 0){
-        //loaded matrix
-        this->load_second_matrix();
-        height = second_mat.size();
-        length = second_mat[0].size();
-        this->matrix2_display(second_mat, height, length, "loaded");
-    } else if  (temp == 1){
-        //random matrix
-        height = first_mat.size();
-        length = first_mat[0].size();
-        second_mat = interface.create_rand_key(height, length);
-        this->matrix2_display(second_mat, height, length, "random");
-    } else {
-        QMessageBox::warning(this,"Error","No sufficient Action");
-        return 0;
-    }
+    QString filter = "Text File (*.txt)";
+    QString file_name = QFileDialog::getOpenFileName(this, "Open file", "../ProgPrak1819/Qt_PP_1819_GUI", filter);
 
+    ui->filepath2_label->setText("File Path: " + file_name);
+    ui->filepath2_label->adjustSize();
 
-    if (interface.overlay(global_filepath, second_mat, "", true).first) { //<- Error here
-        result_mat = interface.encrypt(global_filepath, second_mat, "", true).second;
+    global_filepath2 = file_name.toUtf8().constData();
+
+    if (interface.overlay(global_filepath, global_filepath2, "", true).first) { //<- Error here
+        result_mat = interface.encrypt(global_filepath, global_filepath2, "", true).second;
         this->matrix3_display(result_mat, height, length);
     } else {
         QMessageBox::warning(this,"Error","Matrix Error");
@@ -208,7 +199,7 @@ void MainWindow::on_comboBox_activated(const QString &arg1)
     if (cur_str == "Encrypt") {
         this->core_func_encrypt();
     } else if (cur_str == "Decrypt") {
-        this->core_func_encrypt();
+        this->core_func_decrypt();
     } else if (cur_str == "Overlay") {
         this->core_func_overlay();
     }
