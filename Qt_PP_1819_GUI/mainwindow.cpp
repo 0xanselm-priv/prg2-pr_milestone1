@@ -60,11 +60,10 @@ vector < vector<int> >& MainWindow::load_second_matrix() {
 
     if (interface.load_matrix(global_filepath2).first) {
 
-        vector < vector<int> > matrix = interface.load_matrix(global_filepath).second;
-        second_mat = matrix;
+        second_mat = interface.load_matrix(global_filepath).second;
 
-        int height = matrix.size();
-        int length = matrix[0].size();
+        int height = second_mat.size();
+        int length = second_mat[0].size();
 
         ui->matrix2_length->setText("Matrix Length: " + QString::number(length));
         ui->matrix2_length->adjustSize();
@@ -73,7 +72,7 @@ vector < vector<int> >& MainWindow::load_second_matrix() {
 
         ui->mat2_groupBox->adjustSize();
 
-        this->matrix1_display(matrix, height, length);
+        this->matrix1_display(second_mat, height, length);
         ui->mat2_display_groupBox->adjustSize();
 
         //no pixel setting option
@@ -129,6 +128,90 @@ int MainWindow::core_func_encrypt() {
     return 0;
 }
 
+int MainWindow::core_func_decrypt() {
+
+    Interface interface;
+
+    int height = 0;
+    int length = 0;
+
+    QMessageBox msgBox;
+    msgBox.setWindowTitle("User Interaction");
+    msgBox.setText("Do you want to load or generate a Matrix.");
+    msgBox.addButton(tr("Load"), QMessageBox::YesRole);
+    msgBox.addButton(tr("Generate"), QMessageBox::NoRole);
+    msgBox.setDefaultButton(QMessageBox::Yes);
+    int temp = msgBox.exec();
+    if(temp == 0){
+        //loaded matrix
+        this->load_second_matrix();
+        height = second_mat.size();
+        length = second_mat[0].size();
+        this->matrix2_display(second_mat, height, length, "loaded");
+    } else if  (temp == 1){
+        //random matrix
+        height = first_mat.size();
+        length = first_mat[0].size();
+        second_mat = interface.create_rand_key(height, length);
+        this->matrix2_display(second_mat, height, length, "random");
+    } else {
+        QMessageBox::warning(this,"Error","No sufficient Action");
+        return 0;
+    }
+
+
+    if (interface.decrypt(global_filepath, second_mat, "", true).first) { //<- Error here
+        result_mat = interface.encrypt(global_filepath, second_mat, "", true).second;
+        this->matrix3_display(result_mat, height, length);
+    } else {
+        QMessageBox::warning(this,"Error","Matrix Error");
+    }
+
+
+
+    return 0;
+}
+
+int MainWindow::core_func_overlay() {
+
+    Interface interface;
+
+    int height = 0;
+    int length = 0;
+
+    QMessageBox msgBox;
+    msgBox.setWindowTitle("User Interaction");
+    msgBox.setText("Do you want to load or generate a Matrix.");
+    msgBox.addButton(tr("Load"), QMessageBox::YesRole);
+    msgBox.addButton(tr("Generate"), QMessageBox::NoRole);
+    msgBox.setDefaultButton(QMessageBox::Yes);
+    int temp = msgBox.exec();
+    if(temp == 0){
+        //loaded matrix
+        this->load_second_matrix();
+        height = second_mat.size();
+        length = second_mat[0].size();
+        this->matrix2_display(second_mat, height, length, "loaded");
+    } else if  (temp == 1){
+        //random matrix
+        height = first_mat.size();
+        length = first_mat[0].size();
+        second_mat = interface.create_rand_key(height, length);
+        this->matrix2_display(second_mat, height, length, "random");
+    } else {
+        QMessageBox::warning(this,"Error","No sufficient Action");
+        return 0;
+    }
+
+
+    if (interface.overlay(global_filepath, second_mat, "", true).first) { //<- Error here
+        result_mat = interface.encrypt(global_filepath, second_mat, "", true).second;
+        this->matrix3_display(result_mat, height, length);
+    } else {
+        QMessageBox::warning(this,"Error","Matrix Error");
+    }
+    return 0;
+}
 
 
 void MainWindow::on_comboBox_activated(const QString &arg1)
@@ -139,14 +222,10 @@ void MainWindow::on_comboBox_activated(const QString &arg1)
 
     if (cur_str == "Encrypt") {
         this->core_func_encrypt();
-
-
     } else if (cur_str == "Decrypt") {
-
+        this->core_func_encrypt();
     } else if (cur_str == "Overlay") {
-
-    } else {
-        //unexpected
+        this->core_func_overlay();
     }
 }
 
@@ -315,51 +394,36 @@ void MainWindow::on_spinBox_valueChanged(const QString &arg1)
     print_int(ui->spinBox->value());
 }
 
-void MainWindow::on_pushButton_clicked()
-{
-    // i am just changing things to work out git.
-    // :)
-    // i am wondering y git wont recognize my file changes
-    QFile file("../ProgPrak1819/Qt_PP_1819_GUI/test.txt");
-    if (!file.open(QFile::WriteOnly | QFile::Text |QFile::Append)) {
-        print("Error. Not possible to write");
+void MainWindow::on_save_button_clicked()
+{  
+    QString filter = "Text File (*.txt)";
+    QString save_path = QFileDialog::getSaveFileName(this, "Save file", "../ProgPrak1819/Qt_PP_1819_GUI", filter);
+    QFile file(save_path);
+
+    Interface interface;
+
+    if (save_path.size()==0) {
+         QMessageBox::warning(this,"Error","Filepath Error.");
     } else {
-        QTextStream out(&file);
-        QString text = "this is a stupid test.";
-        out << text;
-        file.flush();
-        file.close();
-        print("Saved file");
+        interface.save_matrix(save_path.toUtf8().constData(), result_mat);
+        QMessageBox::information(this,"Saved","File Saved");
     }
 }
 
-void MainWindow::on_save_button_clicked()
+void MainWindow::save_rand_mat()
 {
-    //    QMessageBox msgBox;
-    //    msgBox.setWindowTitle("Matrix Save");
-    //    msgBox.setText("Which Matrix to save.");
-    //    msgBox.addButton(tr("Random User generated"), QMessageBox::NoRole);
-    //    msgBox.addButton(tr("Loaded Matrix"), QMessageBox::YesRole);
-    //    msgBox.setDefaultButton(QMessageBox::Yes);
-    //    if(msgBox.exec() == QMessageBox::YesRole){
-    //        if (first_mat.empty()) {
-    //            QMessageBox::warning(this,"Save","Matrix to save is empty. Please create Matrix befor saving");
-    //        } else {
-    //            QString filter = "Text File (*.txt)";
-    //            QString save_path = QFileDialog::getSaveFileName(this, "Save file", "../ProgPrak1819/Qt_PP_1819_GUI", filter);
-    //            QFile file(save_path);
-    //            int_canvas.export_file(save_path.toUtf8().constData(), first_mat);
-    //        }
-    //    }else {
-    //        if (rand_mat.empty()) {
-    //            QMessageBox::warning(this,"Save","Random Matrix to save is empty. Please create random Matrix befor saving");
-    //        } else {
-    //            QString filter = "Text File (*.txt)";
-    //            QString save_path = QFileDialog::getSaveFileName(this, "Save file", "../ProgPrak1819/Qt_PP_1819_GUI", filter);
-    //            QFile file(save_path);
-    //            int_canvas.export_file(save_path.toUtf8().constData(), rand_mat);
-    //        }
-    //    }
+    QString filter = "Text File (*.txt)";
+    QString save_path = QFileDialog::getSaveFileName(this, "Save file", "../ProgPrak1819/Qt_PP_1819_GUI", filter);
+    QFile file(save_path);
+
+    Interface interface;
+
+    if (save_path.size()==0) {
+         QMessageBox::warning(this,"Error","Filepath Error.");
+    } else {
+        interface.save_matrix(save_path.toUtf8().constData(), result_mat);
+        QMessageBox::information(this,"Saved","File Saved");
+    }
 }
 
 void MainWindow::on_rand_mat_btn_clicked()
@@ -395,4 +459,18 @@ void MainWindow::on_rand_mat_button_clicked()
 
     this->matrix2_display(second_mat, height, length, "random");
 
+    QMessageBox msgBox;
+    msgBox.setWindowTitle("User Interaction");
+    msgBox.setText("Do you want to save random generated Matrix");
+    msgBox.addButton(tr("Yes"), QMessageBox::YesRole);
+    msgBox.addButton(tr("Nah"), QMessageBox::NoRole);
+    msgBox.setDefaultButton(QMessageBox::Yes);
+    int temp = msgBox.exec();
+    if(temp == 0){
+        this->save_rand_mat();
+    } else if  (temp == 1){
+        QMessageBox::information(this,"Yeet","Alrighty");
+    } else {
+        QMessageBox::warning(this,"Error","No sufficient Action");
+    }
 }

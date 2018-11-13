@@ -47,8 +47,6 @@ private slots:
 
     void on_rand_mat_button_clicked();
 
-
-
 private:
     Ui::MainWindow *ui;
 

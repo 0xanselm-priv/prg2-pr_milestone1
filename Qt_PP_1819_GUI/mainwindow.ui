@@ -369,9 +369,13 @@
           </rect>
          </property>
          <property name="text">
-          <string>Save</string>
+          <string>Save Result</string>
          </property>
         </widget>
+        <zorder>save_button</zorder>
+        <zorder>groupBox</zorder>
+        <zorder>load_first_btn</zorder>
+        <zorder>rand_mat_button</zorder>
        </widget>
        <widget class="QGroupBox" name="mat2_display_groupBox">
         <property name="geometry">
