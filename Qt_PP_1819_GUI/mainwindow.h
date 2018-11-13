@@ -21,9 +21,6 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_pushButton_load_first_btn();
-
-    void on_pushButton_clicked();
 
     void on_comboBox_activated(const QString &arg1);
 
