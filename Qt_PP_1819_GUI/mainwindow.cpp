@@ -402,7 +402,7 @@ void MainWindow::save_rand_mat()
     if (save_path.size()==0) {
          QMessageBox::warning(this,"Error","Filepath Error.");
     } else {
-        interface.save_matrix(save_path.toUtf8().constData(), result_mat);
+        interface.save_matrix(save_path.toUtf8().constData(), second_mat);
         QMessageBox::information(this,"Saved","File Saved");
     }
 }
