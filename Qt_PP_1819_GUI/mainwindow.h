@@ -31,16 +31,19 @@ private slots:
 
     void on_spinBox_valueChanged(const QString &arg1);
 
-    void matrix_display(vector < vector<int> >matrix, int height, int length);
+    void matrix1_display(vector < vector<int> >matrix, int height, int length);
+
+    void matrix2_display(vector < vector<int> > matrix, int height, int length);
 
     void on_save_button_clicked();
 
     void on_rand_mat_btn_clicked();
 
-    void on_change_pixel_button_clicked();
-
+    void on_change_pixel_button_clicked(); 
 
     void on_load_first_btn_clicked();
+
+    void on_rand_mat_button_clicked();
 
 private:
     Ui::MainWindow *ui;
