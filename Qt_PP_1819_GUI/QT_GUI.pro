@@ -27,15 +27,15 @@ CONFIG += c++11
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    krypto/CBild.cpp \
-    krypto/interface.cpp \
-    krypto/NBild.cpp
+    ../krypto/CBild.cpp \
+    ../krypto/interface.cpp \
+    ../krypto/NBild.cpp
 
 HEADERS += \
         mainwindow.h \
-    krypto/CBild.h \
-    krypto/interface.h \
-    krypto/NBild.h
+    ../krypto/CBild.h \
+    ../krypto/interface.h \
+    ../krypto/NBild.h
 
 FORMS += \
         mainwindow.ui
