@@ -14,7 +14,7 @@
 
 using namespace std;
 
-
+// Main programms
 pair < bool, vector < vector<int> > > interface::encrypt(string source, string key, string result, bool gui){
     /*
      * This functions encrypts a certain picture with a certain key and saves it on a file path, if gui is false.
@@ -120,3 +120,60 @@ pair < bool, vector < vector<int> > > interface::overlay(string img_a, string im
 }
 
 
+// Extras for GUI
+vector < vector<char> > interface::create_rand_key(int heigth, int width){
+    /*
+     * This function creates a random key matrix.
+     * parameter:
+        * int height ~ determines the height of the key
+        * int width ~ determines the width of the key
+     * return:  vector < vector<char> > ~ key matrix
+     */
+
+    CBild canvas;
+    vector < vector<char> > key = canvas.create_rand_picture(heigth, width);
+
+    return key;
+}
+
+vector < vector<int> > interface::change_pixel(vector <vector <int> > mat, int x, int y, int color){
+    /*
+     * This function changes the value of a pixel of a certain matrix.
+     * parameter:
+        * vector < vector<int> > ~ matrix which shall be changed
+        * int x ~ x coordinate of the pixel
+        * int y ~ y coordinate of the pixel
+        * int color ~ color of the pixel
+     * return: vector < vector<int> > ~ adjusted matrix
+     */
+
+    NBild canvas;
+    return canvas.change_pixel(mat, x, y, color);
+}
+
+void interface::save_matrix(string path, vector <vector <int> > mat){
+    /*
+     * This method saves a certain matrix in a certain file.
+     * parameter:
+        * string path ~ path where the matrix will be saved
+        * vector < vector<int> > ~ matrix that shall be saved
+     * void
+     */
+
+    NBild canvas;
+    canvas.export_file(path, mat);
+    cout << "Exported Matrix to: " << path << endl;
+}
+
+void interface::save_key(string path, vector <vector <char> > mat){
+    /*
+    * This method saves a certain key in a certain file.
+    * parameter:
+        * string path ~ path where the key will be saved
+        * vector < vector<char> > ~ key that shall be saved
+    * void
+    */
+
+    CBild canvas;
+    canvas.export_file(path, canvas.trans_block_int(mat));
+}
