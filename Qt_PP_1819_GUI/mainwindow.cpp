@@ -55,7 +55,7 @@ vector < vector<int> >& MainWindow::load_second_matrix() {
     global_filepath2 = file_name.toUtf8().constData();
     print_str(global_filepath2);
 
-    vector < vector<int> > matrix = int_canvas.import_file(global_filepath2);
+    vector < vector<int> > matrix = int_canvas.import_file(file_name.toUtf8().constData());
     sec_mat = matrix;
 
     if (matrix.empty()) {
@@ -76,6 +76,7 @@ vector < vector<int> >& MainWindow::load_second_matrix() {
 
         this->matrix_display(matrix, height, length);
         ui->change_pixel_button->setEnabled(true);
+        qDebug("Second Matrix loading failure");
 
     }
 }
@@ -103,6 +104,7 @@ int MainWindow::core_func() {
         //Load
         qDebug("Load");
         this->load_second_matrix();
+        qDebug("Failure in Core Func");
     } else if  (temp == 1){
         qDebug("Generate");
         emit ui->rand_mat_button->click();
@@ -126,7 +128,7 @@ void MainWindow::on_comboBox_activated(const QString &arg1)
         vector < vector<int> > encrypt_matrix = inter.prog2(global_filepath,global_filepath,"",true).second;
         int height = encrypt_matrix.size();
         int width = encrypt_matrix[0].size();
-        this->matrix_display(encrypt_matrix, height, width);
+        //this->matrix_display(encrypt_matrix, height, width);
 
     } else if (cur_str == "Decrypt") {
 
