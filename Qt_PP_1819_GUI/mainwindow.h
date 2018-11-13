@@ -23,7 +23,7 @@ public:
 private slots:
     void on_pushButton_got_clicked();
 
-    void on_pushButton_crypto_clicked();
+    void on_pushButton_load_first_btn();
 
     void on_pushButton_clicked();
 
@@ -35,10 +35,12 @@ private slots:
 
     void on_save_button_clicked();
 
-    void on_rand_mat_button_clicked();
+    void on_rand_mat_btn_clicked();
 
     void on_change_pixel_button_clicked();
 
+
+    void on_load_first_btn_clicked();
 
 private:
     Ui::MainWindow *ui;

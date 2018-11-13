@@ -28,8 +28,8 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     ../krypto/CBild.cpp \
-    ../krypto/interface.cpp \
-    ../krypto/NBild.cpp
+    ../krypto/NBild.cpp \
+    ../krypto/Interface.cpp
 
 HEADERS += \
         mainwindow.h \

@@ -15,7 +15,7 @@
 using namespace std;
 
 // Main programms
-pair < bool, vector < vector<int> > > interface::encrypt(string source, string key, string result, bool gui){
+pair < bool, vector < vector<int> > > Interface::encrypt(string source, string key, string result, bool gui){
     /*
      * This functions encrypts a certain picture with a certain key and saves it on a file path, if gui is false.
      * gui is the variable which is set true when the graphical user interface calls it and false otherwise.
@@ -49,7 +49,7 @@ pair < bool, vector < vector<int> > > interface::encrypt(string source, string k
     }
 }
 
-pair < bool, vector < vector<int> > > interface::decrypt(string source, string key, string result, bool gui){
+pair < bool, vector < vector<int> > > Interface::decrypt(string source, string key, string result, bool gui){
     /*
  * This functions decrypts a certain picture with a certain key and saves it on a file path, if gui is false.
  * gui is the variable which is set true when the graphical user interface calls it and false otherwise.
@@ -83,7 +83,7 @@ pair < bool, vector < vector<int> > > interface::decrypt(string source, string k
 
 }
 
-pair < bool, vector < vector<int> > > interface::overlay(string img_a, string img_b, string result, bool gui){
+pair < bool, vector < vector<int> > > Interface::overlay(string img_a, string img_b, string result, bool gui){
     /*
  * This functions overlays two pictures and saves the result on a file path, if gui is false.
  * gui is the variable which is set true when the graphical user interface calls it and false otherwise.
@@ -121,7 +121,7 @@ pair < bool, vector < vector<int> > > interface::overlay(string img_a, string im
 
 
 // Extras for GUI
-vector < vector<char> > interface::create_rand_key(int heigth, int width){
+vector < vector<char> > Interface::create_rand_key(int heigth, int width){
     /*
      * This function creates a random key matrix.
      * parameter:
@@ -136,7 +136,7 @@ vector < vector<char> > interface::create_rand_key(int heigth, int width){
     return key;
 }
 
-vector < vector<int> > interface::change_pixel(vector <vector <int> > mat, int x, int y, int color){
+vector < vector<int> > Interface::change_pixel(vector <vector <int> > mat, int x, int y, int color){
     /*
      * This function changes the value of a pixel of a certain matrix.
      * parameter:
@@ -151,7 +151,7 @@ vector < vector<int> > interface::change_pixel(vector <vector <int> > mat, int x
     return canvas.change_pixel(mat, x, y, color);
 }
 
-void interface::save_matrix(string path, vector <vector <int> > mat){
+void Interface::save_matrix(string path, vector <vector <int> > mat){
     /*
      * This method saves a certain matrix in a certain file.
      * parameter:
@@ -165,7 +165,7 @@ void interface::save_matrix(string path, vector <vector <int> > mat){
     cout << "Exported Matrix to: " << path << endl;
 }
 
-void interface::save_key(string path, vector <vector <char> > mat){
+void Interface::save_key(string path, vector <vector <char> > mat){
     /*
     * This method saves a certain key in a certain file.
     * parameter:

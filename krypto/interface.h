@@ -16,7 +16,7 @@ using namespace std;
 
 
 
-class interface {
+class Interface {
 
 public:
 

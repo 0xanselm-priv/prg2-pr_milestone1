@@ -11,7 +11,7 @@
 #include <QMessageBox>
 
 NBild int_canvas;
-vector < vector<int> > mat;
+vector < vector<int> > first_mat;
 vector < vector<int> > rand_mat;
 vector < vector<int> > sec_mat;
 
@@ -29,6 +29,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->matrix_label->setScaledContents(true);
     ui->change_pixel_button->setEnabled(false);
     ui->mat1_groupBox->adjustSize();
+    ui->rand_mat_button->setEnabled(true);
 }
 
 MainWindow::~MainWindow()
@@ -57,6 +58,8 @@ vector < vector<int> >& MainWindow::load_second_matrix() {
 
     vector < vector<int> > matrix = int_canvas.import_file(file_name.toUtf8().constData());
     sec_mat = matrix;
+    CBild obj;
+    obj.print_certain_matrix(matrix);
 
     if (matrix.empty()) {
         ui->matrix2_length->setText("Matrix Length: NaN");
@@ -64,7 +67,7 @@ vector < vector<int> >& MainWindow::load_second_matrix() {
 
         QMessageBox::warning(this,"Input","Wrong Matrix Format");
     } else {
-        mat = matrix; // for saving
+        first_mat = matrix; // for saving
         const int height = matrix.size();
         const int length = matrix[0].size();
 
@@ -119,16 +122,9 @@ void MainWindow::on_comboBox_activated(const QString &arg1)
 {
     //TO DO: adjust mat 2 group box
     QString cur_str = ui->comboBox->currentText();
-    interface inter;
+    Interface inter;
 
     if (cur_str == "Encrypt") {
-        //here
-        this->core_func();
-
-        vector < vector<int> > encrypt_matrix = inter.prog2(global_filepath,global_filepath,"",true).second;
-        int height = encrypt_matrix.size();
-        int width = encrypt_matrix[0].size();
-        //this->matrix_display(encrypt_matrix, height, width);
 
     } else if (cur_str == "Decrypt") {
 
@@ -189,41 +185,44 @@ vector<vector<int> > &MainWindow::gen_rand_mat()
 
 
 
-void MainWindow::on_pushButton_crypto_clicked()
+void MainWindow::on_load_first_btn_clicked()
 {
-    NBild int_canvas;
-    QString filter = "Text File (*.txt)";
-    QString file_name = QFileDialog::getOpenFileName(this, "Open file", "../ProgPrak1819/Qt_PP_1819_GUI", filter);
-    QString s = file_name;
-    ui->label_2->setText("File Path: " + file_name);
-    ui->label_2->adjustSize();
-    global_filepath = file_name.toUtf8().constData();
-    print_str(global_filepath);
+//    Interface interface;
+//    QString filter = "Text File (*.txt)";
+//    QString file_name = QFileDialog::getOpenFileName(this, "Open file", "../ProgPrak1819/Qt_PP_1819_GUI", filter);
+//    QString s = file_name;
 
-    vector < vector<int> > matrix = int_canvas.import_file(global_filepath);
+//    ui->label_2->setText("File Path: " + file_name);
+//    ui->label_2->adjustSize();
 
-    if (matrix.empty()) {
-        ui->matrix_length->setText("Matrix Length: NaN");
-        ui->matrix_height->setText("Matrix Height: NaN");
+//    global_filepath = file_name.toUtf8().constData();
 
-        QMessageBox::warning(this,"Input","Wrong Matrix Format");
-    } else {
-        mat = matrix; // for saving
-        const int height = matrix.size();
-        const int length = matrix[0].size();
+//    vector < vector<int> > matrix = interface.
 
-        ui->matrix_length->setText("Matrix Length: " + QString::number(length));
-        ui->matrix_height->setText("Matrix Height: " + QString::number(height));
+//    if (matrix.empty()) {
+//        ui->matrix_length->setText("Matrix Length: NaN");
+//        ui->matrix_height->setText("Matrix Height: NaN");
 
-        ui->x_spinBox->setMaximum(length);
-        ui->y_spinBox->setMaximum(height);
+//        QMessageBox::warning(this,"Input","Wrong Matrix Format");
 
-        this->matrix_display(matrix, height, length);
-        ui->change_pixel_button->setEnabled(true);
+//    } else {
+//        first_mat = matrix; // for saving
+//        const int height = matrix.size();
+//        const int length = matrix[0].size();
 
-        ui->mat1_groupBox->adjustSize();
-        ui->result_groupBox->adjustSize();
-    }
+//        ui->matrix_length->setText("Matrix Length: " + QString::number(length));
+//        ui->matrix_height->setText("Matrix Height: " + QString::number(height));
+
+//        ui->x_spinBox->setMaximum(length);
+//        ui->y_spinBox->setMaximum(height);
+
+//        this->matrix_display(matrix, height, length);
+//        ui->change_pixel_button->setEnabled(true);
+
+//        ui->mat1_groupBox->adjustSize();
+//        ui->result_groupBox->adjustSize();
+//        ui->rand_mat_button->setEnabled(true);
+//    }
 
 }
 
@@ -284,13 +283,13 @@ void MainWindow::on_save_button_clicked()
     msgBox.addButton(tr("Loaded Matrix"), QMessageBox::YesRole);
     msgBox.setDefaultButton(QMessageBox::Yes);
     if(msgBox.exec() == QMessageBox::YesRole){
-        if (mat.empty()) {
+        if (first_mat.empty()) {
             QMessageBox::warning(this,"Save","Matrix to save is empty. Please create Matrix befor saving");
         } else {
             QString filter = "Text File (*.txt)";
             QString save_path = QFileDialog::getSaveFileName(this, "Save file", "../ProgPrak1819/Qt_PP_1819_GUI", filter);
             QFile file(save_path);
-            int_canvas.export_file(save_path.toUtf8().constData(), mat);
+            int_canvas.export_file(save_path.toUtf8().constData(), first_mat);
         }
     }else {
         if (rand_mat.empty()) {
@@ -312,8 +311,11 @@ void MainWindow::on_save_button_clicked()
     //    }
 }
 
-void MainWindow::on_rand_mat_button_clicked()
+void MainWindow::on_rand_mat_btn_clicked()
 {
+    // Do you wish to save the random key.
+    // set to fixed size
+    // only enable when first matrix is loaded
     ui->change_pixel_button->setEnabled(false);
 
     vector < vector<int> > rand_mat;
@@ -351,8 +353,8 @@ void MainWindow::on_change_pixel_button_clicked()
     int y_coord = ui->y_spinBox->value();
     QString color_qstr = ui->color_comboBox->currentText();
     string color = color_qstr.toUtf8().constData();
-    mat = int_canvas.change_pixel(mat, x_coord, y_coord, color);
-    int length = mat[0].size();
-    int height = mat.size();
-    this->matrix_display(mat, height, length);
+    first_mat = int_canvas.change_pixel(first_mat, x_coord, y_coord, color);
+    int length = first_mat[0].size();
+    int height = first_mat.size();
+    this->matrix_display(first_mat, height, length);
 }

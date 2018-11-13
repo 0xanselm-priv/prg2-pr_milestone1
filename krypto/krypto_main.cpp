@@ -17,7 +17,7 @@
 using namespace std;
 
 void aufgabe_f(){
-    interface inter;
+    Interface inter;
     CBild canvas_char;
     NBild canvas_int;
 
@@ -47,7 +47,7 @@ int main(int argc, char *argv[]) {
         string arg2 = argv[3];
         string arg3 = argv[4];
 
-        interface interf;
+        Interface interf;
         cout << "You passed " << argc << " arguments: " << argv[1] << endl;
 
         if (program == "encode") {
