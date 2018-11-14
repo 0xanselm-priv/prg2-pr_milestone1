@@ -17,7 +17,7 @@ vector < vector<int> > first_mat;
 vector < vector<int> > result_mat;
 vector < vector<int> > second_mat;
 int factor = 20;
-vector <vector <int,int>> selected_cells;
+vector < pair <int, int> > selected_cells;
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -531,7 +531,6 @@ void MainWindow::mousePressEvent(QMouseEvent *ev)
         int start_x = label_pos_x + tab_pos_x; int end_x = tab_pos_x + label_pos_x + width;
         int start_y = label_pos_y + tab_pos_y + bias_y; int end_y = tab_pos_y + label_pos_y + height + bias_y;
 
-        vector <int,int> cell;
 
         if (start_x <= x && x <= end_x && start_y <= y && y <= end_y) {
             print("In");
