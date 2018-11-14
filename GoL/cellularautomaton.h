@@ -1,4 +1,5 @@
 // cellularautomaton.h (declaration of class CellularAutomaton)
+// Created by Andreas Haupt
 #ifndef CELLULAR_AUTOMATON_H
 #define CELLULAR_AUTOMATON_H
 

@@ -1,4 +1,5 @@
 // graph.cpp (implementation of class CellularAutomaton)
+// Created by Andreas Haupt
 
 #include <fstream>
 #include <sstream>
