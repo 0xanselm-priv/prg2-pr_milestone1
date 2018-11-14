@@ -49,23 +49,33 @@ int main(int argc, char** argv){
 				break;
 			}
 			case 'r': {
-				std::size_t num_rows, num_cols;
-				std::cout << "Neue Anzahl Zeilen eingeben.";
-				std::cin >> num_rows;
-				std::cout << "Neue Anzahl Spalten eingeben.";
-				std::cin >> num_cols;
-				automaton->ResizeWindow(num_rows, num_cols);
-				break;
+				try {
+					std::size_t num_rows, num_cols;
+					std::cout << "Neue Anzahl Zeilen eingeben.";
+					std::cin >> num_rows;
+					std::cout << "Neue Anzahl Spalten eingeben.";
+					std::cin >> num_cols;
+					automaton->ResizeWindow(num_rows, num_cols);
+					break;
+				}
+				catch (const std::exception& e) {
+					std::cout << "Invalid input:" << e.what();
+				}
 			}
 			case 's': {
 				std::size_t row, col;
 				char state;
-				std::cout << "Zeile der Zelle eingeben.";
-				std::cin >> row;
-				std::cout << "Spalte der Zelle eingeben.";
-				std::cin >> col;
-				std::cout << "d für tot eingeben, a für lebendig, sonstige Eingabe ändert nichts.";
-				std::cin >> state;
+				try {
+					std::cout << "Zeile der Zelle eingeben.";
+					std::cin >> row;
+					std::cout << "Spalte der Zelle eingeben.";
+					std::cin >> col;
+					std::cout << "d für tot eingeben, a für lebendig, sonstige Eingabe ändert nichts.";
+					std::cin >> state;
+				}
+				catch (const std::exception& e) {
+					std::cout << "Invalid input:" << e.what();
+				}
 				switch (state) {
 					case 'd': {
 						automaton->set_cell_state(row, col, false);
@@ -76,6 +86,7 @@ int main(int argc, char** argv){
 						break;
 					}
 					default: {
+						std::cout << "Keine mögliche Option.";
 						break;
 					}
 				}		
@@ -84,10 +95,15 @@ int main(int argc, char** argv){
 			case 'c': {
 				std::size_t row;
 				std::size_t col;
-				std::cout << "Zeile der Zelle eingeben.";
-				std::cin >> row;
-				std::cout << "Spalte der Zelle eingeben.";
-				std::cin >> col;
+				try {
+					std::cout << "Zeile der Zelle eingeben.";
+					std::cin >> row;
+					std::cout << "Spalte der Zelle eingeben.";
+					std::cin >> col;
+				}
+				catch (const std::exception& e) {
+					std::cout << "Invalid input:" << e.what();
+				}
 				automaton->ChangeCellState(row, col);
 				break;
 			}			
