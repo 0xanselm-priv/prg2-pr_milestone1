@@ -266,11 +266,10 @@ vector < vector<char> > CBild::create_rand_picture(int height, int width){
         vector<char> collum;
         collum.clear();
         for(int y = 0; y < width; y++){
+            default_random_engine eng;
+            uniform_int_distribution<int> d{0,1};
 
-            mt19937 rng;
-            rng.seed(random_device()());
-            uniform_int_distribution<mt19937::result_type> dist6(0, 1);
-            if(dist6(rng)) {
+            if(d(eng)) {
                 collum.push_back('A');}
             else {collum.push_back('B');}
         }
