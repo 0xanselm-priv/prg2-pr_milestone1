@@ -72,7 +72,10 @@ int main(int argc, char *argv[]) {
     }
 
     //aufgabe_f();
-    //create_rand_key(89, 303);
+    Interface face;
+    vector <vector <int> > mat = face.load_matrix("/Users/nielsheissel/CLionProjects/prg2-pr/krypto/2f_approval.txt").second;
+    cout << "HAH______________" << endl;
+    create_rand_key(mat.size(), mat[0].size());
 
     return 0;
 }
