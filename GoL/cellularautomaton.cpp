@@ -4,6 +4,7 @@
 #include <sstream>
 #include <iostream>
 #include <string>
+#include <assert.h>
 #include "cellularautomaton.h"
 
 CellularAutomaton::CellularAutomaton(std::size_t num_cols, std::size_t num_rows)
@@ -12,44 +13,69 @@ CellularAutomaton::CellularAutomaton(std::size_t num_cols, std::size_t num_rows)
     num_cols_(num_cols),
     num_rows_(num_rows) {}
 
+// First, resize window to size needed with dead cells, then assign as needed.
 CellularAutomaton::CellularAutomaton(std::string filename) {
-  std::ifstream file(filename);
-  std::string line;
-  std::getline(file,line);
-  std::stringstream sstream_rows(line);
-  sstream_rows >> num_rows_;
-  std::getline(file,line);
-  std::stringstream sstream_cols(line);
-  sstream_cols << line;
-  sstream_cols >> num_cols_;
-  char state;
-  ResizeWindow(num_rows_, num_cols_);
-  for(std::size_t i = 0; i < num_rows_; ++i)
-  {
-    std::getline(file, line);
-    std::stringstream sstream(line);
-    if(not sstream) throw std::runtime_error("Invalid file format.");
-    for(std::size_t j = 0; j < num_cols_; ++j)
+  // Read one line and assign to num_rows_
+  try{
+    std::ifstream file(filename);
+    if(not file) throw std::runtime_error("Cannot read file.");
+    std::string line;
+    std::getline(file,line);
+    std::stringstream sstream_rows(line);
+    if(not sstream_rows) throw std::runtime_error("Invalid file format.");
+    sstream_rows >> num_rows_;
+    // Read second line to num_cols_
+    std::getline(file,line);
+    std::stringstream sstream_cols(line);
+    if(not sstream_cols) throw std::runtime_error("Invalid file format.");
+    sstream_cols << line;
+    sstream_cols >> num_cols_;
+    // Read state char and assign conditionally
+    char state;
+    ResizeWindow(num_rows_, num_cols_);
+    for(std::size_t i = 0; i < num_rows_; ++i)
     {
-      sstream >> state;
-      if(state != 'o' and state != '*')
+      // Read one line to file
+      std::getline(file, line);
+      std::stringstream sstream(line);
+      if(not sstream) throw std::runtime_error("Invalid file format.");
+      for(std::size_t j = 0; j < num_cols_; ++j)
       {
-        throw std::runtime_error("Invalid symbol.");
+        sstream >> state;
+        if(state != 'o' and state != '*')
+        {
+          throw std::runtime_error("Invalid symbol.");
+        }
+        state == '*' ? set_cell_state(i, j, true) : set_cell_state(i, j, false) ;
       }
-      state == '*' ? set_cell_state(i, j, true) : set_cell_state(i, j, false) ;
     }
+    CopyToOld();
+    file.close();
   }
-  CopyToOld();
-  file.close();
+  catch (const std::runtime_error& e) {
+    std::cout << "Could not load file, please run constructor again." << e.what();
+  }
 }
 
 void CellularAutomaton::set_cell_state(std::size_t row, std::size_t col, bool cell_state) {
-  new_state_[row][col] = cell_state;
-  CopyToOld(); 
+  try {
+    if (not (row < num_rows_ and col < num_cols_)) throw std::runtime_error("Index out of bound.");
+    new_state_[row][col] = cell_state;
+    CopyToOld(); 
+  }
+  catch (const std::runtime_error& e) {
+    std::cout << "Invalid index, please enter index within bounds." << e.what();
+  }
+}
+
+void CellularAutomaton::set_cell_state_no_copy(std::size_t row, std::size_t col, bool cell_state) { 
+  assert (row < num_rows_ and col < num_cols_);
+  new_state_[row][col] = cell_state; 
 }
 
 void CellularAutomaton::ChangeCellState(std::size_t row, std::size_t col) {
   set_cell_state(row, col, not cell_state(row,col));
+  assert (row < num_rows_ and col < num_cols_);
 }
 
 // Rezise Window, repeat for old and new state
@@ -98,14 +124,15 @@ std::ostream& operator<<(std::ostream& os, const CellularAutomaton& automaton) {
 }
 
 int CellularAutomaton::neighbor_num(std::size_t i, std::size_t j) const {
+  assert (i < num_rows_ and j < num_cols_);
   return (int) old_state_[i][(j+1)%num_cols()]
-  + (int) old_state_[(i+1)%num_rows()][(j+1)%num_cols()]
-  + (int) old_state_[(i+1)%num_rows()][j]
-  + (int) old_state_[(i+1)%num_rows()][(j-1)%num_cols()]
-  + (int) old_state_[i][(j-1)%num_cols()]
-  + (int) old_state_[(i-1)%num_rows()][(j-1)%num_cols()]
-  + (int) old_state_[(i-1)%num_rows()][j]
-  + (int) old_state_[(i-1)%num_rows()][(j+1)%num_cols()];
+    + (int) old_state_[(i+1)%num_rows()][(j+1)%num_cols()]
+    + (int) old_state_[(i+1)%num_rows()][j]
+    + (int) old_state_[(i+1)%num_rows()][(j-1)%num_cols()]
+    + (int) old_state_[i][(j-1)%num_cols()]
+    + (int) old_state_[(i-1)%num_rows()][(j-1)%num_cols()]
+    + (int) old_state_[(i-1)%num_rows()][j]
+    + (int) old_state_[(i-1)%num_rows()][(j+1)%num_cols()];
 }
 
 void CellularAutomaton::CopyToOld() {
