@@ -113,7 +113,13 @@ int MainWindow::core_func_encrypt() {
         second_mat = interface.create_rand_key(first_mat.size(), first_mat[0].size());
         this->matrix2_display(second_mat, second_mat.size(), second_mat[0].size(), "random");
     } else {
-        QMessageBox::warning(this,"Error","No sufficient Action");
+        if (interface.encrypt(global_filepath, second_mat, "", true).first) {
+            result_mat = interface.encrypt(global_filepath, second_mat, "", true).second;
+            matrix3_display(result_mat, result_mat.size(), result_mat[0].size());
+        }else {
+
+            QMessageBox::warning(this,"Error","No sufficient Action");
+        }
         return 0;
     }
 
@@ -462,9 +468,10 @@ void MainWindow::on_rand_mat_button_clicked()
 
 void MainWindow::on_pushButton_clicked()
 {
+    //Loads a gol instance
     print_int(ui->gol_label->width());
     print_int(ui->gol_label->height());
-    //Loads a gol instance
+
     QString filter = "Text File (*.txt)";
     QString file_name = QFileDialog::getOpenFileName(this, "Open file", "../ProgPrak1819/Qt_PP_1819_GUI", filter);
     ui->filepath_gol_label->setText("Filepath: " + file_name);
@@ -586,7 +593,5 @@ void MainWindow::on_pushButton_2_clicked()
     }
     ui->gol_label->adjustSize();
     ui->gol_label->setPixmap(pixmap);
-
-    automat.Update();
 }
 
