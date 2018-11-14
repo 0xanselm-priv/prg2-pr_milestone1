@@ -531,6 +531,7 @@ void MainWindow::mousePressEvent(QMouseEvent *ev)
         int start_x = label_pos_x + tab_pos_x; int end_x = tab_pos_x + label_pos_x + width;
         int start_y = label_pos_y + tab_pos_y + bias_y; int end_y = tab_pos_y + label_pos_y + height + bias_y;
 
+        vector < pair <int, int> > cell;
 
         if (start_x <= x && x <= end_x && start_y <= y && y <= end_y) {
             print("In");
@@ -538,6 +539,8 @@ void MainWindow::mousePressEvent(QMouseEvent *ev)
             int cell_y = 20 - ((end_y - y) / factor);
             print_int(cell_x);
             print_int(cell_y);
+            pair <int, int> val = (cell_x, cell_y);
+            cell.push_back(val);
             selected_cells.push_back(cell);
         } else {
             print("Out");
