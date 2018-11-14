@@ -13,8 +13,13 @@ Für das Kopieren von Arrays, führe
 g++ -o ./out.x copy_arrays.cpp
 ```
 im Ordner `copy_arrays/` aus.
+
 ## Krypto
-To usex^
+To use the krypto program, go to our folder and type "./visualcrypt *mode* *path1* *path2* *result_path*", where *mode* can stand for:
+'encode' -> encryption with path1 = picture you want to encrypt; path2 = key for encryption; result_path = path of the operations result
+'decode' -> decryption with path1 = picture you want to decrypt; path2 = key for decryption; result_path = path of the operations result
+'overlay' -> overlaying two pictures with path1 = first picture; path2 = second picture; result_path = path of the operations result
+For 'Aufgabe 2f)' just type "./visualcrypt". This will encrypt the two pictures with the same key and safe the result in the same folders, where the picture lies. This only works on my personal mac.
 
 ## Ausführen der GUI
 Projekt Datei Laden. Build Project -> Run. 
