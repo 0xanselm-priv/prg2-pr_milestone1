@@ -48,6 +48,7 @@ pair < bool, vector < vector<int> > > Interface::encrypt(string source, string k
         return pair < bool, vector < vector<int> > > (false, source_mat);
     }
 }
+
 pair < bool, vector < vector<int> > > Interface::encrypt(string source, vector <vector <int> > key, string result, bool gui){
     /*
      * This functions encrypts a certain picture with a certain key and saves it on a file path, if gui is false.
@@ -99,10 +100,10 @@ pair < bool, vector < vector<int> > > Interface::decrypt(string source, string k
 
     CBild char_canvas;
 
-    vector < vector<char> > key_mat = char_canvas.import_file_char(key);
-    vector < vector<char> > encrypted = char_canvas.import_file_char(source);
+    vector < vector<char> > key_mat = char_canvas.load_key(key);
+    vector < vector<char> > encrypted = char_canvas.load_key(source);
 
-    if(char_canvas.test_matrices(char_canvas.trans_block_int(encrypted), key_mat)) {
+    if(char_canvas.test_matrices(encrypted, key_mat)) {
         vector<vector<int> > decrypted = char_canvas.decrypt_picture(encrypted, key_mat);
         if (!gui) {
             char_canvas.export_file(result, decrypted);

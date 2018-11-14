@@ -539,3 +539,32 @@ bool CBild::test_matrices(vector < vector<int> > mat_a, vector < vector<char> > 
     << " And Mat_B has size: " << mat_b.size() << " * " << mat_b[0].size() << endl;
         return false;}
 }
+
+bool CBild::test_matrices(vector < vector<char> > mat_a, vector < vector<char> > mat_b){
+    /*
+ * Tests two matrices for their compability for overlay and en- and decryption.
+ * parameter:
+  * vector < vector<int> > ~ first matrix
+  * vector < vector<char> > ~ block-matrix
+ * return: bool ~ tets result
+ */
+
+    if(mat_a.size() == mat_b.size() && mat_a[0].size() == mat_b[0].size()){
+        for(int x; x < mat_a.size(); x++){
+            for(int y; y < mat_a[0].size(); y++){
+                if(mat_a[x][y]!= 'A' && mat_a[x][y]!= 'B' && mat_a[x][y] != 'C'){
+                    cerr << "Wrong values." << endl;
+                    return false;
+                }
+                if(mat_b[x][y]!= 'A' && mat_b[x][y]!= 'B' && mat_b[x][y] != 'C'){
+                    cerr << "Wrong values for mat_b." << endl;
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    else{cerr << "Wrong sizes. Mat_A has size: " << mat_a.size() << " * " << mat_a[0].size()
+              << " And Mat_B has size: " << mat_b.size() << " * " << mat_b[0].size() << endl;
+        return false;}
+}

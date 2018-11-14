@@ -16,6 +16,11 @@
 
 using namespace std;
 
+void create_rand_key(int height, int width){
+    CBild canvas_char;
+    canvas_char.export_file("/Users/nielsheissel/CLionProjects/prg2-pr/krypto/key.txt", canvas_char.create_rand_picture(height, width));
+}
+
 void aufgabe_f(){
     Interface inter;
     CBild canvas_char;
@@ -66,7 +71,8 @@ int main(int argc, char *argv[]) {
         cerr << "You need to pass four arguments: ... you passed " << argc << endl;
     }
 
-    aufgabe_f();
+    //aufgabe_f();
+    //create_rand_key(89, 303);
 
     return 0;
 }

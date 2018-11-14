@@ -46,6 +46,7 @@ public:
 
     bool test_matrices(vector < vector<int> >, vector < vector<char> >);
     bool test_matrices(vector < vector<int> >, vector < vector<int> >);
+    bool test_matrices(vector < vector<char> >, vector < vector<char> >);
 };
 
 
