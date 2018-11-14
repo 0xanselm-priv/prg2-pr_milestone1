@@ -8,7 +8,8 @@ make
 im Ordner GoL für das Game of Life in einer Konsolenfassung, copy_arrays für das Kopieren der Arrays, im Ordner Krypto für die visuelle Kryptographie und in `pwd` für die GUI-Anwendung, aus. Auf Windows-Systemen ist die zweite Zeile entsprechend angepasst.
 
 ## Projektteam
-Andreas Haupt (hat an GoL und Copy Arrays gearbeitet, Arbeitszeit 10 Stunden). Robert hat für die Integration der beiden Programmteile in Qt und der damit verbundenen Anpassungen ungefähr 25-30 Stunden verbracht.
+Andreas Haupt (hat an GoL und Copy Arrays gearbeitet, Arbeitszeit 13 Stunden). Robert hat für die Integration der beiden Programmteile in Qt und der damit verbundenen Anpassungen ungefähr 25-30 Stunden verbracht.
 ## Bekannte Fehler
  - Random doesn't work on every system. https://github.com/skeeto/fantasyname/issues/11
+ - GoL: Eingabe von `n` > `s` und einer illegalen Eingabe wie `"a"` führt in eine Endlosschleife.
 

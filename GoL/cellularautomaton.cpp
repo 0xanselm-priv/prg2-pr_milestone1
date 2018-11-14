@@ -17,56 +17,46 @@ CellularAutomaton::CellularAutomaton(std::size_t num_cols, std::size_t num_rows)
 // First, resize window to size needed with dead cells, then assign as needed.
 CellularAutomaton::CellularAutomaton(std::string filename) {
   // Read one line and assign to num_rows_
-  try{
-    std::ifstream file(filename);
-    if(not file) throw std::runtime_error("Cannot read file.");
-    std::string line;
-    std::getline(file,line);
-    std::stringstream sstream_rows(line);
-    if(not sstream_rows) throw std::runtime_error("Invalid file format.");
-    sstream_rows >> num_rows_;
-    // Read second line to num_cols_
-    std::getline(file,line);
-    std::stringstream sstream_cols(line);
-    if(not sstream_cols) throw std::runtime_error("Invalid file format.");
-    sstream_cols << line;
-    sstream_cols >> num_cols_;
-    // Read state char and assign conditionally
-    char state;
-    ResizeWindow(num_rows_, num_cols_);
-    for(std::size_t i = 0; i < num_rows_; ++i)
+  std::ifstream file(filename);
+  if(not file) throw std::runtime_error("Cannot read file.");
+  std::string line;
+  std::getline(file,line);
+  std::stringstream sstream_rows(line);
+  if(not sstream_rows) throw std::runtime_error("Invalid file format.");
+  sstream_rows >> num_rows_;
+  // Read second line to num_cols_
+  std::getline(file,line);
+  std::stringstream sstream_cols(line);
+  if(not sstream_cols) throw std::runtime_error("Invalid file format.");
+  sstream_cols << line;
+  sstream_cols >> num_cols_;
+  // Read state char and assign conditionally
+  char state;
+  ResizeWindow(num_rows_, num_cols_);
+  for(std::size_t i = 0; i < num_rows_; ++i)
+  {
+    // Read one line to file
+    std::getline(file, line);
+    std::stringstream sstream(line);
+    if(not sstream) throw std::runtime_error("Invalid file format.");
+    for(std::size_t j = 0; j < num_cols_; ++j)
     {
-      // Read one line to file
-      std::getline(file, line);
-      std::stringstream sstream(line);
-      if(not sstream) throw std::runtime_error("Invalid file format.");
-      for(std::size_t j = 0; j < num_cols_; ++j)
+      sstream >> state;
+      if(state != 'o' and state != '*')
       {
-        sstream >> state;
-        if(state != 'o' and state != '*')
-        {
-          throw std::runtime_error("Invalid symbol.");
-        }
-        state == '*' ? set_cell_state(i, j, true) : set_cell_state(i, j, false) ;
+        throw std::invalid_argument("Invalid symbol.");
       }
+      state == '*' ? set_cell_state(i, j, true) : set_cell_state(i, j, false) ;
     }
-    CopyToOld();
-    file.close();
   }
-  catch (const std::runtime_error& e) {
-    std::cout << "Could not load file, please run constructor again." << e.what();
-  }
+  CopyToOld();
+  file.close();
 }
 
 void CellularAutomaton::set_cell_state(std::size_t row, std::size_t col, bool cell_state) {
-  try {
-    if (not (row < num_rows_ and col < num_cols_)) throw std::runtime_error("Index out of bound.");
-    new_state_[row][col] = cell_state;
-    CopyToOld(); 
-  }
-  catch (const std::runtime_error& e) {
-    std::cout << "Invalid index, please enter index within bounds." << e.what();
-  }
+  if (not (row < num_rows_ and col < num_cols_)) throw std::out_of_range("Index out of bound.");
+  new_state_[row][col] = cell_state;
+  CopyToOld();
 }
 
 void CellularAutomaton::set_cell_state_no_copy(std::size_t row, std::size_t col, bool cell_state) { 

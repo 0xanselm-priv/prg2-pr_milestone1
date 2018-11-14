@@ -4,8 +4,6 @@
 #include <functional>
 #include "cellularautomaton.h"
 
-using namespace std;
-
 int main(int argc, char** argv){
 	char option = '0';
 	std::unique_ptr<CellularAutomaton> automaton;
@@ -15,6 +13,7 @@ int main(int argc, char** argv){
 				  << "o\tEine Datei öffnen" << std::endl
 				  << "n\tEin 30x30-Feld von Toten Zellen initialisieren" << std::endl;
 		std::string filename;
+		std::cin.clear();
 		std::cin >> option;
 		switch (option){
 			case 'q': 
@@ -24,11 +23,22 @@ int main(int argc, char** argv){
 				break;
 			case 'o':
 				std::cout << "Bitte geben Sie den Dateinamen mit Endung ein." << std::endl;
+				std::cin.clear();
 				std::cin >> filename;
-				automaton = std::unique_ptr<CellularAutomaton>(new CellularAutomaton(filename));
+				try {
+					automaton = std::unique_ptr<CellularAutomaton>(new CellularAutomaton(filename));
+				}
+				catch (std::runtime_error& e) {
+					std::cout << "Lesefehler:" << e.what() << std::endl;
+					continue;
+				}
+				catch (std::invalid_argument& e) {
+					std::cout << "Unbekanntes Zeichen:" << e.what() << std::endl;
+					continue;
+				}
 				break;
 			default: 
-				cout << "Ungültige Eingabe";
+				std::cout << "Ungültige Eingabe" << std::endl;
 				continue;
 		}
 		break;
@@ -42,7 +52,8 @@ int main(int argc, char** argv){
 			 << "c\tDen Inhalt einer Zelle ändern" << std::endl
 			 << "u\tDas Spielfeld um einen Schritt updaten" << std::endl
 			 << "e\tDie Änderungen in einer Datei speichern." << std::endl;
-		cin >> option;
+		std::cin.clear();
+		std::cin >> option;
 		switch (option) {
 			case 'q': {
 				return 0;
@@ -51,30 +62,47 @@ int main(int argc, char** argv){
 			case 'r': {
 				try {
 					std::size_t num_rows, num_cols;
-					std::cout << "Neue Anzahl Zeilen eingeben.";
+					std::cout << "Neue Anzahl Zeilen eingeben." << std::endl;
+					std::cin.clear();
 					std::cin >> num_rows;
-					std::cout << "Neue Anzahl Spalten eingeben.";
+					std::cout << "Neue Anzahl Spalten eingeben." << std::endl;
+					std::cin.clear();
 					std::cin >> num_cols;
 					automaton->ResizeWindow(num_rows, num_cols);
 					break;
 				}
 				catch (const std::exception& e) {
-					std::cout << "Invalid input:" << e.what();
+					std::cout << "Invalid input:" << e.what() << std::endl;
 				}
 			}
 			case 's': {
 				std::size_t row, col;
 				char state;
 				try {
-					std::cout << "Zeile der Zelle eingeben.";
-					std::cin >> row;
-					std::cout << "Spalte der Zelle eingeben.";
-					std::cin >> col;
-					std::cout << "d für tot eingeben, a für lebendig, sonstige Eingabe ändert nichts.";
-					std::cin >> state;
+					std::cout << "Zeile der Zelle eingeben." << std::endl;
+					while(true) {
+						std::cin.clear();
+						if (std::cin >> row) 
+							break;
+						std::cout << "Falsche Eingabe." << std::endl;
+					}
+					std::cout << "Spalte der Zelle eingeben." << std::endl;
+					while(true) {
+						std::cin.clear();
+						if (std::cin >> col) 
+							break;
+						std::cout << "Falsche Eingabe." << std::endl;
+					}
+					std::cout << "d für tot eingeben, a für lebendig, sonstige Eingabe ändert nichts." << std::endl;
+					while(true) {
+						std::cin.clear();
+						if (std::cin >> state) 
+							break;
+						std::cout << "Falsche Eingabe." << std::endl;
+					}
 				}
 				catch (const std::exception& e) {
-					std::cout << "Invalid input:" << e.what();
+					std::cout << "Invalid input:" << e.what() << std::endl;
 				}
 				switch (state) {
 					case 'd': {
@@ -86,23 +114,27 @@ int main(int argc, char** argv){
 						break;
 					}
 					default: {
-						std::cout << "Keine mögliche Option.";
+						std::cout << "Keine mögliche Option." << std::endl;
 						break;
 					}
 				}		
 				break;
 			}
 			case 'c': {
-				std::size_t row;
-				std::size_t col;
-				try {
-					std::cout << "Zeile der Zelle eingeben.";
-					std::cin >> row;
-					std::cout << "Spalte der Zelle eingeben.";
-					std::cin >> col;
+				std::size_t row, col;
+				std::cout << "Zeile der Zelle eingeben." << std::endl;
+				while(true) {
+					std::cin.clear();
+					if (std::cin >> row) 
+						break;
+					std::cout << "Falsche Eingabe." << std::endl;
 				}
-				catch (const std::exception& e) {
-					std::cout << "Invalid input:" << e.what();
+				std::cout << "Spalte der Zelle eingeben." << std::endl;
+				while(true) {
+					std::cin.clear();
+					if (std::cin >> col) 
+						break;
+					std::cout << "Falsche Eingabe." << std::endl;
 				}
 				automaton->ChangeCellState(row, col);
 				break;
@@ -114,18 +146,20 @@ int main(int argc, char** argv){
 			case 'e': {
 				std::cout << "Enter filename." << std::endl;
 				std::string filename;
+				std::cin.clear();
 				std::cin >> filename;
 				std::cout << "Eingabe.";
 				std::ofstream file(filename);
 				if (not file) {
-					throw std::runtime_error("Unable to open file.");
+					std::cout << "Unable to open file" << std::endl;
+					continue;
 				}
 				file << *automaton;	
 				file.close();	
 				break;
 			}
 			default: {
-				cout << "Ungültige Eingabe";
+				std::cout << "Ungültige Eingabe" << std::endl;
 				continue;
 			}
 		}
