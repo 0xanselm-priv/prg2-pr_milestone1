@@ -556,10 +556,8 @@ void MainWindow::on_pushButton_2_clicked()
     int cols = automat.num_cols();
 
     for (int e = 0; e < selected_cells.size(); e++) {
-        vector<int> vec;
-        vec.push_back(selected_cells[e]);
-        int x = vec[0];
-        int y = vec[1];
+        int x = selected_cells[e][0];
+        int y = selected_cells[e][1];
         automat.ChangeCellState(x,y);
     }
 
