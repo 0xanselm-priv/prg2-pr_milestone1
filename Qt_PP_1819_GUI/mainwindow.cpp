@@ -30,6 +30,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->mat1_groupBox->adjustSize();
     ui->rand_mat_button->setEnabled(false);
     ui->comboBox->setEnabled(false);
+
+    ui->label_2->setMaximumHeight(50);
+    ui->label_2->setMaximumWidth(50);
 }
 
 MainWindow::~MainWindow()
@@ -65,7 +68,7 @@ vector < vector<int> >& MainWindow::load_second_matrix() {
 
         ui->mat2_groupBox->adjustSize();
 
-        this->matrix1_display(second_mat, height, length);
+        //this->matrix2_display(second_mat, height, length);
         ui->mat2_display_groupBox->adjustSize();
 
         //no pixel setting option
@@ -94,15 +97,10 @@ int MainWindow::core_func_encrypt() {
     if(temp == 0){
         //loaded matrix
         this->load_second_matrix();
-        height = second_mat.size();
-        print_int(height);
-        length = second_mat[0].size();
-        this->matrix2_display(second_mat, height, length, "loaded");
+        this->matrix2_display(second_mat, second_mat.size(), second_mat[0].size(), "loaded");
     } else if  (temp == 1){
         //random matrix
-        height = first_mat.size();
-        length = first_mat[0].size();
-        second_mat = interface.create_rand_key(height, length);
+        second_mat = interface.create_rand_key(first_mat.size(), first_mat[0].size());
         this->matrix2_display(second_mat, second_mat.size(), second_mat[0].size(), "random");
     } else {
         QMessageBox::warning(this,"Error","No sufficient Action");
@@ -112,7 +110,7 @@ int MainWindow::core_func_encrypt() {
 
     if (interface.encrypt(global_filepath, second_mat, "", true).first) { //<- Error here
         result_mat = interface.encrypt(global_filepath, second_mat, "", true).second;
-        this->matrix3_display(result_mat, height, length);
+        this->matrix3_display(result_mat, result_mat.size(), result_mat[0].size());
     } else {
         QMessageBox::warning(this,"Error","Matrix Error");
     }
@@ -308,15 +306,21 @@ void MainWindow::matrix1_display(vector < vector<int> > matrix, int height, int 
     }
     ui->matrix_label->setPixmap(pixmap);
     ui->matrix_label->adjustSize();
+
+    ui->matrix_label->setMaximumHeight(100);
+    ui->matrix_label->setMaximumWidth(320);
+
+    ui->matrix_label->setScaledContents(true);
+
 }
 
 void MainWindow::matrix2_display(vector < vector<int> > matrix, int height, int length, string origin)
 {
     //Done
-    QPixmap pixmap(length+2, height+2);
-    pixmap.fill(QColor("transparent"));
+    QPixmap pixmap2(length+2, height+2);
+    pixmap2.fill(QColor("transparent"));
 
-    QPainter painter (&pixmap);
+    QPainter painter (&pixmap2);
     painter.setBrush(Qt::red);
 
     for (int i = 0; i < height; i++) {
@@ -347,8 +351,13 @@ void MainWindow::matrix2_display(vector < vector<int> > matrix, int height, int 
     ui->matrix2_length->setText("Matrix Length: " +QString::number(length));
     ui->matrix2_length->adjustSize();
 
-    ui->matrix2_label->setPixmap(pixmap);
+    ui->matrix2_label->setPixmap(pixmap2);
     ui->matrix2_label->adjustSize();
+
+    ui->matrix2_label->setMaximumHeight(100);
+    ui->matrix2_label->setMaximumWidth(320);
+
+    ui->matrix2_label->setScaledContents(true);
 
     ui->mat2_display_groupBox->adjustSize();
 }
@@ -356,10 +365,10 @@ void MainWindow::matrix2_display(vector < vector<int> > matrix, int height, int 
 void MainWindow::matrix3_display(vector<vector<int> > matrix, int height, int length)
 {
     //Done
-    QPixmap pixmap(length+2, height+2);
-    pixmap.fill(QColor("transparent"));
+    QPixmap pixmap3(length+2, height+2);
+    pixmap3.fill(QColor("transparent"));
 
-    QPainter painter (&pixmap);
+    QPainter painter (&pixmap3);
     painter.setBrush(Qt::red);
 
     for (int i = 0; i < height; i++) {
@@ -373,8 +382,13 @@ void MainWindow::matrix3_display(vector<vector<int> > matrix, int height, int le
             }
         }
     }
-    ui->matrix3_label->setPixmap(pixmap);
+    ui->matrix3_label->setPixmap(pixmap3);
     ui->matrix3_label->adjustSize();
+
+    ui->matrix3_label->setMaximumHeight(100);
+    ui->matrix3_label->setMaximumWidth(320);
+
+    ui->matrix3_label->setScaledContents(true);
 
     ui->mat3_display_groupBox->adjustSize();
 }

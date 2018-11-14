@@ -415,8 +415,8 @@
        <widget class="QGroupBox" name="mat3_display_groupBox">
         <property name="geometry">
          <rect>
-          <x>580</x>
-          <y>330</y>
+          <x>470</x>
+          <y>300</y>
           <width>120</width>
           <height>80</height>
          </rect>

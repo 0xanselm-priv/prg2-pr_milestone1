@@ -198,7 +198,7 @@ public:
         matrix2_label->setMinimumSize(QSize(0, 13));
         mat3_display_groupBox = new QGroupBox(tab_2);
         mat3_display_groupBox->setObjectName(QStringLiteral("mat3_display_groupBox"));
-        mat3_display_groupBox->setGeometry(QRect(580, 330, 120, 80));
+        mat3_display_groupBox->setGeometry(QRect(470, 300, 120, 80));
         matrix3_label = new QLabel(mat3_display_groupBox);
         matrix3_label->setObjectName(QStringLiteral("matrix3_label"));
         matrix3_label->setEnabled(true);
