@@ -13,25 +13,31 @@
 // 	  std::cout << automaton;
 class CellularAutomaton{
  public:
-  // Sets all cells to dead.
+  // Initialise all cells to false.
   explicit CellularAutomaton(std::size_t num_rows, std::size_t num_cols);
   explicit CellularAutomaton(std::string filename);
+
   void set_cell_state(std::size_t row, std::size_t col, bool cell_state);
+
   std::size_t num_rows() const { return num_rows_; }
-	std::size_t num_cols() const { return num_cols_; }
+  std::size_t num_cols() const { return num_cols_; }
   bool cell_state(std::size_t row, 
   	std::size_t col) const { return old_state_[row][col]; }
+  // Change cell state false -> true resp. true -> false
   void ChangeCellState(std::size_t, std::size_t);
-	void ResizeWindow(std::size_t, std::size_t);
-	// Advance Cellular Automaton by one round.
-	void Update();
-	friend std::ostream& operator<<(std::ostream& os, const CellularAutomaton& automaton);
+  // Resize window to given dimensions
+  void ResizeWindow(std::size_t, std::size_t);
+  // Advance Cellular Automaton by one round.
+  void Update();
+  friend std::ostream& operator<<(std::ostream& os, const CellularAutomaton& automaton);
  private:
 	void CopyToOld();
+	// return number of neighbors with value true
 	int neighbor_num(std::size_t i, std::size_t j) const;
-	// Sets cell value, but does not copy to temporary array
+	// Set cell value, but do not copy to temporary array
 	void set_cell_state_no_copy(std::size_t row, 
-		std::size_t col, bool cell_state) { new_state_[row][col] = cell_state; }
+		std::size_t col, bool cell_state);
+	// old_state_ and new_state_ only differ during update.
 	std::vector< std::vector<bool> > old_state_;
 	std::vector< std::vector<bool> > new_state_;
 	std::size_t num_rows_;
