@@ -45,10 +45,19 @@ vector < vector<int> > NBild::import_file(string path){
 
         int l = 0;
         collum.clear();
-        while(l < length){
-            int m = stoi(line.substr(l,1));
-            collum.push_back(m);
-            ++l;
+        for(l; l < length; l++){
+            string n = line.substr(l,1);
+            if(n == "1"){
+                collum.push_back(1);
+            }
+            else if (n == "0"){
+                collum.push_back(0);
+            }
+            else if (n == " "){
+                matrix.push_back(collum);
+                collum.clear();
+            }
+            else{cerr << "Wrong symbol given." << endl;}
         }
         matrix.push_back(collum);
     }
