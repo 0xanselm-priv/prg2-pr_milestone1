@@ -539,8 +539,8 @@ void MainWindow::mousePressEvent(QMouseEvent *ev)
             int cell_y = 20 - ((end_y - y) / factor);
             print_int(cell_x);
             print_int(cell_y);
-            cell.first = cell_x;
-            cell.second = cell_y;
+            cell.first = cell_x-1;
+            cell.second = cell_y-1;
             selected_cells.push_back(cell);
         } else {
             print("Out");
