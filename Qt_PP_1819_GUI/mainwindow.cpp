@@ -151,17 +151,23 @@ int MainWindow::core_func_decrypt() {
 //    }
 
 
-    QString filter = "Text File (*.txt)";
-    QString file_name = QFileDialog::getOpenFileName(this, "Open file", "../ProgPrak1819/Qt_PP_1819_GUI", filter);
+//    QString filter = "Text File (*.txt)";
+//    QString file_name = QFileDialog::getOpenFileName(this, "Open file", "../ProgPrak1819/Qt_PP_1819_GUI", filter);
 
-    ui->filepath2_label->setText("File Path: " + file_name);
-    ui->filepath2_label->adjustSize();
+//    ui->filepath2_label->setText("File Path: " + file_name);
+//    ui->filepath2_label->adjustSize();
 
-    global_filepath2 = file_name.toUtf8().constData();
+//    global_filepath2 = file_name.toUtf8().constData();
+
+    this->load_second_matrix();
+    height = second_mat.size();
+    length = second_mat[0].size();
+    this->matrix2_display(second_mat, height, length, "loaded");
+
 
     if (interface.decrypt(global_filepath, global_filepath2, "", true).first) { //<- Error here
         result_mat = interface.decrypt(global_filepath, global_filepath2, "", true).second;
-        this->matrix3_display(result_mat, height, length);
+        this->matrix3_display(result_mat, result_mat.size(), result_mat[0].size());
     } else {
         QMessageBox::warning(this,"Error","Matrix Error");
     }
