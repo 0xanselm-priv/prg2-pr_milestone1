@@ -10,12 +10,14 @@
 #include <exception>
 #include <QMessageBox>
 #include <QMouseEvent>
+#include <utility>
 
 //class vars
 vector < vector<int> > first_mat;
 vector < vector<int> > result_mat;
 vector < vector<int> > second_mat;
 int factor = 20;
+vector <vector <int,int>> selected_cells;
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -472,36 +474,36 @@ void MainWindow::on_pushButton_clicked()
     if (fp.size() == 0) {
         QMessageBox::warning(this,"Error","No sufficient Filepath");
     } else {
+        global_gol = fp;
+        for (int k = 0; k < 2; k++){
+            CellularAutomaton automat = CellularAutomaton(file_name.toUtf8().constData());
 
-        CellularAutomaton automat = CellularAutomaton(file_name.toUtf8().constData());
 
-        QPixmap pixmap((automat.num_rows() * factor)+1, (automat.num_cols() * factor)+1);
-        pixmap.fill(QColor("transparent"));
+            QPixmap pixmap((automat.num_rows() * factor)+1, (automat.num_cols() * factor)+1);
+            pixmap.fill(QColor("transparent"));
 
-        QPainter painter (&pixmap);
-        painter.setBrush(Qt::red);
+            QPainter painter (&pixmap);
+            painter.setBrush(Qt::red);
 
-        int rows = automat.num_rows();
-        int cols = automat.num_cols();
+            int rows = automat.num_rows();
+            int cols = automat.num_cols();
 
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                if (automat.cell_state(i,j)) {
-                    painter.setBrush(Qt::green);
-                    painter.drawRect(i*factor,j*factor,factor,factor);
-                } else {
-                    painter.setBrush(Qt::red);
-                    painter.drawRect(i*factor,j*factor,factor,factor);
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < cols; j++) {
+                    if (automat.cell_state(i,j)) {
+                        painter.setBrush(Qt::green);
+                        painter.drawRect(i*factor,j*factor,factor,factor);
+                    } else {
+                        painter.setBrush(Qt::red);
+                        painter.drawRect(i*factor,j*factor,factor,factor);
+                    }
                 }
-            }
 
+            }
+            ui->gol_label->adjustSize();
+            ui->gol_label->setPixmap(pixmap);
         }
-        ui->gol_label->adjustSize();
-        ui->gol_label->setPixmap(pixmap);
-        print_int(pixmap.height());
     }
-    print_int(ui->gol_label->width());
-    print_int(ui->gol_label->height());
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *ev)
@@ -523,8 +525,13 @@ void MainWindow::mousePressEvent(QMouseEvent *ev)
         int tab_pos_x = ui->tabWidget->pos().x();
         int tab_pos_y = ui->tabWidget->pos().y();
 
+        int bias_x = 15;
+        int bias_y = 19;
+
         int start_x = label_pos_x + tab_pos_x; int end_x = tab_pos_x + label_pos_x + width;
-        int start_y = label_pos_y + tab_pos_y; int end_y = tab_pos_y + label_pos_y + height;
+        int start_y = label_pos_y + tab_pos_y + bias_y; int end_y = tab_pos_y + label_pos_y + height + bias_y;
+
+        vector <int,int> cell;
 
         if (start_x <= x && x <= end_x && start_y <= y && y <= end_y) {
             print("In");
@@ -532,10 +539,50 @@ void MainWindow::mousePressEvent(QMouseEvent *ev)
             int cell_y = 20 - ((end_y - y) / factor);
             print_int(cell_x);
             print_int(cell_y);
+            selected_cells.push_back(cell);
         } else {
             print("Out");
         }
     }
 }
 
+
+
+void MainWindow::on_pushButton_2_clicked()
+{
+    CellularAutomaton automat(global_gol);
+
+    int rows = automat.num_rows();
+    int cols = automat.num_cols();
+
+    for (int e = 0; e < selected_cells.size(); e++) {
+        vector<int> vec;
+        vec.push_back(selected_cells.at(e));
+        int x = vec[0];
+        int y = vec[1];
+        automat.ChangeCellState(x,y);
+    }
+
+
+    QPixmap pixmap((automat.num_rows() * factor)+1, (automat.num_cols() * factor)+1);
+    pixmap.fill(QColor("transparent"));
+
+    QPainter painter (&pixmap);
+    painter.setBrush(Qt::red);
+
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            if (automat.cell_state(i,j)) {
+                painter.setBrush(Qt::green);
+                painter.drawRect(i*factor,j*factor,factor,factor);
+            } else {
+                painter.setBrush(Qt::red);
+                painter.drawRect(i*factor,j*factor,factor,factor);
+            }
+        }
+
+    }
+    ui->gol_label->adjustSize();
+    ui->gol_label->setPixmap(pixmap);
+}
 
