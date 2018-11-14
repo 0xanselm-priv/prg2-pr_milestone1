@@ -45,10 +45,19 @@ vector < vector<int> > CBild::import_file(string path){
 
         int l = 0;
         collum.clear();
-        while(l < length){
-            int m = stoi(line.substr(l,1));
-            collum.push_back(m);
-            ++l;
+        for(l; l < length; l++){
+            string n = line.substr(l,1);
+            if(n == "1"){
+                collum.push_back(1);
+            }
+            else if (n == "0"){
+                collum.push_back(0);
+            }
+            else if (n == " "){
+                matrix.push_back(collum);
+                collum.clear();
+            }
+            else{cerr << "Wrong symbol given." << endl;}
         }
         matrix.push_back(collum);
     }
@@ -89,15 +98,18 @@ vector< vector<char> > CBild::import_file_char(string path){
         }
         collum_char.clear();
         for(int l = 0; l < length; l++){
-            int m = stoi(line.substr(l,1));
-            if(m == 1) {
+            string n = line.substr(l,1);
+            if(n == "1"){
                 collum_char.push_back('A');
             }
-            else {
+            else if (n == "0"){
                 collum_char.push_back('B');
             }
-
-            ++l;
+            else if (n == " "){
+                matrix_char.push_back(collum_char);
+                collum_char.clear();
+            }
+            else{cerr << "Wrong symbol given." << endl;}
         }
         matrix_char.push_back(collum_char);
     }
