@@ -10,3 +10,5 @@ im Ordner GoL für das Game of Life in einer Konsolenfassung, copy_arrays für d
 ## Projektteam
 Andreas Haupt (hat an GoL und Copy Arrays gearbeitet, Arbeitszeit 10 Stunden). Robert hat für die Integration der beiden Programmteile in Qt und der damit verbundenen Anpassungen ungefähr 25-30 Stunden verbracht.
 ## Bekannte Fehler
+Random doesn't work on every system.
+https://github.com/skeeto/fantasyname/issues/11
