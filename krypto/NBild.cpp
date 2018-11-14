@@ -163,8 +163,8 @@ vector < vector<int> > NBild::create_rand_picture(int height, int width){
         vector<int> collum;
         collum.clear();
         for(int y = 0; y < width; y++){
-            default_random_engine eng;
-            uniform_int_distribution<int> d{0,1};
+            static default_random_engine eng;
+            static uniform_int_distribution<int> d(0,1);
             collum.push_back(d(eng));
         }
         matrix1.push_back(collum);
