@@ -9,30 +9,33 @@
 #include <QInputDialog>
 #include <exception>
 #include <QMessageBox>
+#include <QMouseEvent>
 
+//class vars
 vector < vector<int> > first_mat;
 vector < vector<int> > result_mat;
 vector < vector<int> > second_mat;
+int factor = 20;
 
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    //Constructor
     ui->setupUi(this);
     ui->x_spinBox->setMaximum(0);
     ui->y_spinBox->setMaximum(0);
+
     ui->comboBox->addItem("Encrypt");
     ui->comboBox->addItem("Decrypt");
     ui->comboBox->addItem("Overlay");
+
     ui->matrix_label->setScaledContents(true);
     ui->change_pixel_button->setEnabled(false);
-    ui->mat1_groupBox->adjustSize();
     ui->rand_mat_button->setEnabled(false);
     ui->comboBox->setEnabled(false);
-
-    ui->label_2->setMaximumHeight(50);
-    ui->label_2->setMaximumWidth(50);
+    ui->save_button->setEnabled(false);
 }
 
 MainWindow::~MainWindow()
@@ -42,7 +45,7 @@ MainWindow::~MainWindow()
 }
 
 vector < vector<int> >& MainWindow::load_second_matrix() {
-    //Done
+    //Done - Option to load the second matrix into the designated matrix2_label
     Interface interface;
     QString filter = "Text File (*.txt)";
     QString file_name = QFileDialog::getOpenFileName(this, "Open file", "../ProgPrak1819/Qt_PP_1819_GUI", filter);
@@ -51,36 +54,41 @@ vector < vector<int> >& MainWindow::load_second_matrix() {
     ui->filepath2_label->adjustSize();
 
     global_filepath2 = file_name.toUtf8().constData();
-
-    if (interface.load_matrix(global_filepath2).first) {
-
-        second_mat = interface.load_matrix(global_filepath2).second;
-
-        int height = second_mat.size();
-        int length = second_mat[0].size();
-
-        print_int(height);
-
-        ui->matrix2_length->setText("Matrix Length: " + QString::number(length));
-        ui->matrix2_length->adjustSize();
-        ui->matrix2_height->setText("Matrix Height: " + QString::number(height));
-        ui->matrix2_length->adjustSize();
-
-        ui->mat2_groupBox->adjustSize();
-
-        //this->matrix2_display(second_mat, height, length);
-        ui->mat2_display_groupBox->adjustSize();
-
-        //no pixel setting option
-
+    if (global_filepath2.size() == 0) {
+        QMessageBox::warning(this,"Filepath","No valid Filepath");
     } else {
-        QMessageBox::warning(this,"Wrong Input","No valid Matrix");
-        ui->matrix_length->setText("Matrix Length: NaN");
-        ui->matrix_height->setText("Matrix Height: NaN");
+        if (interface.load_matrix(global_filepath2).first) {
+
+            second_mat = interface.load_matrix(global_filepath2).second;
+
+            int height = second_mat.size();
+            int length = second_mat[0].size();
+
+            ui->matrix2_length->setText("Matrix Length: " + QString::number(length));
+            ui->matrix2_length->adjustSize();
+            ui->matrix2_height->setText("Matrix Height: " + QString::number(height));
+            ui->matrix2_length->adjustSize();
+
+            ui->mat2_groupBox->adjustSize();
+
+            //this->matrix2_display(second_mat, height, length);
+            ui->mat2_display_groupBox->adjustSize();
+
+            //no pixel setting option
+
+        } else {
+            QMessageBox::warning(this,"Wrong Input","No valid Matrix");
+            ui->matrix2_length->setText("Matrix Length: NaN");
+            ui->matrix2_height->setText("Matrix Height: NaN");
+        }
     }
 }
 
 int MainWindow::core_func_encrypt() {
+    //1 of 3 functions. ENCRYPT handles the encryption.
+    //Also asks fot the whereabouts of second matrix. load or generate option available
+    //Displays second matrix in matrix2_label
+    //Loads 1 and 2 matrix into encryptor and displays the result
 
     Interface interface;
 
@@ -118,44 +126,14 @@ int MainWindow::core_func_encrypt() {
 }
 
 int MainWindow::core_func_decrypt() {
+    //2 of 3 functions. DECRYPT handles the decryption.
+    //Displays second matrix in matrix2_label
+    //Loads 1 and 2 matrix into decryptor and displays the result
 
     Interface interface;
 
     int height = 0;
     int length = 0;
-
-//    QMessageBox msgBox;
-//    msgBox.setWindowTitle("User Interaction");
-//    msgBox.setText("Do you want to load or generate a Matrix.");
-//    msgBox.addButton(tr("Load"), QMessageBox::YesRole);
-//    msgBox.addButton(tr("Generate"), QMessageBox::NoRole);
-//    msgBox.setDefaultButton(QMessageBox::Yes);
-//    int temp = msgBox.exec();
-//    if(temp == 0){
-//        //loaded matrix
-//        this->load_second_matrix();
-//        height = second_mat.size();
-//        length = second_mat[0].size();
-//        this->matrix2_display(second_mat, height, length, "loaded");
-//    } else if  (temp == 1){
-//        //random matrix
-//        height = first_mat.size();
-//        length = first_mat[0].size();
-//        second_mat = interface.create_rand_key(height, length);
-//        this->matrix2_display(second_mat, height, length, "random");
-//    } else {
-//        QMessageBox::warning(this,"Error","No sufficient Action");
-//        return 0;
-//    }
-
-
-//    QString filter = "Text File (*.txt)";
-//    QString file_name = QFileDialog::getOpenFileName(this, "Open file", "../ProgPrak1819/Qt_PP_1819_GUI", filter);
-
-//    ui->filepath2_label->setText("File Path: " + file_name);
-//    ui->filepath2_label->adjustSize();
-
-//    global_filepath2 = file_name.toUtf8().constData();
 
     this->load_second_matrix();
     height = second_mat.size();
@@ -173,6 +151,9 @@ int MainWindow::core_func_decrypt() {
 }
 
 int MainWindow::core_func_overlay() {
+    //3 of 3 functions. Overlay handles the overlay.
+    //Displays second matrix in matrix2_label
+    //Loads 1 and 2 matrix into overlay and displays the result
 
     Interface interface;
 
@@ -196,7 +177,7 @@ int MainWindow::core_func_overlay() {
 
 void MainWindow::on_comboBox_activated(const QString &arg1)
 {
-    //Done
+    //Done - Selects the mode {encryption, decryption, overlay} and calls designated functions.
     QString cur_str = ui->comboBox->currentText();
     Interface inter;
 
@@ -207,6 +188,7 @@ void MainWindow::on_comboBox_activated(const QString &arg1)
     } else if (cur_str == "Overlay") {
         this->core_func_overlay();
     }
+    ui->save_button->setEnabled(true);
 }
 
 void MainWindow::print_int(int i)
@@ -242,7 +224,7 @@ void MainWindow::print_bool(bool j)
 
 void MainWindow::on_load_first_btn_clicked()
 {
-    //Done
+    //Done - Loads the first Matrix via file open dialog into the matrix_label with a qpainter
     Interface interface;
     QString filter = "Text File (*.txt)";
     QString file_name = QFileDialog::getOpenFileName(this, "Open file", "../ProgPrak1819/Qt_PP_1819_GUI", filter);
@@ -253,39 +235,45 @@ void MainWindow::on_load_first_btn_clicked()
 
     global_filepath = file_name.toUtf8().constData();
 
-    if (interface.load_matrix(global_filepath).first) {
-
-        vector < vector<int> > matrix = interface.load_matrix(global_filepath).second;
-        first_mat = matrix;
-
-        int height = matrix.size();
-        int length = matrix[0].size();
-
-        ui->matrix_length->setText("Matrix Length: " + QString::number(length));
-        ui->matrix_length->adjustSize();
-        ui->matrix_height->setText("Matrix Height: " + QString::number(height));
-        ui->matrix_length->adjustSize();
-
-        ui->mat1_groupBox->adjustSize();
-
-        this->matrix1_display(matrix, height, length);
-        ui->mat1_display_groupBox->adjustSize();
-        ui->x_spinBox->setMaximum(length);
-        ui->y_spinBox->setMaximum(height);
-        ui->change_pixel_button->setEnabled(true);
-        ui->rand_mat_button->setEnabled(true);
-        ui->comboBox->setEnabled(true);
-
+    if (global_filepath.size() == 0) {
+        QMessageBox::warning(this,"Filepath","No valid Filepath");
     } else {
-        QMessageBox::warning(this,"Wrong Input","No valid Matrix");
-        ui->matrix_length->setText("Matrix Length: NaN");
-        ui->matrix_height->setText("Matrix Height: NaN");
+
+
+        if (interface.load_matrix(global_filepath).first) {
+
+            vector < vector<int> > matrix = interface.load_matrix(global_filepath).second;
+            first_mat = matrix;
+
+            int height = matrix.size();
+            int length = matrix[0].size();
+
+            ui->matrix_length->setText("Matrix Length: " + QString::number(length));
+            ui->matrix_length->adjustSize();
+            ui->matrix_height->setText("Matrix Height: " + QString::number(height));
+            ui->matrix_length->adjustSize();
+
+            ui->mat1_groupBox->adjustSize();
+
+            this->matrix1_display(matrix, height, length);
+            ui->mat1_display_groupBox->adjustSize();
+            ui->x_spinBox->setMaximum(length);
+            ui->y_spinBox->setMaximum(height);
+            ui->change_pixel_button->setEnabled(true);
+            ui->rand_mat_button->setEnabled(true);
+            ui->comboBox->setEnabled(true);
+
+        } else {
+            QMessageBox::warning(this,"Wrong Input","No valid Matrix");
+            ui->matrix_length->setText("Matrix Length: NaN");
+            ui->matrix_height->setText("Matrix Height: NaN");
+        }
     }
 }
 
 void MainWindow::matrix1_display(vector < vector<int> > matrix, int height, int length)
 {
-    //Done
+    //Done - Function for printing matrix1 into matrix_label. Also adjustment of informative labels
     QPixmap pixmap(length+2, height+2);
     pixmap.fill(QColor("transparent"));
 
@@ -307,8 +295,8 @@ void MainWindow::matrix1_display(vector < vector<int> > matrix, int height, int 
     ui->matrix_label->setPixmap(pixmap);
     ui->matrix_label->adjustSize();
 
-    ui->matrix_label->setMaximumHeight(100);
-    ui->matrix_label->setMaximumWidth(320);
+    ui->matrix_label->setMaximumHeight(90);
+    ui->matrix_label->setMaximumWidth(305);
 
     ui->matrix_label->setScaledContents(true);
 
@@ -316,7 +304,7 @@ void MainWindow::matrix1_display(vector < vector<int> > matrix, int height, int 
 
 void MainWindow::matrix2_display(vector < vector<int> > matrix, int height, int length, string origin)
 {
-    //Done
+    //Done - Function for printing matrix2 into matrix2_label. Also adjustment of informative labels
     QPixmap pixmap2(length+2, height+2);
     pixmap2.fill(QColor("transparent"));
 
@@ -354,9 +342,8 @@ void MainWindow::matrix2_display(vector < vector<int> > matrix, int height, int 
     ui->matrix2_label->setPixmap(pixmap2);
     ui->matrix2_label->adjustSize();
 
-    ui->matrix2_label->setMaximumHeight(100);
-    ui->matrix2_label->setMaximumWidth(320);
-
+    ui->matrix2_label->setMaximumHeight(90);
+    ui->matrix2_label->setMaximumWidth(305);
     ui->matrix2_label->setScaledContents(true);
 
     ui->mat2_display_groupBox->adjustSize();
@@ -364,7 +351,7 @@ void MainWindow::matrix2_display(vector < vector<int> > matrix, int height, int 
 
 void MainWindow::matrix3_display(vector<vector<int> > matrix, int height, int length)
 {
-    //Done
+    //Done - Function for printing matrix3 into matrix3_label, which is the result. Also adjustment of informative labels
     QPixmap pixmap3(length+2, height+2);
     pixmap3.fill(QColor("transparent"));
 
@@ -385,9 +372,8 @@ void MainWindow::matrix3_display(vector<vector<int> > matrix, int height, int le
     ui->matrix3_label->setPixmap(pixmap3);
     ui->matrix3_label->adjustSize();
 
-    ui->matrix3_label->setMaximumHeight(100);
-    ui->matrix3_label->setMaximumWidth(320);
-
+    ui->matrix3_label->setMaximumHeight(90);
+    ui->matrix3_label->setMaximumWidth(305);
     ui->matrix3_label->setScaledContents(true);
 
     ui->mat3_display_groupBox->adjustSize();
@@ -395,7 +381,7 @@ void MainWindow::matrix3_display(vector<vector<int> > matrix, int height, int le
 
 void MainWindow::on_save_button_clicked()
 {  
-    //
+    //Done - asking for save options of result matrix
     QString filter = "Text File (*.txt)";
     QString save_path = QFileDialog::getSaveFileName(this, "Save file", "../ProgPrak1819/Qt_PP_1819_GUI", filter);
     QFile file(save_path);
@@ -403,7 +389,7 @@ void MainWindow::on_save_button_clicked()
     Interface interface;
 
     if (save_path.size()==0) {
-         QMessageBox::warning(this,"Error","Filepath Error.");
+        QMessageBox::warning(this,"Error","Filepath Error.");
     } else {
         interface.save_matrix(save_path.toUtf8().constData(), result_mat);
         QMessageBox::information(this,"Saved","File Saved");
@@ -412,7 +398,8 @@ void MainWindow::on_save_button_clicked()
 
 void MainWindow::save_rand_mat()
 {
-    //
+    //Done - Saves a randomly generated matrix. Error with the random function
+
     QString filter = "Text File (*.txt)";
     QString save_path = QFileDialog::getSaveFileName(this, "Save file", "../ProgPrak1819/Qt_PP_1819_GUI", filter);
     QFile file(save_path);
@@ -420,7 +407,7 @@ void MainWindow::save_rand_mat()
     Interface interface;
 
     if (save_path.size() == 0) {
-         QMessageBox::warning(this,"Error","Filepath Error.");
+        QMessageBox::warning(this,"Error","Filepath Error.");
     } else {
         interface.save_matrix(save_path.toUtf8().constData(), second_mat);
         QMessageBox::information(this,"Saved","File Saved");
@@ -429,7 +416,7 @@ void MainWindow::save_rand_mat()
 
 void MainWindow::on_change_pixel_button_clicked()
 {
-    //Done
+    //Done - changes pixel in first matrix to opposite
     int x_coord = ui->x_spinBox->value();
     int y_coord = ui->y_spinBox->value();
 
@@ -446,7 +433,7 @@ void MainWindow::on_change_pixel_button_clicked()
 
 void MainWindow::on_rand_mat_button_clicked()
 {
-    //Done
+    //Done - Should produce a random matrix with dimension of first loaded matrix
     int height = first_mat.size();
     int length = first_mat[0].size();
 
@@ -470,3 +457,85 @@ void MainWindow::on_rand_mat_button_clicked()
         QMessageBox::warning(this,"Error","No sufficient Action");
     }
 }
+
+void MainWindow::on_pushButton_clicked()
+{
+    print_int(ui->gol_label->width());
+    print_int(ui->gol_label->height());
+    //Loads a gol instance
+    QString filter = "Text File (*.txt)";
+    QString file_name = QFileDialog::getOpenFileName(this, "Open file", "../ProgPrak1819/Qt_PP_1819_GUI", filter);
+    ui->filepath_gol_label->setText("Filepath: " + file_name);
+    ui->filepath_gol_label->adjustSize();
+    string fp = file_name.toUtf8().constData();
+
+    if (fp.size() == 0) {
+        QMessageBox::warning(this,"Error","No sufficient Filepath");
+    } else {
+
+        CellularAutomaton automat = CellularAutomaton(file_name.toUtf8().constData());
+
+        QPixmap pixmap((automat.num_rows() * factor)+1, (automat.num_cols() * factor)+1);
+        pixmap.fill(QColor("transparent"));
+
+        QPainter painter (&pixmap);
+        painter.setBrush(Qt::red);
+
+        int rows = automat.num_rows();
+        int cols = automat.num_cols();
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (automat.cell_state(i,j)) {
+                    painter.setBrush(Qt::green);
+                    painter.drawRect(i*factor,j*factor,factor,factor);
+                } else {
+                    painter.setBrush(Qt::red);
+                    painter.drawRect(i*factor,j*factor,factor,factor);
+                }
+            }
+
+        }
+        ui->gol_label->adjustSize();
+        ui->gol_label->setPixmap(pixmap);
+        print_int(pixmap.height());
+    }
+    print_int(ui->gol_label->width());
+    print_int(ui->gol_label->height());
+}
+
+void MainWindow::mousePressEvent(QMouseEvent *ev)
+{
+    //Gets mouse click koordinates
+    if (ui->tabWidget->currentIndex() == 0) {
+
+        QString x_str = QString::number(ev->x());
+        QString y_str = QString::number(ev->y());
+        //qDebug() << x << "," << y;
+        int x = x_str.toInt();
+        int y = y_str.toInt();
+
+        print("X:" + x_str + " Y:" + y_str);
+        int label_pos_x = ui->gol_label->pos().x();
+        int label_pos_y = ui->gol_label->pos().y();
+        int height = ui->gol_label->width();
+        int width = ui->gol_label->height();
+        int tab_pos_x = ui->tabWidget->pos().x();
+        int tab_pos_y = ui->tabWidget->pos().y();
+
+        int start_x = label_pos_x + tab_pos_x; int end_x = tab_pos_x + label_pos_x + width;
+        int start_y = label_pos_y + tab_pos_y; int end_y = tab_pos_y + label_pos_y + height;
+
+        if (start_x <= x && x <= end_x && start_y <= y && y <= end_y) {
+            print("In");
+            int cell_x = 20 - ((end_x - x) / factor);
+            int cell_y = 20 - ((end_y - y) / factor);
+            print_int(cell_x);
+            print_int(cell_y);
+        } else {
+            print("Out");
+        }
+    }
+}
+
+

@@ -5,6 +5,8 @@
 #include "../krypto/NBild.h"
 #include "../krypto/interface.h"
 
+#include "../GoL/cellularautomaton.h"
+
 #include <QMainWindow>
 #include <QTimer>
 
@@ -38,6 +40,10 @@ private slots:
 
     void on_rand_mat_button_clicked();
 
+    void on_pushButton_clicked();
+
+    void on_gol_label_linkActivated(const QString &link);
+
 private:
     Ui::MainWindow *ui;
 
@@ -66,6 +72,9 @@ private:
     int core_func_overlay();
 
     void save_rand_mat();
+
+protected:
+    void mousePressEvent(QMouseEvent* event);
 
 };
 

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>941</width>
-    <height>717</height>
+    <height>654</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,31 +18,51 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab_1">
        <attribute name="title">
         <string>Game of Life</string>
        </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout">
-        <item>
-         <widget class="QLabel" name="label_3">
-          <property name="text">
-           <string>File Path:</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QSpinBox" name="spinBox"/>
-        </item>
-        <item>
-         <widget class="QPushButton" name="pushButton_got">
-          <property name="text">
-           <string>Load</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
+       <widget class="QLabel" name="filepath_gol_label">
+        <property name="geometry">
+         <rect>
+          <x>9</x>
+          <y>9</y>
+          <width>45</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>File Path:</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>40</y>
+          <width>80</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Load</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="gol_label">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>80</y>
+          <width>290</width>
+          <height>220</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
       </widget>
       <widget class="QWidget" name="tab_2">
        <attribute name="title">
@@ -52,7 +72,7 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>0</y>
+          <y>10</y>
           <width>120</width>
           <height>80</height>
          </rect>
@@ -295,9 +315,9 @@
        <widget class="QFrame" name="frame">
         <property name="geometry">
          <rect>
-          <x>10</x>
-          <y>580</y>
-          <width>881</width>
+          <x>610</x>
+          <y>490</y>
+          <width>291</width>
           <height>61</height>
          </rect>
         </property>
@@ -310,7 +330,7 @@
         <widget class="QGroupBox" name="groupBox">
          <property name="geometry">
           <rect>
-           <x>120</x>
+           <x>100</x>
            <y>0</y>
            <width>91</width>
            <height>51</height>
@@ -336,8 +356,8 @@
         <widget class="QPushButton" name="load_first_btn">
          <property name="geometry">
           <rect>
-           <x>20</x>
-           <y>10</y>
+           <x>10</x>
+           <y>20</y>
            <width>80</width>
            <height>21</height>
           </rect>
@@ -346,23 +366,10 @@
           <string>Load</string>
          </property>
         </widget>
-        <widget class="QPushButton" name="rand_mat_button">
-         <property name="geometry">
-          <rect>
-           <x>430</x>
-           <y>20</y>
-           <width>131</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Generate Random Matrix</string>
-         </property>
-        </widget>
         <widget class="QPushButton" name="save_button">
          <property name="geometry">
           <rect>
-           <x>790</x>
+           <x>200</x>
            <y>20</y>
            <width>80</width>
            <height>21</height>
@@ -375,7 +382,6 @@
         <zorder>save_button</zorder>
         <zorder>groupBox</zorder>
         <zorder>load_first_btn</zorder>
-        <zorder>rand_mat_button</zorder>
        </widget>
        <widget class="QGroupBox" name="mat2_display_groupBox">
         <property name="geometry">
@@ -447,6 +453,19 @@
          </property>
         </widget>
        </widget>
+       <widget class="QPushButton" name="rand_mat_button">
+        <property name="geometry">
+         <rect>
+          <x>770</x>
+          <y>170</y>
+          <width>141</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Generate Random Matrix</string>
+        </property>
+       </widget>
        <zorder>mat3_display_groupBox</zorder>
        <zorder>frame</zorder>
        <zorder>mat1_groupBox</zorder>
@@ -454,11 +473,7 @@
        <zorder>groupBox_3</zorder>
        <zorder>mat1_display_groupBox</zorder>
        <zorder>mat2_display_groupBox</zorder>
-      </widget>
-      <widget class="QWidget" name="tab">
-       <attribute name="title">
-        <string>Test</string>
-       </attribute>
+       <zorder>rand_mat_button</zorder>
       </widget>
      </widget>
     </item>
