@@ -554,6 +554,8 @@ void MainWindow::on_pushButton_2_clicked()
 {
     CellularAutomaton automat(global_gol);
 
+    //selected_cells.clear();
+
     int rows = automat.num_rows();
     int cols = automat.num_cols();
 
@@ -584,5 +586,7 @@ void MainWindow::on_pushButton_2_clicked()
     }
     ui->gol_label->adjustSize();
     ui->gol_label->setPixmap(pixmap);
+
+    automat.Update();
 }
 
