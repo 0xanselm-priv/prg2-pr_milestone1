@@ -17,7 +17,7 @@ im Ordner `copy_arrays/` aus.
 ## Krypto
 To use the krypto program, go to our folder and type 
 ```
-"./visualcrypt *mode* *path1* *path2* *result_path*"
+./visualcrypt *mode* *path1* *path2* *result_path*
 ```
 , where *mode* can stand for:
 'encode' -> encryption with path1 = picture you want to encrypt; path2 = key for encryption; result_path = path of the operations result
